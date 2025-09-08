@@ -1,0 +1,307 @@
+# solve_combined_update_abductors_copenhagen.py
+# Updated combined ILP:
+# - Removed: Dead Bug, RDL (band) - double-leg, Chest-Supported Rear Delt Row
+# - Added: Banded Monster Walk, Cable Standing Hip Abduction (both legs), Copenhagen Plank
+# - SETS_PER_INSTANCE is top-level tunable
+# - Continuous activations retained (>= 0.1 included)
+import pulp
+from enum import Enum, auto
+
+# -----------------------
+# Tunables
+# -----------------------
+SETS_PER_INSTANCE = 4.6   # <-- set to 4.6 locally as you did
+REQ_UP = 12
+REQ_LOW = 12
+PAIRS_PER_CAT = REQ_UP // 2
+THRESHOLD = 0.2
+
+# -----------------------
+# Muscles (with added ADDUCTORS, ABDUCTORS, NECK)
+# -----------------------
+class Muscle(Enum):
+    CHEST = auto()
+    UPPER_BACK = auto()
+    LATS = auto()
+    ANT_DELTOID = auto()
+    LAT_DELTOID = auto()
+    POST_DELTOID = auto()
+    BICEPS = auto()
+    TRICEPS = auto()
+    QUADS = auto()
+    HAMSTRINGS = auto()
+    GLUTES = auto()
+    CALVES = auto()
+    CORE = auto()
+    OBLIQUES = auto()
+    ERECTORS = auto()
+    FOREARMS = auto()
+    ADDUCTORS = auto()
+    ABDUCTORS = auto()
+    NECK = auto()
+
+MUSCLE_INDEX = {m: i for i, m in enumerate(Muscle)}
+
+# -----------------------
+# Targets: default sets/week (adjustable)
+# -----------------------
+MUSCLE_TARGETS = {
+    Muscle.CHEST: 12,
+    Muscle.UPPER_BACK: 10,
+    Muscle.LATS: 12,
+    Muscle.ANT_DELTOID: 8,
+    Muscle.LAT_DELTOID: 8,
+    Muscle.POST_DELTOID: 8,
+    Muscle.BICEPS: 8,
+    Muscle.TRICEPS: 8,
+    Muscle.QUADS: 12,
+    Muscle.HAMSTRINGS: 10,
+    Muscle.GLUTES: 12,
+    Muscle.CALVES: 8,
+    Muscle.CORE: 8,
+    Muscle.OBLIQUES: 6,
+    Muscle.ERECTORS: 6,
+    Muscle.FOREARMS: 4,
+    Muscle.ADDUCTORS: 6,
+    Muscle.ABDUCTORS: 6,
+    Muscle.NECK: 3
+}
+
+# -----------------------
+# Exercises: updated pool
+# - Removed Dead Bug, RDL (band) - double-leg, Chest-Supported Rear Delt Row
+# - Added Banded Monster Walk, Cable Standing Hip Abduction, Copenhagen Plank
+# - Glute Bridge still includes band pull-apart (post delts)
+# -----------------------
+EXERCISES = {
+    # Upper-only
+    "Chest Press (machine/band)": ("upper", {
+        Muscle.CHEST: 0.95, Muscle.ANT_DELTOID: 0.30, Muscle.TRICEPS: 0.40, Muscle.FOREARMS: 0.20
+    }),
+    "Push-ups (standard/incline/decline)": ("upper", {
+        Muscle.CHEST: 0.88, Muscle.ANT_DELTOID: 0.25, Muscle.TRICEPS: 0.35, Muscle.CORE: 0.25
+    }),
+    "Cable / Band Chest Fly": ("upper", {
+        Muscle.CHEST: 0.85, Muscle.ANT_DELTOID: 0.20
+    }),
+    "Row (seated/band/all)": ("upper", {
+        Muscle.UPPER_BACK: 0.92, Muscle.LATS: 0.42, Muscle.BICEPS: 0.36, Muscle.POST_DELTOID: 0.28
+    }),
+    "Face Pull (band/cable)": ("upper", {
+        Muscle.POST_DELTOID: 0.85, Muscle.UPPER_BACK: 0.40, Muscle.LATS: 0.15
+    }),
+    "Lat Pulldown (machine)": ("upper", {
+        Muscle.LATS: 0.93, Muscle.UPPER_BACK: 0.35, Muscle.BICEPS: 0.30
+    }),
+    "Overhead Press (cable/band)": ("upper", {
+        Muscle.ANT_DELTOID: 0.82, Muscle.LAT_DELTOID: 0.36, Muscle.TRICEPS: 0.38, Muscle.CORE: 0.22
+    }),
+    "Pike Push-ups (vertical press)": ("upper", {
+        Muscle.ANT_DELTOID: 0.72, Muscle.TRICEPS: 0.34, Muscle.CORE: 0.25
+    }),
+    "Cable Lateral Raise": ("upper", {
+        Muscle.LAT_DELTOID: 0.92, Muscle.ANT_DELTOID: 0.15
+    }),
+    "Biceps Curl (band/cable)": ("upper", {
+        Muscle.BICEPS: 0.92, Muscle.FOREARMS: 0.30
+    }),
+    "Hammer / Neutral Curl": ("upper", {
+        Muscle.BICEPS: 0.45, Muscle.FOREARMS: 0.92
+    }),
+    "Triceps (pushdown / overhead merged)": ("upper", {
+        Muscle.TRICEPS: 0.92
+    }),
+    "Close-Grip Press (machine/band)": ("upper", {
+        Muscle.TRICEPS: 0.62, Muscle.CHEST: 0.30, Muscle.ANT_DELTOID: 0.20
+    }),
+    # Additional upper compound options for lateral delt / neck
+    "Upright Cable Row": ("upper", {
+        Muscle.LAT_DELTOID: 0.60, Muscle.UPPER_BACK: 0.40, Muscle.NECK: 0.30
+    }),
+    "Band Shrug / Cable Shrug": ("upper", {
+        Muscle.NECK: 0.90, Muscle.UPPER_BACK: 0.30
+    }),
+
+    # Both-category
+    "Side Plank High Pull (cable/band)": ("both", {
+        Muscle.OBLIQUES: 0.92, Muscle.LATS: 0.30, Muscle.UPPER_BACK: 0.30, Muscle.ANT_DELTOID: 0.18
+    }),
+    "Glute Bridge + Band Pull-Apart (combined)": ("both", {
+        Muscle.GLUTES: 0.92, Muscle.HAMSTRINGS: 0.30, Muscle.POST_DELTOID: 0.30, Muscle.ERECTORS: 0.28
+    }),
+    "Pallof Press (band/cable)": ("both", {
+        Muscle.CORE: 0.92, Muscle.OBLIQUES: 0.35
+    }),
+
+    # Lower-only (compound / efficient)
+    "Leg Press / Front Squat (quad-dominant)": ("lower", {
+        Muscle.QUADS: 0.95, Muscle.GLUTES: 0.45, Muscle.CORE: 0.28, Muscle.HAMSTRINGS: 0.15
+    }),
+    "Leg Press (sumo/wide)": ("lower", {
+        Muscle.ADDUCTORS: 0.65, Muscle.GLUTES: 0.70, Muscle.QUADS: 0.45
+    }),
+    "Seated / Lying Leg Curl (machine)": ("lower", {
+        Muscle.HAMSTRINGS: 0.95
+    }),
+    "Cable Pull-Through (both legs)": ("lower", {
+        Muscle.GLUTES: 0.92, Muscle.HAMSTRINGS: 0.30, Muscle.ERECTORS: 0.28
+    }),
+    "Mini-Band Lateral Walk (both legs)": ("lower", {
+        Muscle.GLUTES: 0.80, Muscle.ABDUCTORS: 0.70
+    }),
+    "Calf Raise (seated/standing merged)": ("lower", {
+        Muscle.CALVES: 0.95
+    }),
+    "Cable Woodchopper / Chop": ("lower", {
+        Muscle.OBLIQUES: 0.92, Muscle.CORE: 0.30
+    }),
+    "Good Morning (band/cable)": ("lower", {
+        Muscle.ERECTORS: 0.90, Muscle.GLUTES: 0.25, Muscle.HAMSTRINGS: 0.20
+    }),
+
+    # Newly added abductors-focused exercises (compact set)
+    "Banded Monster Walk (both legs)": ("lower", {
+        Muscle.ABDUCTORS: 0.85, Muscle.GLUTES: 0.60
+    }),
+    "Cable Standing Hip Abduction (both legs)": ("lower", {
+        Muscle.ABDUCTORS: 0.90, Muscle.GLUTES: 0.30
+    }),
+
+    # Copenhagen Plank (adductor emphasis) — user requested
+    "Copenhagen Plank (adductor focus)": ("lower", {
+        Muscle.ADDUCTORS: 0.92, Muscle.CORE: 0.25, Muscle.GLUTES: 0.20
+    }),
+
+    # Note: removed "Dead Bug", "RDL (band) - double-leg", "Chest-Supported Rear Delt Row"
+}
+
+EXERCISE_NAMES = list(EXERCISES.keys())
+E = len(EXERCISE_NAMES)
+M = len(Muscle)
+
+# -----------------------
+# Helpers: vectors, overlap, allowed-in-category
+# -----------------------
+def exercise_vector(name):
+    vec = [0.0]*M
+    cat, acts = EXERCISES[name]
+    for m, val in acts.items():
+        if val >= 0.1:
+            vec[MUSCLE_INDEX[m]] = float(val)
+    return vec
+
+VEC = [exercise_vector(n) for n in EXERCISE_NAMES]
+def dot(a,b): return sum(x*y for x,y in zip(a,b))
+W = [[dot(VEC[i], VEC[j]) for j in range(E)] for i in range(E)]
+
+def allowed_in_category(idx, cat):
+    nm = EXERCISE_NAMES[idx]
+    typ = EXERCISES[nm][0]
+    return (typ == cat) or (typ == "both")
+
+# -----------------------
+# Build combined ILP
+# -----------------------
+prob = pulp.LpProblem("combined_pairs_abductors_copenhagen", pulp.LpMinimize)
+
+c_up = {e: pulp.LpVariable(f"c_up_{e}", lowBound=0, upBound=REQ_UP, cat='Integer') for e in range(E)}
+c_low = {e: pulp.LpVariable(f"c_low_{e}", lowBound=0, upBound=REQ_LOW, cat='Integer') for e in range(E)}
+
+MAX_PAIRS = REQ_UP // 2
+p_up = {}
+p_low = {}
+for i in range(E):
+    for j in range(i, E):
+        if W[i][j] <= THRESHOLD + 1e-9 and allowed_in_category(i,'upper') and allowed_in_category(j,'upper'):
+            p_up[(i,j)] = pulp.LpVariable(f"p_up_{i}_{j}", lowBound=0, upBound=MAX_PAIRS, cat='Integer')
+        if W[i][j] <= THRESHOLD + 1e-9 and allowed_in_category(i,'lower') and allowed_in_category(j,'lower'):
+            p_low[(i,j)] = pulp.LpVariable(f"p_low_{i}_{j}", lowBound=0, upBound=MAX_PAIRS, cat='Integer')
+
+s = {m_idx: pulp.LpVariable(f"s_{m_idx}", lowBound=0, cat='Continuous') for m_idx in range(M)}
+
+# counts constraints
+prob += pulp.lpSum(c_up[e] for e in range(E)) == REQ_UP, "total_upper_instances"
+prob += pulp.lpSum(c_low[e] for e in range(E)) == REQ_LOW, "total_lower_instances"
+
+# linking counts to pairs
+for e in range(E):
+    terms = []
+    if (e,e) in p_up: terms.append(2 * p_up[(e,e)])
+    for f in range(0,e):
+        if (f,e) in p_up: terms.append(p_up[(f,e)])
+    for f in range(e+1,E):
+        if (e,f) in p_up: terms.append(p_up[(e,f)])
+    prob += c_up[e] == pulp.lpSum(terms), f"link_up_{e}"
+
+for e in range(E):
+    terms = []
+    if (e,e) in p_low: terms.append(2 * p_low[(e,e)])
+    for f in range(0,e):
+        if (f,e) in p_low: terms.append(p_low[(f,e)])
+    for f in range(e+1,E):
+        if (e,f) in p_low: terms.append(p_low[(e,f)])
+    prob += c_low[e] == pulp.lpSum(terms), f"link_low_{e}"
+
+prob += pulp.lpSum(p_up.values()) == PAIRS_PER_CAT, "total_pairs_up"
+prob += pulp.lpSum(p_low.values()) == PAIRS_PER_CAT, "total_pairs_low"
+
+# coverage & shortfall: use SETS_PER_INSTANCE variable
+for m_idx, m in enumerate(Muscle):
+    coverage_expr = SETS_PER_INSTANCE * pulp.lpSum( (c_up[e] + c_low[e]) * VEC[e][m_idx] for e in range(E) )
+    prob += s[m_idx] >= MUSCLE_TARGETS[m] - coverage_expr, f"shortfall_{m_idx}"
+
+prob += pulp.lpSum(s[m_idx] for m_idx in range(M)), "min_total_shortfall"
+
+# Solve
+solver = pulp.PULP_CBC_CMD(msg=True)
+prob.solve(solver)
+
+# Print results once
+status = pulp.LpStatus[prob.status]
+print("Solver status:", status)
+
+if status not in ("Optimal", "Feasible"):
+    print("No feasible solution found.")
+else:
+    c_up_sol = {EXERCISE_NAMES[e]: int(pulp.value(c_up[e])) for e in range(E) if int(pulp.value(c_up[e]))>0}
+    c_low_sol = {EXERCISE_NAMES[e]: int(pulp.value(c_low[e])) for e in range(E) if int(pulp.value(c_low[e]))>0}
+
+    expanded_up_pairs = []
+    for (i,j), var in p_up.items():
+        q = int(pulp.value(var))
+        expanded_up_pairs.extend( [(EXERCISE_NAMES[i], EXERCISE_NAMES[j])] * q )
+
+    expanded_low_pairs = []
+    for (i,j), var in p_low.items():
+        q = int(pulp.value(var))
+        expanded_low_pairs.extend( [(EXERCISE_NAMES[i], EXERCISE_NAMES[j])] * q )
+
+    coverage = {}
+    for m_idx, m in enumerate(Muscle):
+        cov = SETS_PER_INSTANCE * sum( (int(pulp.value(c_up[e])) + int(pulp.value(c_low[e]))) * VEC[e][m_idx] for e in range(E) )
+        coverage[m] = cov
+
+    print("\n=== COUNTS ===")
+    print("Upper counts (12 total):")
+    for k,v in sorted(c_up_sol.items(), key=lambda x:-x[1]):
+        print(f"  {k:40s} : {v}")
+    print("\nLower counts (12 total):")
+    for k,v in sorted(c_low_sol.items(), key=lambda x:-x[1]):
+        print(f"  {k:40s} : {v}")
+
+    print("\n=== EXPANDED PAIRS ===")
+    print("Upper expanded pairs (6):")
+    for i,pair in enumerate(expanded_up_pairs, start=1):
+        print(f" Pair {i:2d}: {pair[0]}  +  {pair[1]}")
+    print("Lower expanded pairs (6):")
+    for i,pair in enumerate(expanded_low_pairs, start=1):
+        print(f" Pair {i:2d}: {pair[0]}  +  {pair[1]}")
+
+    print("\n=== COVERAGE vs TARGETS (sets/week) ===")
+    for m in Muscle:
+        print(f"  {m.name:20s} target {MUSCLE_TARGETS[m]:4.1f}   covered {coverage[m]:6.2f}   diff {coverage[m]-MUSCLE_TARGETS[m]:6.2f}")
+
+    total_shortfall = sum(max(0.0, MUSCLE_TARGETS[m] - coverage[m]) for m in Muscle)
+    print(f"\nTotal shortfall sum = {total_shortfall:.3f}")
+
+    print(f"\nNote: SETS_PER_INSTANCE = {SETS_PER_INSTANCE}, THRESHOLD = {THRESHOLD}")
