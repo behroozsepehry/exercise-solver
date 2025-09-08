@@ -126,10 +126,10 @@ EXERCISES = {
     "Side Plank High Pull (cable/band)": ("both", {
         Muscle.OBLIQUES: 0.92, Muscle.LATS: 0.30, Muscle.UPPER_BACK: 0.30, Muscle.ANT_DELTOID: 0.18
     }),
-    "Glute Bridge + Band Pull-Apart (combined)": ("both", {
+    "Glute Bridge + Band Pull-Apart (combined)": ("lower", {
         Muscle.GLUTES: 0.92, Muscle.HAMSTRINGS: 0.30, Muscle.POST_DELTOID: 0.30, Muscle.ERECTORS: 0.28
     }),
-    "Pallof Press (band/cable)": ("both", {
+    "Pallof Press (band/cable)": ("lower", {
         Muscle.CORE: 0.92, Muscle.OBLIQUES: 0.35
     }),
 
