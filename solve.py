@@ -115,9 +115,9 @@ EXERCISES = {
         Muscle.TRICEPS: 0.62, Muscle.CHEST: 0.30, Muscle.ANT_DELTOID: 0.20
     }),
     # Additional upper compound options for lateral delt / neck
-    "Upright Cable Row": ("upper", {
-        Muscle.LAT_DELTOID: 0.60, Muscle.UPPER_BACK: 0.40, Muscle.NECK: 0.30
-    }),
+    # "Upright Cable Row": ("upper", {
+    #     Muscle.LAT_DELTOID: 0.60, Muscle.UPPER_BACK: 0.40, Muscle.NECK: 0.30
+    # }),
     "Band Shrug / Cable Shrug": ("upper", {
         Muscle.NECK: 0.90, Muscle.UPPER_BACK: 0.30
     }),
