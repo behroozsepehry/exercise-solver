@@ -1,10 +1,27 @@
 ### Workout Plan
 
-| Workout Type | Superset 1 | Superset 2 |
-|---|---|---|
-| Upper A | Chest Press + Lat Pulldown | Row + Overhead Press |
-| Lower A | Glute Bridge/Band Pull-Apart + Pallof Press | Leg Press (quad-dominant) + Good Morning |
-| Upper B | Chest Press + Lat Pulldown | Face Pull + Cable Lateral Raise |
-| Lower B | Glute Bridge/Band Pull-Apart + Calf Raise | Leg Press (sumo/wide) + Calf Raise |
-| Upper C | Chest Press + Biceps Curl | Band/Cable Shrug + Side Plank High Pull |
-| Lower C | Leg Press (quad-dominant) + Cable Standing Hip Abduction | Leg Press (sumo/wide) + Seated/Lying Leg Curl |
+Upper Days:
+ Day 0 (Upper A):
+   Chest Press (machine/band) + Biceps Curl (band/cable)
+   Face Pull (band/cable) + Cable Lateral Raise
+
+ Day 1 (Upper B):
+   Chest Press (machine/band) + Lat Pulldown (machine)
+   Band Shrug / Cable Shrug + Side Plank High Pull (cable/band)
+
+ Day 2 (Upper C):
+   Chest Press (machine/band) + Lat Pulldown (machine)
+   Row (seated/band/all) + Overhead Press (cable/band)
+
+Lower Days:
+ Day 0 (Lower A):
+   Glute Bridge + Band Pull-Apart (combined) + Pallof Press (band/cable)
+   Leg Press (sumo/wide) + Calf Raise (seated/standing merged)
+
+ Day 1 (Lower B):
+   Glute Bridge + Band Pull-Apart (combined) + Calf Raise (seated/standing merged)
+   Leg Press / Front Squat (quad-dominant) + Cable Standing Hip Abduction (both legs)
+
+ Day 2 (Lower C):
+   Leg Press / Front Squat (quad-dominant) + Good Morning (band/cable)
+   Leg Press (sumo/wide) + Seated / Lying Leg Curl (machine)
