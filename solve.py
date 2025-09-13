@@ -200,6 +200,79 @@ def allowed_in_category(idx, cat):
     return (typ == cat) or (typ == "both")
 
 # -----------------------
+# Assignment ILP Helper
+# -----------------------
+def assign_pairs_to_days(pairs_list, category_name):
+    """
+    Solve ILP to assign pairs to days with constraints.
+    pairs_list: list of (ex1, ex2) tuples
+    category_name: 'Upper' or 'Lower'
+    """
+    if not pairs_list:
+        return {}
+
+    P = len(pairs_list)
+    D = 3
+    if P != 6:
+        print(f"Warning: {P} pairs for {category_name}, expected 6")
+
+    # Precompute conflicts
+    pair_sets = [set(pair) for pair in pairs_list]
+    conflicts = {p: [] for p in range(P)}
+    for p1 in range(P):
+        for p2 in range(p1 + 1, P):
+            if pair_sets[p1] & pair_sets[p2]:
+                conflicts[p1].append(p2)
+                conflicts[p2].append(p1)
+
+    # ILP
+    assign_prob = pulp.LpProblem(f"{category_name.lower()}_assignment", pulp.LpMinimize)
+    x = [[pulp.LpVariable(f"x_{p}_{d}", cat='Binary') for d in range(D)] for p in range(P)]
+    slack_conflicts = {}
+
+    for p in range(P):
+        assign_prob += pulp.lpSum(x[p][d] for d in range(D)) == 1, f"assign_pair_{p}"
+
+    for d in range(D):
+        assign_prob += pulp.lpSum(x[p][d] for p in range(P)) == 2, f"day_capacity_{d}"
+
+    # Relaxed conflicts
+    for p1 in range(P):
+        for p2 in range(p1 + 1, P):
+            if p2 in conflicts[p1]:
+                for d in range(D):
+                    slack_var = pulp.LpVariable(f"slack_conf_{p1}_{p2}_{d}", lowBound=0, cat='Continuous')
+                    slack_conflicts[(p1,p2,d)] = slack_var
+                    assign_prob += x[p1][d] + x[p2][d] <= 1 + slack_var, f"conflict_{p1}_{p2}_{d}"
+
+    assign_prob.setObjective(pulp.lpSum(slack_conflicts.values()))
+
+    # Solve
+    solver = pulp.PULP_CBC_CMD(msg=True)
+    assign_prob.solve(solver)
+    status = pulp.LpStatus[assign_prob.status]
+
+    if status not in ["Optimal", "Feasible"]:
+        print(f"{category_name} assignment failed.")
+        return {}
+
+    # Extract
+    assignments = {f"Day {d}": [] for d in range(D)}
+    for p in range(P):
+        for d in range(D):
+            if pulp.value(x[p][d]) > 0.5:
+                assignments[f"Day {d}"].append(pairs_list[p])
+                break
+
+    total_violations = sum(pulp.value(v) for v in slack_conflicts.values())
+    if total_violations > 0:
+        print(f"Assignment allows {total_violations} shared exercises; use with caution.")
+    else:
+        print("Perfect conflict-free assignment.")
+
+    return assignments
+
+# -----------------------
 # Build combined ILP
 # -----------------------
 prob = pulp.LpProblem("combined_pairs_abductors_copenhagen", pulp.LpMinimize)
@@ -305,3 +378,29 @@ else:
     print(f"\nTotal shortfall sum = {total_shortfall:.3f}")
 
     print(f"\nNote: SETS_PER_INSTANCE = {SETS_PER_INSTANCE}, THRESHOLD = {THRESHOLD}")
+
+    # ---------------------------
+    # Assignment ILP: Assign pairs to days
+    # ---------------------------
+    upper_assignments = assign_pairs_to_days(expanded_up_pairs, "Upper")
+    lower_assignments = assign_pairs_to_days(expanded_low_pairs, "Lower")
+
+    print("\n=== ASSIGNMENT ===\n")
+    day_names = ["A", "B", "C"]
+    print("Upper Days:")
+    for i, (k, pairs) in enumerate(upper_assignments.items()):
+        day_label = f"{k} (Upper {day_names[i]})"
+        print(f" {day_label}:")
+        for pair in pairs:
+            print(f"   {pair[0]} + {pair[1]}")
+        print()
+
+    print("Lower Days:")
+    for i, (k, pairs) in enumerate(lower_assignments.items()):
+        day_label = f"{k} (Lower {day_names[i]})"
+        print(f" {day_label}:")
+        for pair in pairs:
+            print(f"   {pair[0]} + {pair[1]}")
+        print()
+
+    print("This schedule avoids exercise repeats per day.")
