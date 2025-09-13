@@ -1,27 +1,13 @@
 ### Workout Plan
 
-Upper Days:
- Day 0 (Upper A):
-   Chest Press (machine/band) + Biceps Curl (band/cable)
-   Face Pull (band/cable) + Cable Lateral Raise
+| Workout Type | Superset 1 | Superset 2 |
+|---|---|---|
+| Upper A | Chest Press (machine/band)<br>Biceps Curl (band/cable) | Face Pull (band/cable)<br>Cable Lateral Raise |
+| Upper B | Chest Press (machine/band)<br>Lat Pulldown (machine) | Band Shrug / Cable Shrug<br>Side Plank High Pull (cable/band) |
+| Upper C | Chest Press (machine/band)<br>Lat Pulldown (machine) | Row (seated/band/all)<br>Overhead Press (cable/band) |
 
- Day 1 (Upper B):
-   Chest Press (machine/band) + Lat Pulldown (machine)
-   Band Shrug / Cable Shrug + Side Plank High Pull (cable/band)
-
- Day 2 (Upper C):
-   Chest Press (machine/band) + Lat Pulldown (machine)
-   Row (seated/band/all) + Overhead Press (cable/band)
-
-Lower Days:
- Day 0 (Lower A):
-   Glute Bridge + Band Pull-Apart (combined) + Pallof Press (band/cable)
-   Leg Press (sumo/wide) + Calf Raise (seated/standing merged)
-
- Day 1 (Lower B):
-   Glute Bridge + Band Pull-Apart (combined) + Calf Raise (seated/standing merged)
-   Leg Press / Front Squat (quad-dominant) + Cable Standing Hip Abduction (both legs)
-
- Day 2 (Lower C):
-   Leg Press / Front Squat (quad-dominant) + Good Morning (band/cable)
-   Leg Press (sumo/wide) + Seated / Lying Leg Curl (machine)
+| Workout Type | Superset 1 | Superset 2 |
+|---|---|---|
+| Lower A | Glute Bridge<br>Band Pull-Apart (combined)<br>Pallof Press (band/cable) | Leg Press (sumo/wide)<br>Calf Raise (seated/standing merged) |
+| Lower B | Glute Bridge<br>Band Pull-Apart (combined)<br>Calf Raise (seated/standing merged) | Leg Press / Front Squat (quad-dominant)<br>Cable Standing Hip Abduction (both legs) |
+| Lower C | Leg Press / Front Squat (quad-dominant)<br>Good Morning (band/cable) | Leg Press (sumo/wide)<br>Seated / Lying Leg Curl (machine) |
