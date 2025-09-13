@@ -387,20 +387,25 @@ else:
 
     print("\n=== ASSIGNMENT ===\n")
     day_names = ["A", "B", "C"]
-    print("Upper Days:")
+    print("## Workout Plan")
+    print()
+
+    print("### Upper Days:")
+    print("| Workout Type | Superset 1 | Superset 2 |")
+    print("|---|---|---|")
     for i, (k, pairs) in enumerate(upper_assignments.items()):
-        day_label = f"{k} (Upper {day_names[i]})"
-        print(f" {day_label}:")
-        for pair in pairs:
-            print(f"   {pair[0]} + {pair[1]}")
-        print()
+        day_label = f"Upper {day_names[i]}"
+        sup1 = f"{pairs[0][0]}<br>{pairs[0][1]}"
+        sup2 = f"{pairs[1][0]}<br>{pairs[1][1]}"
+        print(f"| {day_label} | {sup1} | {sup2} |")
+    print()
 
-    print("Lower Days:")
+    print("### Lower Days:")
+    print("| Workout Type | Superset 1 | Superset 2 |")
+    print("|---|---|---|")
     for i, (k, pairs) in enumerate(lower_assignments.items()):
-        day_label = f"{k} (Lower {day_names[i]})"
-        print(f" {day_label}:")
-        for pair in pairs:
-            print(f"   {pair[0]} + {pair[1]}")
-        print()
-
-    print("This schedule avoids exercise repeats per day.")
+        day_label = f"Lower {day_names[i]}"
+        sup1 = f"{pairs[0][0]}<br>{pairs[0][1]}"
+        sup2 = f"{pairs[1][0]}<br>{pairs[1][1]}"
+        print(f"| {day_label} | {sup1} | {sup2} |")
+    print()
