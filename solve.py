@@ -40,6 +40,14 @@ class Muscle(Enum):
     ABDUCTORS = auto()
     NECK = auto()
 
+class Machine(Enum):
+    LEG_PRESS = auto()
+    CHEST_PRESS = auto()
+    LEG_CURL = auto()
+    LAT_PULLDOWN = auto()
+    SEATED_ROW = auto()
+    CABLE = auto()
+
 MUSCLE_INDEX = {m: i for i, m in enumerate(Muscle)}
 
 # -----------------------
@@ -77,100 +85,100 @@ EXERCISES = {
     # Upper-only
     "Chest Press (machine/band)": ("upper", {
         Muscle.CHEST: 0.95, Muscle.ANT_DELTOID: 0.30, Muscle.TRICEPS: 0.40, Muscle.FOREARMS: 0.20
-    }),
+    }, [Machine.CHEST_PRESS]),
     "Push-ups (standard/incline/decline)": ("upper", {
         Muscle.CHEST: 0.88, Muscle.ANT_DELTOID: 0.25, Muscle.TRICEPS: 0.35, Muscle.CORE: 0.25
-    }),
+    }, []),
     "Cable / Band Chest Fly": ("upper", {
         Muscle.CHEST: 0.85, Muscle.ANT_DELTOID: 0.20
-    }),
+    }, [Machine.CABLE]),
     "Row (seated/band/all)": ("upper", {
         Muscle.UPPER_BACK: 0.92, Muscle.LATS: 0.42, Muscle.BICEPS: 0.36, Muscle.POST_DELTOID: 0.28
-    }),
+    }, [Machine.SEATED_ROW]),
     "Face Pull (band/cable)": ("upper", {
         Muscle.POST_DELTOID: 0.85, Muscle.UPPER_BACK: 0.40, Muscle.LATS: 0.15
-    }),
+    }, [Machine.CABLE]),
     "Lat Pulldown (machine)": ("upper", {
         Muscle.LATS: 0.93, Muscle.UPPER_BACK: 0.35, Muscle.BICEPS: 0.30
-    }),
+    }, [Machine.LAT_PULLDOWN]),
     "Overhead Press (cable/band)": ("upper", {
         Muscle.ANT_DELTOID: 0.82, Muscle.LAT_DELTOID: 0.36, Muscle.TRICEPS: 0.38, Muscle.CORE: 0.22
-    }),
+    }, [Machine.CABLE]),
     "Pike Push-ups (vertical press)": ("upper", {
         Muscle.ANT_DELTOID: 0.72, Muscle.TRICEPS: 0.34, Muscle.CORE: 0.25
-    }),
+    }, []),
     "Cable Lateral Raise": ("upper", {
         Muscle.LAT_DELTOID: 0.92, Muscle.ANT_DELTOID: 0.15
-    }),
+    }, [Machine.CABLE]),
     "Biceps Curl (band/cable)": ("upper", {
         Muscle.BICEPS: 0.92, Muscle.FOREARMS: 0.30
-    }),
+    }, [Machine.CABLE]),
     "Hammer / Neutral Curl": ("upper", {
         Muscle.BICEPS: 0.45, Muscle.FOREARMS: 0.92
-    }),
+    }, []),
     "Triceps (pushdown / overhead merged)": ("upper", {
         Muscle.TRICEPS: 0.92
-    }),
+    }, [Machine.CABLE]),
     "Close-Grip Press (machine/band)": ("upper", {
         Muscle.TRICEPS: 0.62, Muscle.CHEST: 0.30, Muscle.ANT_DELTOID: 0.20
-    }),
+    }, [Machine.CHEST_PRESS]),
     # Additional upper compound options for lateral delt / neck
     # "Upright Cable Row": ("upper", {
     #     Muscle.LAT_DELTOID: 0.60, Muscle.UPPER_BACK: 0.40, Muscle.NECK: 0.30
-    # }),
+    # }, [Machine.CABLE]),
     "Band Shrug / Cable Shrug": ("upper", {
         Muscle.NECK: 0.90, Muscle.UPPER_BACK: 0.30
-    }),
+    }, []),
 
     # Both-category
     "Side Plank High Pull (cable/band)": ("both", {
         Muscle.OBLIQUES: 0.92, Muscle.LATS: 0.30, Muscle.UPPER_BACK: 0.30, Muscle.ANT_DELTOID: 0.18
-    }),
+    }, [Machine.CABLE]),
     "Glute Bridge + Band Pull-Apart (combined)": ("lower", {
         Muscle.GLUTES: 0.92, Muscle.HAMSTRINGS: 0.30, Muscle.POST_DELTOID: 0.30, Muscle.ERECTORS: 0.28
-    }),
+    }, []),
     "Pallof Press (band/cable)": ("lower", {
         Muscle.CORE: 0.92, Muscle.OBLIQUES: 0.35
-    }),
+    }, [Machine.CABLE]),
 
     # Lower-only (compound / efficient)
     "Leg Press / Front Squat (quad-dominant)": ("lower", {
         Muscle.QUADS: 0.95, Muscle.GLUTES: 0.45, Muscle.CORE: 0.28, Muscle.HAMSTRINGS: 0.15
-    }),
+    }, [Machine.LEG_PRESS]),
     "Leg Press (sumo/wide)": ("lower", {
         Muscle.ADDUCTORS: 0.65, Muscle.GLUTES: 0.70, Muscle.QUADS: 0.45
-    }),
+    }, [Machine.LEG_PRESS]),
     "Seated / Lying Leg Curl (machine)": ("lower", {
         Muscle.HAMSTRINGS: 0.95
-    }),
+    }, [Machine.LEG_CURL]),
     "Cable Pull-Through (both legs)": ("lower", {
         Muscle.GLUTES: 0.92, Muscle.HAMSTRINGS: 0.30, Muscle.ERECTORS: 0.28
-    }),
+    }, [Machine.CABLE]),
     "Mini-Band Lateral Walk (both legs)": ("lower", {
         Muscle.GLUTES: 0.80, Muscle.ABDUCTORS: 0.70
-    }),
-    "Calf Raise (seated/standing merged)": ("lower", {
+    }, []),
+    "Calf Raise (leg press machine)": ("lower", {
         Muscle.CALVES: 0.95
-    }),
+    }, [Machine.LEG_PRESS]),
     "Cable Woodchopper / Chop": ("lower", {
         Muscle.OBLIQUES: 0.92, Muscle.CORE: 0.30
-    }),
+    }, [Machine.CABLE]),
     "Good Morning (band/cable)": ("lower", {
         Muscle.ERECTORS: 0.90, Muscle.GLUTES: 0.25, Muscle.HAMSTRINGS: 0.20
-    }),
+    }, [Machine.CABLE]),
 
     # Newly added abductors-focused exercises (compact set)
     "Banded Monster Walk (both legs)": ("lower", {
         Muscle.ABDUCTORS: 0.85, Muscle.GLUTES: 0.60
-    }),
+    }, []),
     "Cable Standing Hip Abduction (both legs)": ("lower", {
         Muscle.ABDUCTORS: 0.90, Muscle.GLUTES: 0.30
-    }),
+    }, [Machine.CABLE]),
 
     # Copenhagen Plank (adductor emphasis) — user requested
     "Copenhagen Plank (adductor focus)": ("lower", {
         Muscle.ADDUCTORS: 0.92, Muscle.CORE: 0.25, Muscle.GLUTES: 0.20
-    }),
+    }, []),
 
     # Note: removed "Dead Bug", "RDL (band) - double-leg", "Chest-Supported Rear Delt Row"
 }
@@ -184,11 +192,22 @@ M = len(Muscle)
 # -----------------------
 def exercise_vector(name):
     vec = [0.0]*M
-    cat, acts = EXERCISES[name]
+    cat, acts, machines = EXERCISES[name]
     for m, val in acts.items():
         if val >= 0.1:
             vec[MUSCLE_INDEX[m]] = float(val)
     return vec
+
+def get_exercise_machines(exercise_name):
+    """Return list of machines used by an exercise"""
+    cat, acts, machines = EXERCISES[exercise_name]
+    return machines
+
+def has_machine_conflict(ex1, ex2):
+    """Check if two exercises share any machines"""
+    machines1 = get_exercise_machines(ex1)
+    machines2 = get_exercise_machines(ex2)
+    return bool(set(machines1) & set(machines2))
 
 VEC = [exercise_vector(n) for n in EXERCISE_NAMES]
 def dot(a,b): return sum(x*y for x,y in zip(a,b))
@@ -285,9 +304,18 @@ p_up = {}
 p_low = {}
 for i in range(E):
     for j in range(i, E):
-        if W[i][j] <= THRESHOLD + 1e-9 and allowed_in_category(i,'upper') and allowed_in_category(j,'upper'):
+        # Check muscle overlap (existing)
+        muscle_overlap_ok = W[i][j] <= THRESHOLD + 1e-9
+
+        # Check machine conflicts (new)
+        ex1_name = EXERCISE_NAMES[i]
+        ex2_name = EXERCISE_NAMES[j]
+        machine_conflict = has_machine_conflict(ex1_name, ex2_name)
+
+        # Only allow pairing if both conditions are met
+        if muscle_overlap_ok and not machine_conflict and allowed_in_category(i,'upper') and allowed_in_category(j,'upper'):
             p_up[(i,j)] = pulp.LpVariable(f"p_up_{i}_{j}", lowBound=0, upBound=MAX_PAIRS, cat='Integer')
-        if W[i][j] <= THRESHOLD + 1e-9 and allowed_in_category(i,'lower') and allowed_in_category(j,'lower'):
+        if muscle_overlap_ok and not machine_conflict and allowed_in_category(i,'lower') and allowed_in_category(j,'lower'):
             p_low[(i,j)] = pulp.LpVariable(f"p_low_{i}_{j}", lowBound=0, upBound=MAX_PAIRS, cat='Integer')
 
 s = {m_idx: pulp.LpVariable(f"s_{m_idx}", lowBound=0, cat='Continuous') for m_idx in range(M)}

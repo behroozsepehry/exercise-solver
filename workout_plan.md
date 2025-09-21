@@ -3,13 +3,13 @@
 ### Upper Days:
 | Workout Type | Superset 1 | Superset 2 |
 |---|---|---|
-| Upper A | Chest Press (machine/band)<br>Biceps Curl (band/cable) | Face Pull (band/cable)<br>Cable Lateral Raise |
-| Upper B | Chest Press (machine/band)<br>Lat Pulldown (machine) | Band Shrug / Cable Shrug<br>Side Plank High Pull (cable/band) |
-| Upper C | Chest Press (machine/band)<br>Lat Pulldown (machine) | Row (seated/band/all)<br>Overhead Press (cable/band) |
+| Upper A | Chest Press (machine/band)<br>Face Pull (band/cable) | Biceps Curl (band/cable)<br>Band Shrug / Cable Shrug |
+| Upper B | Chest Press (machine/band)<br>Lat Pulldown (machine) | Row (seated/band/all)<br>Cable Lateral Raise |
+| Upper C | Chest Press (machine/band)<br>Side Plank High Pull (cable/band) | Lat Pulldown (machine)<br>Overhead Press (cable/band) |
 
 ### Lower Days:
 | Workout Type | Superset 1 | Superset 2 |
 |---|---|---|
-| Lower A | Glute Bridge + Band Pull-Apart (combined)<br>Pallof Press (band/cable) | Leg Press (sumo/wide)<br>Calf Raise (seated/standing merged) |
-| Lower B | Glute Bridge + Band Pull-Apart (combined)<br>Calf Raise (seated/standing merged) | Leg Press / Front Squat (quad-dominant)<br>Cable Standing Hip Abduction (both legs) |
-| Lower C | Leg Press / Front Squat (quad-dominant)<br>Good Morning (band/cable) | Leg Press (sumo/wide)<br>Seated / Lying Leg Curl (machine) |
+| Lower A | Leg Press / Front Squat (quad-dominant)<br>Cable Standing Hip Abduction (both legs) | Leg Press (sumo/wide)<br>Good Morning (band/cable) |
+| Lower B | Glute Bridge + Band Pull-Apart (combined)<br>Calf Raise (leg press machine) | Leg Press / Front Squat (quad-dominant)<br>Seated / Lying Leg Curl (machine) |
+| Lower C | Glute Bridge + Band Pull-Apart (combined)<br>Calf Raise (leg press machine) | Pallof Press (band/cable)<br>Leg Press (sumo/wide) |
