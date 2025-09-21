@@ -248,7 +248,7 @@ def assign_pairs_to_days(pairs_list, category_name):
     assign_prob.setObjective(pulp.lpSum(slack_conflicts.values()))
 
     # Solve
-    solver = pulp.PULP_CBC_CMD(msg=True)
+    solver = pulp.PULP_CBC_CMD(msg=False)
     assign_prob.solve(solver)
     status = pulp.LpStatus[assign_prob.status]
 
@@ -326,7 +326,7 @@ for m_idx, m in enumerate(Muscle):
 prob += pulp.lpSum(s[m_idx] for m_idx in range(M)), "min_total_shortfall"
 
 # Solve
-solver = pulp.PULP_CBC_CMD(msg=True)
+solver = pulp.PULP_CBC_CMD(msg=False)
 prob.solve(solver)
 
 # Print results once
