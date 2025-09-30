@@ -1,23 +1,17 @@
-# solve_combined_update_abductors_copenhagen.py
-# Updated combined ILP:
-# - Removed: Dead Bug, RDL (band) - double-leg, Chest-Supported Rear Delt Row
-# - Added: Banded Monster Walk, Cable Standing Hip Abduction (both legs), Copenhagen Plank
-# - SETS_PER_INSTANCE is top-level tunable
-# - Continuous activations retained (>= 0.1 included)
 import pulp
 from enum import Enum, auto
 
 # -----------------------
 # Tunables
 # -----------------------
-SETS_PER_INSTANCE = 4.6   # <-- set to 4.6 locally as you did
+SETS_PER_INSTANCE = 4.6
 REQ_UP = 12
 REQ_LOW = 12
 PAIRS_PER_CAT = REQ_UP // 2
 THRESHOLD = 0.2
 
 # -----------------------
-# Muscles (with added ADDUCTORS, ABDUCTORS, NECK)
+# Muscles
 # -----------------------
 class Muscle(Enum):
     CHEST = auto()
@@ -79,12 +73,6 @@ MUSCLE_TARGETS = {
     Muscle.NECK: 3
 }
 
-# -----------------------
-# Exercises: updated pool
-# - Removed Dead Bug, RDL (band) - double-leg, Chest-Supported Rear Delt Row
-# - Added Banded Monster Walk, Cable Standing Hip Abduction, Copenhagen Plank
-# - Glute Bridge still includes band pull-apart (post delts)
-# -----------------------
 EXERCISES = {
     # Upper-only
     "Chest Press (machine/band)": ([DayCategory.UPPER], {
@@ -126,15 +114,11 @@ EXERCISES = {
     "Close-Grip Press (machine/band)": ([DayCategory.UPPER], {
         Muscle.TRICEPS: 0.62, Muscle.CHEST: 0.30, Muscle.ANT_DELTOID: 0.20
     }, [Machine.CHEST_PRESS]),
-    # Additional upper compound options for lateral delt / neck
-    # "Upright Cable Row": ([DayCategory.UPPER], {
-    #     Muscle.LAT_DELTOID: 0.60, Muscle.UPPER_BACK: 0.40, Muscle.NECK: 0.30
-    # }, [Machine.CABLE]),
     "Band Shrug / Cable Shrug": ([DayCategory.UPPER], {
         Muscle.NECK: 0.90, Muscle.UPPER_BACK: 0.30
     }, []),
 
-    # Both-category (now using list with both categories)
+    # Both-category
     "Side Plank High Pull (cable/band)": ([DayCategory.UPPER, DayCategory.LOWER], {
         Muscle.OBLIQUES: 0.92, Muscle.LATS: 0.30, Muscle.UPPER_BACK: 0.30, Muscle.ANT_DELTOID: 0.18
     }, [Machine.CABLE]),
@@ -178,18 +162,14 @@ EXERCISES = {
     "Cable Standing Hip Abduction (both legs)": ([DayCategory.LOWER], {
         Muscle.ABDUCTORS: 0.90, Muscle.GLUTES: 0.30
     }, [Machine.CABLE]),
-
-    # Copenhagen Plank (adductor emphasis) — user requested
     "Copenhagen Plank (adductor focus)": ([DayCategory.LOWER], {
         Muscle.ADDUCTORS: 0.92, Muscle.CORE: 0.25, Muscle.GLUTES: 0.20
     }, []),
-
-    # Band Supine Hip Abduction
     "Band Supine Hip Abduction": ([DayCategory.LOWER], {
         Muscle.ABDUCTORS: 0.92, Muscle.GLUTES: 0.35, Muscle.CORE: 0.25
     }, []),
 
-    # Note: removed "Dead Bug", "RDL (band) - double-leg", "Chest-Supported Rear Delt Row"
+    # Note: removed "Dead Bug", "RDL (band) - double-leg", "Chest-Supported Rear Delt Row", "Upright Cable Row"
 }
 
 EXERCISE_NAMES = list(EXERCISES.keys())
