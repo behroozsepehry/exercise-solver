@@ -184,6 +184,11 @@ EXERCISES = {
         Muscle.ADDUCTORS: 0.92, Muscle.CORE: 0.25, Muscle.GLUTES: 0.20
     }, []),
 
+    # Band Supine Hip Abduction
+    "Band Supine Hip Abduction": ([DayCategory.LOWER], {
+        Muscle.ABDUCTORS: 0.92, Muscle.GLUTES: 0.35, Muscle.CORE: 0.25
+    }, []),
+
     # Note: removed "Dead Bug", "RDL (band) - double-leg", "Chest-Supported Rear Delt Row"
 }
 
