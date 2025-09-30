@@ -1,17 +1,18 @@
 import pulp
 from enum import Enum, auto
+from typing import Dict, List, Tuple, Optional, Union, Any
 
 # -----------------------
 # Tunables
 # -----------------------
-SETS_PER_INSTANCE = 4.6
-REQ_UP = 12
-REQ_LOW = 12
-PAIRS_PER_CAT = REQ_UP // 2
-THRESHOLD = 0.2
+SETS_PER_INSTANCE: float = 4.6
+REQ_UP: int = 12
+REQ_LOW: int = 12
+PAIRS_PER_CAT: int = REQ_UP // 2
+THRESHOLD: float = 0.2
 
 # -----------------------
-# Muscles
+# Enums
 # -----------------------
 class Muscle(Enum):
     CHEST = auto()
@@ -49,9 +50,26 @@ class DayCategory(Enum):
 MUSCLE_INDEX = {m: i for i, m in enumerate(Muscle)}
 
 # -----------------------
+# Type Definitions
+# -----------------------
+ExerciseName = str
+MuscleActivation = Dict[Muscle, float]
+MachineList = List[Machine]
+ExerciseData = Tuple[List[DayCategory], MuscleActivation, MachineList]
+ExerciseDict = Dict[ExerciseName, ExerciseData]
+MuscleTargetDict = Dict[Muscle, float]
+ExerciseVector = List[float]
+ExerciseMatrix = List[List[float]]
+LpVariableDict = Dict[Any, pulp.LpVariable]
+ExerciseCounts = Dict[ExerciseName, int]
+ExercisePairs = List[Tuple[ExerciseName, ExerciseName]]
+DayAssignments = Dict[str, ExercisePairs]
+CoverageDict = Dict[Muscle, float]
+
+# -----------------------
 # Targets: default sets/week (adjustable)
 # -----------------------
-MUSCLE_TARGETS = {
+MUSCLE_TARGETS: MuscleTargetDict = {
     Muscle.CHEST: 12,
     Muscle.UPPER_BACK: 10,
     Muscle.LATS: 12,
@@ -73,7 +91,7 @@ MUSCLE_TARGETS = {
     Muscle.NECK: 3
 }
 
-EXERCISES = {
+EXERCISES: ExerciseDict = {
     # Upper-only
     "Chest Press (machine/band)": ([DayCategory.UPPER], {
         Muscle.CHEST: 0.95, Muscle.ANT_DELTOID: 0.30, Muscle.TRICEPS: 0.40, Muscle.FOREARMS: 0.20
@@ -172,19 +190,21 @@ EXERCISES = {
     # Note: removed "Dead Bug", "RDL (band) - double-leg", "Chest-Supported Rear Delt Row", "Upright Cable Row"
 }
 
-EXERCISE_NAMES = list(EXERCISES.keys())
-E = len(EXERCISE_NAMES)
-M = len(Muscle)
+EXERCISE_NAMES: List[ExerciseName] = list(EXERCISES.keys())
+E: int = len(EXERCISE_NAMES)
+M: int = len(Muscle)
 
 # -----------------------
 # Helpers: vectors, overlap, allowed-in-category
 # -----------------------
-def safe_value(var, default=0.0):
+def safe_value(var: pulp.LpVariable, default: float = 0.0) -> float:
     """Safely extract value from LpVariable, return default if None"""
     val = pulp.value(var)
-    return val if val is not None else default
+    if val is not None and not isinstance(val, pulp.LpVariable):
+        return float(val)
+    return default
 
-def exercise_vector(name):
+def exercise_vector(name: ExerciseName) -> ExerciseVector:
     vec = [0.0]*M
     categories, acts, machines = EXERCISES[name]
     for m, val in acts.items():
@@ -192,22 +212,23 @@ def exercise_vector(name):
             vec[MUSCLE_INDEX[m]] = float(val)
     return vec
 
-def get_exercise_machines(exercise_name):
+def get_exercise_machines(exercise_name: ExerciseName) -> MachineList:
     """Return list of machines used by an exercise"""
     categories, acts, machines = EXERCISES[exercise_name]
     return machines
 
-def has_machine_conflict(ex1, ex2):
+def has_machine_conflict(ex1: ExerciseName, ex2: ExerciseName) -> bool:
     """Check if two exercises share any machines"""
     machines1 = get_exercise_machines(ex1)
     machines2 = get_exercise_machines(ex2)
     return bool(set(machines1) & set(machines2))
 
-VEC = [exercise_vector(n) for n in EXERCISE_NAMES]
-def dot(a,b): return sum(x*y for x,y in zip(a,b))
-W = [[dot(VEC[i], VEC[j]) for j in range(E)] for i in range(E)]
+VEC: ExerciseMatrix = [exercise_vector(n) for n in EXERCISE_NAMES]
+def dot(a: ExerciseVector, b: ExerciseVector) -> float:
+    return sum(x*y for x,y in zip(a,b))
+W: ExerciseMatrix = [[dot(VEC[i], VEC[j]) for j in range(E)] for i in range(E)]
 
-def allowed_in_category(idx, cat):
+def allowed_in_category(idx: int, cat: DayCategory) -> bool:
     nm = EXERCISE_NAMES[idx]
     categories, acts, machines = EXERCISES[nm]
     return cat in categories
@@ -215,7 +236,7 @@ def allowed_in_category(idx, cat):
 # -----------------------
 # Assignment ILP Helper
 # -----------------------
-def assign_pairs_to_days(pairs_list, category_name):
+def assign_pairs_to_days(pairs_list: ExercisePairs, category_name: str) -> DayAssignments:
     """
     Solve ILP to assign pairs to days with constraints.
     pairs_list: list of (ex1, ex2) tuples
@@ -288,14 +309,14 @@ def assign_pairs_to_days(pairs_list, category_name):
 # -----------------------
 # Build combined ILP
 # -----------------------
-prob = pulp.LpProblem("combined_pairs_abductors_copenhagen", pulp.LpMinimize)
+prob: pulp.LpProblem = pulp.LpProblem("combined_pairs_abductors_copenhagen", pulp.LpMinimize)
 
-c_up = {e: pulp.LpVariable(f"c_up_{e}", lowBound=0, upBound=REQ_UP, cat='Integer') for e in range(E)}
-c_low = {e: pulp.LpVariable(f"c_low_{e}", lowBound=0, upBound=REQ_LOW, cat='Integer') for e in range(E)}
+c_up: LpVariableDict = {e: pulp.LpVariable(f"c_up_{e}", lowBound=0, upBound=REQ_UP, cat='Integer') for e in range(E)}
+c_low: LpVariableDict = {e: pulp.LpVariable(f"c_low_{e}", lowBound=0, upBound=REQ_LOW, cat='Integer') for e in range(E)}
 
-MAX_PAIRS = REQ_UP // 2
-p_up = {}
-p_low = {}
+MAX_PAIRS: int = REQ_UP // 2
+p_up: LpVariableDict = {}
+p_low: LpVariableDict = {}
 for i in range(E):
     for j in range(i, E):
         # Check muscle overlap (existing)
@@ -312,7 +333,7 @@ for i in range(E):
         if muscle_overlap_ok and not machine_conflict and allowed_in_category(i, DayCategory.LOWER) and allowed_in_category(j, DayCategory.LOWER):
             p_low[(i,j)] = pulp.LpVariable(f"p_low_{i}_{j}", lowBound=0, upBound=MAX_PAIRS, cat='Integer')
 
-s = {m_idx: pulp.LpVariable(f"s_{m_idx}", lowBound=0, cat='Continuous') for m_idx in range(M)}
+s: LpVariableDict = {m_idx: pulp.LpVariable(f"s_{m_idx}", lowBound=0, cat='Continuous') for m_idx in range(M)}
 
 # counts constraints
 prob += pulp.lpSum(c_up[e] for e in range(E)) == REQ_UP, "total_upper_instances"
@@ -352,26 +373,26 @@ solver = pulp.PULP_CBC_CMD(msg=False)
 prob.solve(solver)
 
 # Print results once
-status = pulp.LpStatus[prob.status]
+status: str = pulp.LpStatus[prob.status]
 print("Solver status:", status)
 
 if status not in ("Optimal", "Feasible"):
     print("No feasible solution found.")
 else:
-    c_up_sol = {EXERCISE_NAMES[e]: int(safe_value(c_up[e])) for e in range(E) if safe_value(c_up[e]) > 0}
-    c_low_sol = {EXERCISE_NAMES[e]: int(safe_value(c_low[e])) for e in range(E) if safe_value(c_low[e]) > 0}
+    c_up_sol: ExerciseCounts = {EXERCISE_NAMES[e]: int(safe_value(c_up[e])) for e in range(E) if safe_value(c_up[e]) > 0}
+    c_low_sol: ExerciseCounts = {EXERCISE_NAMES[e]: int(safe_value(c_low[e])) for e in range(E) if safe_value(c_low[e]) > 0}
 
-    expanded_up_pairs = []
+    expanded_up_pairs: ExercisePairs = []
     for (i,j), var in p_up.items():
         q = int(safe_value(var))
         expanded_up_pairs.extend( [(EXERCISE_NAMES[i], EXERCISE_NAMES[j])] * q )
 
-    expanded_low_pairs = []
+    expanded_low_pairs: ExercisePairs = []
     for (i,j), var in p_low.items():
         q = int(safe_value(var))
         expanded_low_pairs.extend( [(EXERCISE_NAMES[i], EXERCISE_NAMES[j])] * q )
 
-    coverage = {}
+    coverage: CoverageDict = {}
     for m_idx, m in enumerate(Muscle):
         cov = SETS_PER_INSTANCE * sum( (int(safe_value(c_up[e])) + int(safe_value(c_low[e]))) * VEC[e][m_idx] for e in range(E) )
         coverage[m] = cov
@@ -396,7 +417,7 @@ else:
     for m in Muscle:
         print(f"  {m.name:20s} target {MUSCLE_TARGETS[m]:4.1f}   covered {coverage[m]:6.2f}   diff {coverage[m]-MUSCLE_TARGETS[m]:6.2f}")
 
-    total_shortfall = sum(max(0.0, MUSCLE_TARGETS[m] - coverage[m]) for m in Muscle)
+    total_shortfall: float = sum(max(0.0, MUSCLE_TARGETS[m] - coverage[m]) for m in Muscle)
     print(f"\nTotal shortfall sum = {total_shortfall:.3f}")
 
     print(f"\nNote: SETS_PER_INSTANCE = {SETS_PER_INSTANCE}, THRESHOLD = {THRESHOLD}")
@@ -404,11 +425,11 @@ else:
     # ---------------------------
     # Assignment ILP: Assign pairs to days
     # ---------------------------
-    upper_assignments = assign_pairs_to_days(expanded_up_pairs, "Upper")
-    lower_assignments = assign_pairs_to_days(expanded_low_pairs, "Lower")
+    upper_assignments: DayAssignments = assign_pairs_to_days(expanded_up_pairs, "Upper")
+    lower_assignments: DayAssignments = assign_pairs_to_days(expanded_low_pairs, "Lower")
 
     print("\n=== ASSIGNMENT ===\n")
-    day_names = ["A", "B", "C"]
+    day_names: List[str] = ["A", "B", "C"]
     print("## Workout Plan")
     print()
 
