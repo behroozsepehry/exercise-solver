@@ -179,6 +179,11 @@ M = len(Muscle)
 # -----------------------
 # Helpers: vectors, overlap, allowed-in-category
 # -----------------------
+def safe_value(var, default=0.0):
+    """Safely extract value from LpVariable, return default if None"""
+    val = pulp.value(var)
+    return val if val is not None else default
+
 def exercise_vector(name):
     vec = [0.0]*M
     categories, acts, machines = EXERCISES[name]
@@ -268,7 +273,7 @@ def assign_pairs_to_days(pairs_list, category_name):
     assignments = {f"Day {d}": [] for d in range(D)}
     for p in range(P):
         for d in range(D):
-            if pulp.value(x[p][d]) > 0.5:
+            if safe_value(x[p][d]) > 0.5:
                 assignments[f"Day {d}"].append(pairs_list[p])
                 break
 
@@ -353,22 +358,22 @@ print("Solver status:", status)
 if status not in ("Optimal", "Feasible"):
     print("No feasible solution found.")
 else:
-    c_up_sol = {EXERCISE_NAMES[e]: int(pulp.value(c_up[e])) for e in range(E) if int(pulp.value(c_up[e]))>0}
-    c_low_sol = {EXERCISE_NAMES[e]: int(pulp.value(c_low[e])) for e in range(E) if int(pulp.value(c_low[e]))>0}
+    c_up_sol = {EXERCISE_NAMES[e]: int(safe_value(c_up[e])) for e in range(E) if safe_value(c_up[e]) > 0}
+    c_low_sol = {EXERCISE_NAMES[e]: int(safe_value(c_low[e])) for e in range(E) if safe_value(c_low[e]) > 0}
 
     expanded_up_pairs = []
     for (i,j), var in p_up.items():
-        q = int(pulp.value(var))
+        q = int(safe_value(var))
         expanded_up_pairs.extend( [(EXERCISE_NAMES[i], EXERCISE_NAMES[j])] * q )
 
     expanded_low_pairs = []
     for (i,j), var in p_low.items():
-        q = int(pulp.value(var))
+        q = int(safe_value(var))
         expanded_low_pairs.extend( [(EXERCISE_NAMES[i], EXERCISE_NAMES[j])] * q )
 
     coverage = {}
     for m_idx, m in enumerate(Muscle):
-        cov = SETS_PER_INSTANCE * sum( (int(pulp.value(c_up[e])) + int(pulp.value(c_low[e]))) * VEC[e][m_idx] for e in range(E) )
+        cov = SETS_PER_INSTANCE * sum( (int(safe_value(c_up[e])) + int(safe_value(c_low[e]))) * VEC[e][m_idx] for e in range(E) )
         coverage[m] = cov
 
     print("\n=== COUNTS ===")
