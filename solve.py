@@ -10,6 +10,7 @@ REQ_UP: int = 12
 REQ_LOW: int = 12
 PAIRS_PER_CAT: int = REQ_UP // 2
 THRESHOLD: float = 0.2
+MAX_USAGE: int = 2  # Maximum times any single exercise can be used
 
 # -----------------------
 # Enums
@@ -103,7 +104,7 @@ EXERCISES: ExerciseDict = {
         Muscle.CHEST: 0.85, Muscle.ANT_DELTOID: 0.20
     }, [Machine.CABLE]),
     "Row (seated/band/all)": ([DayCategory.UPPER], {
-        Muscle.UPPER_BACK: 0.92, Muscle.LATS: 0.42, Muscle.BICEPS: 0.36, Muscle.POST_DELTOID: 0.28
+        Muscle.UPPER_BACK: 0.92, Muscle.LATS: 0.55, Muscle.BICEPS: 0.36, Muscle.POST_DELTOID: 0.28
     }, [Machine.SEATED_ROW]),
     "Face Pull (band/cable)": ([DayCategory.UPPER], {
         Muscle.POST_DELTOID: 0.85, Muscle.UPPER_BACK: 0.40, Muscle.LATS: 0.15
@@ -133,7 +134,7 @@ EXERCISES: ExerciseDict = {
         Muscle.TRICEPS: 0.62, Muscle.CHEST: 0.30, Muscle.ANT_DELTOID: 0.20
     }, [Machine.CHEST_PRESS]),
     "Band Shrug / Cable Shrug": ([DayCategory.UPPER], {
-        Muscle.NECK: 0.90, Muscle.UPPER_BACK: 0.30
+        Muscle.NECK: 0.90, Muscle.UPPER_BACK: 0.40
     }, []),
 
     # Both-category
@@ -338,6 +339,11 @@ s: LpVariableDict = {m_idx: pulp.LpVariable(f"s_{m_idx}", lowBound=0, cat='Conti
 # counts constraints
 prob += pulp.lpSum(c_up[e] for e in range(E)) == REQ_UP, "total_upper_instances"
 prob += pulp.lpSum(c_low[e] for e in range(E)) == REQ_LOW, "total_lower_instances"
+
+# variety constraints: limit maximum usage of any single exercise
+for e in range(E):
+    prob += c_up[e] <= MAX_USAGE, f"max_usage_up_{e}"
+    prob += c_low[e] <= MAX_USAGE, f"max_usage_low_{e}"
 
 # linking counts to pairs
 for e in range(E):
