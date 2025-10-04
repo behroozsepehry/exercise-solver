@@ -313,8 +313,8 @@ def assign_pairs_to_days(pairs_list: ExercisePairs, category_name: str) -> DayAs
 # -----------------------
 prob: pulp.LpProblem = pulp.LpProblem("muscle_coverage_solver", pulp.LpMinimize)
 
-c_up: LpVariableDict = {e: pulp.LpVariable(f"c_up_{e}", lowBound=0, upBound=REQ_UP, cat='Integer') for e in range(E)}
-c_low: LpVariableDict = {e: pulp.LpVariable(f"c_low_{e}", lowBound=0, upBound=REQ_LOW, cat='Integer') for e in range(E)}
+c_up: LpVariableDict = {e: pulp.LpVariable(f"c_up_{e}", lowBound=0, upBound=MAX_USAGE, cat='Integer') for e in range(E)}
+c_low: LpVariableDict = {e: pulp.LpVariable(f"c_low_{e}", lowBound=0, upBound=MAX_USAGE, cat='Integer') for e in range(E)}
 
 p_up: LpVariableDict = {}
 p_low: LpVariableDict = {}
@@ -339,11 +339,6 @@ s: LpVariableDict = {m_idx: pulp.LpVariable(f"s_{m_idx}", lowBound=0, cat='Conti
 # counts constraints
 prob += pulp.lpSum(c_up[e] for e in range(E)) == REQ_UP, "total_upper_instances"
 prob += pulp.lpSum(c_low[e] for e in range(E)) == REQ_LOW, "total_lower_instances"
-
-# variety constraints: limit maximum usage of any single exercise
-for e in range(E):
-    prob += c_up[e] <= MAX_USAGE, f"max_usage_up_{e}"
-    prob += c_low[e] <= MAX_USAGE, f"max_usage_low_{e}"
 
 # linking counts to pairs
 for e in range(E):
