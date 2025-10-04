@@ -141,8 +141,8 @@ EXERCISES: ExerciseDict = {
     "Side Plank High Pull (cable/band)": ([DayCategory.UPPER, DayCategory.LOWER], {
         Muscle.OBLIQUES: 0.92, Muscle.LATS: 0.30, Muscle.UPPER_BACK: 0.30, Muscle.ANT_DELTOID: 0.18
     }, [Machine.CABLE]),
-    "Glute Bridge with abduction + Band Pull-Apart (combined)": ([DayCategory.LOWER], {
-        Muscle.GLUTES: 0.82, Muscle.HAMSTRINGS: 0.28, Muscle.POST_DELTOID: 0.30, Muscle.ERECTORS: 0.25, Muscle.ABDUCTORS: 0.70
+    "Glute Bridge + Band Pull-Apart (combined)": ([DayCategory.LOWER], {
+        Muscle.GLUTES: 0.92, Muscle.HAMSTRINGS: 0.30, Muscle.POST_DELTOID: 0.30, Muscle.ERECTORS: 0.28
     }, []),
     "Pallof Press (band/cable)": ([DayCategory.LOWER], {
         Muscle.CORE: 0.92, Muscle.OBLIQUES: 0.35
