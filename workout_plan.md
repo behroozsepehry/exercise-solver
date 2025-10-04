@@ -1,15 +1,25 @@
 ## Workout Plan
 
-### Upper Days:
+### UPPER GYM Days:
 | Workout Type | Superset 1 | Superset 2 |
 |---|---|---|
-| Upper A | Lat Pulldown (machine)<br>Cable Lateral Raise | Overhead Press (cable/band)<br>Band Shrug / Cable Shrug |    
-| Upper B | Chest Press (machine/band)<br>Row (seated/band/all) | Lat Pulldown (machine)<br>Overhead Press (cable/band) |
-| Upper C | Chest Press (machine/band)<br>Biceps Curl (band/cable) | Push-ups (standard/incline/decline)<br>Face Pull (band/cable) |
+| UPPER GYM 1 | Chest Press<br>Face Pull (cable/band) | Lat Pulldown (machine)<br>Lateral Raise (cable/band) |
+| UPPER GYM 2 | Chest Press<br>Face Pull (cable/band) | Push-ups<br>Hammer Curl (cable/band) |
+| UPPER GYM 3 | Push-ups<br>Hammer Curl (cable/band) | Lat Pulldown (machine)<br>Lateral Raise (cable/band) |
 
-### Lower Days:
+### LOWER GYM Days:
 | Workout Type | Superset 1 | Superset 2 |
 |---|---|---|
-| Lower A | Side Plank High Pull (cable/band)<br>Leg Press (sumo/wide) | Leg Press / Front Squat (quad-dominant)<br>Seated / Lying Leg Curl (machine) |
-| Lower B | Glute Bridge with abduction + Band Pull-Apart (combined)<br>Calf Raise (leg press machine) | Leg Press / Front Squat (quad-dominant)<br>Good Morning (band/cable) |
-| Lower C | Glute Bridge with abduction + Band Pull-Apart (combined)<br>Calf Raise (leg press machine) | Pallof Press (band/cable)<br>Leg Press (sumo/wide) |
+| LOWER GYM 1 | Side Plank High Pull (cable/band)<br>Leg Press / Front Squat (quad-dominant) | Cable Pull-Through<br>Calf Raise |
+| LOWER GYM 2 | Side Plank High Pull (cable/band)<br>Leg Press (sumo/wide) | Cable Pull-Through<br>Calf Raise |
+| LOWER GYM 3 | Side Plank High Pull (cable/band)<br>Leg Press (sumo/wide) | Leg Press / Front Squat (quad-dominant)<br>Seated Leg Curl |
+
+### UPPER HOME Days:
+| Workout Type | Superset 1 | Superset 2 | Superset 3 |
+|---|---|---|---|
+| UPPER HOME 1 | Push-ups<br>Hammer Curl (cable/band) | Pike Push-ups (vertical press)<br>Side Plank High Pull (cable/band) | Triceps (pushdown / overhead merged)<br>Band Shrug / Cable Shrug |
+
+### LOWER HOME Days:
+| Workout Type | Superset 1 | Superset 2 | Superset 3 |
+|---|---|---|---|
+| LOWER HOME 1 | Glute Bridge + Band Pull-Apart<br>Pallof Press (cable/band) | Mini-Band Lateral Walk<br>Good Morning (cable/band) | Cable Woodchopper / Chop<br>Band Supine Hip Abduction |
