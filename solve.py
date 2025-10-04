@@ -8,9 +8,10 @@ from typing import Dict, List, Tuple, Optional, Union, Any
 SETS_PER_INSTANCE: float = 4.6
 REQ_UP: int = 12
 REQ_LOW: int = 12
-PAIRS_PER_CAT: int = REQ_UP // 2
 THRESHOLD: float = 0.2
 MAX_USAGE: int = 3  # Maximum times any single exercise can be used
+PAIRS_PER_CATEGORY_UP: int = REQ_UP // 2
+PAIRS_PER_CATEGORY_LOW: int = REQ_LOW // 2
 
 # -----------------------
 # Enums
@@ -315,7 +316,6 @@ prob: pulp.LpProblem = pulp.LpProblem("muscle_coverage_solver", pulp.LpMinimize)
 c_up: LpVariableDict = {e: pulp.LpVariable(f"c_up_{e}", lowBound=0, upBound=REQ_UP, cat='Integer') for e in range(E)}
 c_low: LpVariableDict = {e: pulp.LpVariable(f"c_low_{e}", lowBound=0, upBound=REQ_LOW, cat='Integer') for e in range(E)}
 
-MAX_PAIRS: int = REQ_UP // 2
 p_up: LpVariableDict = {}
 p_low: LpVariableDict = {}
 for i in range(E):
@@ -330,9 +330,9 @@ for i in range(E):
 
         # Only allow pairing if both conditions are met
         if muscle_overlap_ok and not machine_conflict and allowed_in_category(i, DayCategory.UPPER) and allowed_in_category(j, DayCategory.UPPER):
-            p_up[(i,j)] = pulp.LpVariable(f"p_up_{i}_{j}", lowBound=0, upBound=MAX_PAIRS, cat='Integer')
+            p_up[(i,j)] = pulp.LpVariable(f"p_up_{i}_{j}", lowBound=0, upBound=PAIRS_PER_CATEGORY_UP, cat='Integer')
         if muscle_overlap_ok and not machine_conflict and allowed_in_category(i, DayCategory.LOWER) and allowed_in_category(j, DayCategory.LOWER):
-            p_low[(i,j)] = pulp.LpVariable(f"p_low_{i}_{j}", lowBound=0, upBound=MAX_PAIRS, cat='Integer')
+            p_low[(i,j)] = pulp.LpVariable(f"p_low_{i}_{j}", lowBound=0, upBound=PAIRS_PER_CATEGORY_LOW, cat='Integer')
 
 s: LpVariableDict = {m_idx: pulp.LpVariable(f"s_{m_idx}", lowBound=0, cat='Continuous') for m_idx in range(M)}
 
@@ -364,8 +364,8 @@ for e in range(E):
         if (e,f) in p_low: terms.append(p_low[(e,f)])
     prob += c_low[e] == pulp.lpSum(terms), f"link_low_{e}"
 
-prob += pulp.lpSum(p_up.values()) == PAIRS_PER_CAT, "total_pairs_up"
-prob += pulp.lpSum(p_low.values()) == PAIRS_PER_CAT, "total_pairs_low"
+prob += pulp.lpSum(p_up.values()) == PAIRS_PER_CATEGORY_UP, "total_pairs_up"
+prob += pulp.lpSum(p_low.values()) == PAIRS_PER_CATEGORY_LOW, "total_pairs_low"
 
 # coverage & shortfall: use SETS_PER_INSTANCE variable
 for m_idx, m in enumerate(Muscle):
