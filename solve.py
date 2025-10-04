@@ -35,8 +35,6 @@ class Machine(Enum):
     CABLE = auto()
 
 class DayCategory(Enum):
-    UPPER = auto()
-    LOWER = auto()
     UPPER_GYM = auto()
     LOWER_GYM = auto()
     UPPER_HOME = auto()
@@ -98,102 +96,100 @@ MUSCLE_TARGETS: MuscleTargetDict = {
 }
 
 EXERCISES: ExerciseDict = {
-    # Upper-only
-    "Chest Press": ([DayCategory.UPPER], {
+    # Upper exercises (machine: only gym, cable/bodyweight: both gym and home)
+    "Chest Press": ([DayCategory.UPPER_GYM], {
         Muscle.CHEST: 0.95, Muscle.ANT_DELTOID: 0.30, Muscle.TRICEPS: 0.40, Muscle.FOREARMS: 0.20
     }, [Machine.CHEST_PRESS]),
-    "Push-ups": ([DayCategory.UPPER], {
+    "Push-ups": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
         Muscle.CHEST: 0.88, Muscle.ANT_DELTOID: 0.25, Muscle.TRICEPS: 0.35, Muscle.CORE: 0.25
     }, []),
-    "Cable / Band Chest Fly": ([DayCategory.UPPER], {
+    "Cable / Band Chest Fly": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
         Muscle.CHEST: 0.85, Muscle.ANT_DELTOID: 0.20
     }, [Machine.CABLE]),
-    "Row": ([DayCategory.UPPER], {
+    "Row": ([DayCategory.UPPER_GYM], {
         Muscle.UPPER_BACK: 0.92, Muscle.LATS: 0.55, Muscle.BICEPS: 0.36, Muscle.POST_DELTOID: 0.28
     }, [Machine.SEATED_ROW]),
-    "Face Pull (cable/band)": ([DayCategory.UPPER], {
+    "Face Pull (cable/band)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
         Muscle.POST_DELTOID: 0.85, Muscle.UPPER_BACK: 0.40, Muscle.LATS: 0.15
     }, [Machine.CABLE]),
-    "Lat Pulldown (machine)": ([DayCategory.UPPER], {
+    "Lat Pulldown (machine)": ([DayCategory.UPPER_GYM], {
         Muscle.LATS: 0.93, Muscle.UPPER_BACK: 0.35, Muscle.BICEPS: 0.30
     }, [Machine.LAT_PULLDOWN]),
-    "Overhead Press (cable/band)": ([DayCategory.UPPER], {
+    "Overhead Press (cable/band)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
         Muscle.ANT_DELTOID: 0.82, Muscle.LAT_DELTOID: 0.36, Muscle.TRICEPS: 0.38, Muscle.CORE: 0.22
     }, [Machine.CABLE]),
-    "Pike Push-ups (vertical press)": ([DayCategory.UPPER], {
+    "Pike Push-ups (vertical press)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
         Muscle.ANT_DELTOID: 0.72, Muscle.TRICEPS: 0.34, Muscle.CORE: 0.25
     }, []),
-    "Lateral Raise (cable/band)": ([DayCategory.UPPER], {
+    "Lateral Raise (cable/band)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
         Muscle.LAT_DELTOID: 0.92, Muscle.ANT_DELTOID: 0.15
     }, [Machine.CABLE]),
-    "Biceps Curl (cable/band)": ([DayCategory.UPPER], {
+    "Biceps Curl (cable/band)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
         Muscle.BICEPS: 0.92, Muscle.FOREARMS: 0.30
     }, [Machine.CABLE]),
-    "Hammer / Neutral Curl (cable/band)": ([DayCategory.UPPER], {
+    "Hammer / Neutral Curl (cable/band)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
         Muscle.BICEPS: 0.45, Muscle.FOREARMS: 0.92
     }, [Machine.CABLE]),
-    "Triceps (pushdown / overhead merged)": ([DayCategory.UPPER], {
+    "Triceps (pushdown / overhead merged)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
         Muscle.TRICEPS: 0.92
     }, [Machine.CABLE]),
-    "Close-Grip Press": ([DayCategory.UPPER], {
+    "Close-Grip Press": ([DayCategory.UPPER_GYM], {
         Muscle.TRICEPS: 0.62, Muscle.CHEST: 0.30, Muscle.ANT_DELTOID: 0.20
     }, [Machine.CHEST_PRESS]),
-    "Band Shrug / Cable Shrug": ([DayCategory.UPPER], {
+    "Band Shrug / Cable Shrug": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
         Muscle.NECK: 0.90, Muscle.UPPER_BACK: 0.40
     }, []),
 
-    # Both-category
-    "Side Plank High Pull (cable/band)": ([DayCategory.UPPER, DayCategory.LOWER], {
+    # Both-category exercises
+    "Side Plank High Pull (cable/band)": ([DayCategory.UPPER_GYM, DayCategory.LOWER_GYM, DayCategory.UPPER_HOME, DayCategory.LOWER_HOME], {
         Muscle.OBLIQUES: 0.92, Muscle.LATS: 0.30, Muscle.UPPER_BACK: 0.30, Muscle.ANT_DELTOID: 0.18
     }, [Machine.CABLE]),
-    "Glute Bridge + Band Pull-Apart": ([DayCategory.LOWER], {
+    "Glute Bridge + Band Pull-Apart": ([DayCategory.LOWER_GYM, DayCategory.LOWER_HOME], {
         Muscle.GLUTES: 0.92, Muscle.HAMSTRINGS: 0.30, Muscle.POST_DELTOID: 0.30, Muscle.ERECTORS: 0.28
     }, []),
-    "Pallof Press (cable/band)": ([DayCategory.LOWER], {
+    "Pallof Press (cable/band)": ([DayCategory.LOWER_GYM, DayCategory.LOWER_HOME], {
         Muscle.CORE: 0.92, Muscle.OBLIQUES: 0.35
     }, [Machine.CABLE]),
 
-    # Lower-only (compound / efficient)
-    "Leg Press / Front Squat (quad-dominant)": ([DayCategory.LOWER], {
+    # Lower exercises (machine: only gym, cable/bodyweight: both gym and home)
+    "Leg Press / Front Squat (quad-dominant)": ([DayCategory.LOWER_GYM], {
         Muscle.QUADS: 0.95, Muscle.GLUTES: 0.45, Muscle.CORE: 0.28, Muscle.HAMSTRINGS: 0.15
     }, [Machine.LEG_PRESS]),
-    "Leg Press (sumo/wide)": ([DayCategory.LOWER], {
+    "Leg Press (sumo/wide)": ([DayCategory.LOWER_GYM], {
         Muscle.ADDUCTORS: 0.65, Muscle.GLUTES: 0.70, Muscle.QUADS: 0.45
     }, [Machine.LEG_PRESS]),
-    "Seated Leg Curl": ([DayCategory.LOWER], {
+    "Seated Leg Curl": ([DayCategory.LOWER_GYM], {
         Muscle.HAMSTRINGS: 0.95
     }, [Machine.LEG_CURL]),
-    "Cable Pull-Through": ([DayCategory.LOWER], {
+    "Cable Pull-Through": ([DayCategory.LOWER_GYM, DayCategory.LOWER_HOME], {
         Muscle.GLUTES: 0.92, Muscle.HAMSTRINGS: 0.30, Muscle.ERECTORS: 0.28
     }, [Machine.CABLE]),
-    "Mini-Band Lateral Walk": ([DayCategory.LOWER], {
+    "Mini-Band Lateral Walk": ([DayCategory.LOWER_GYM, DayCategory.LOWER_HOME], {
         Muscle.GLUTES: 0.80, Muscle.ABDUCTORS: 0.70
     }, []),
-    "Calf Raise": ([DayCategory.LOWER], {
+    "Calf Raise": ([DayCategory.LOWER_GYM], {
         Muscle.CALVES: 0.95
     }, [Machine.LEG_PRESS]),
-    "Cable Woodchopper / Chop": ([DayCategory.LOWER], {
+    "Cable Woodchopper / Chop": ([DayCategory.LOWER_GYM, DayCategory.LOWER_HOME], {
         Muscle.OBLIQUES: 0.92, Muscle.CORE: 0.30
     }, [Machine.CABLE]),
-    "Good Morning (cable/band)": ([DayCategory.LOWER], {
+    "Good Morning (cable/band)": ([DayCategory.LOWER_GYM, DayCategory.LOWER_HOME], {
         Muscle.ERECTORS: 0.90, Muscle.GLUTES: 0.25, Muscle.HAMSTRINGS: 0.20
     }, [Machine.CABLE]),
 
-    # Newly added abductors-focused exercises (compact set)
-    "Banded Monster Walk": ([DayCategory.LOWER], {
+    # Newly added abductors-focused exercises
+    "Banded Monster Walk": ([DayCategory.LOWER_GYM, DayCategory.LOWER_HOME], {
         Muscle.ABDUCTORS: 0.85, Muscle.GLUTES: 0.60
     }, []),
-    "Cable Standing Hip Abduction": ([DayCategory.LOWER], {
+    "Cable Standing Hip Abduction": ([DayCategory.LOWER_GYM, DayCategory.LOWER_HOME], {
         Muscle.ABDUCTORS: 0.90, Muscle.GLUTES: 0.30
     }, [Machine.CABLE]),
-    "Copenhagen Plank (adductor focus)": ([DayCategory.LOWER], {
+    "Copenhagen Plank (adductor focus)": ([DayCategory.LOWER_GYM, DayCategory.LOWER_HOME], {
         Muscle.ADDUCTORS: 0.92, Muscle.CORE: 0.25, Muscle.GLUTES: 0.20
     }, []),
-    "Band Supine Hip Abduction": ([DayCategory.LOWER], {
+    "Band Supine Hip Abduction": ([DayCategory.LOWER_GYM, DayCategory.LOWER_HOME], {
         Muscle.ABDUCTORS: 0.92, Muscle.GLUTES: 0.35, Muscle.CORE: 0.25
     }, []),
-
-    # Note: removed "Dead Bug", "RDL (band) - double-leg", "Chest-Supported Rear Delt Row", "Upright Cable Row"
 }
 
 EXERCISE_NAMES: List[ExerciseName] = list(EXERCISES.keys())
@@ -234,34 +230,8 @@ def dot(a: ExerciseVector, b: ExerciseVector) -> float:
     return sum(x*y for x,y in zip(a,b))
 W: ExerciseMatrix = [[dot(VEC[i], VEC[j]) for j in range(E)] for i in range(E)]
 
-def is_eligible_for_day(category: DayCategory, machines: MachineList) -> bool:
-    if category.name.endswith('_HOME'):
-        return len(machines) == 0 or machines == [Machine.CABLE]
-    elif category.name.endswith('_GYM'):
-        return True
-    return False
-
-def get_eligible_categories(categories: List[DayCategory], machines: MachineList) -> List[DayCategory]:
-    eligible = []
-    has_upper = DayCategory.UPPER in categories
-    has_lower = DayCategory.LOWER in categories
-    if has_upper:
-        if is_eligible_for_day(DayCategory.UPPER_GYM, machines):
-            eligible.append(DayCategory.UPPER_GYM)
-        if is_eligible_for_day(DayCategory.UPPER_HOME, machines):
-            eligible.append(DayCategory.UPPER_HOME)
-    if has_lower:
-        if is_eligible_for_day(DayCategory.LOWER_GYM, machines):
-            eligible.append(DayCategory.LOWER_GYM)
-        if is_eligible_for_day(DayCategory.LOWER_HOME, machines):
-            eligible.append(DayCategory.LOWER_HOME)
-    return eligible
-
-def allowed_in_category(idx: int, cat: DayCategory) -> bool:
-    nm = EXERCISE_NAMES[idx]
-    categories, acts, machines = EXERCISES[nm]
-    eligible_cats = get_eligible_categories(categories, machines)
-    return cat in eligible_cats
+def allowed_in_category(ex_name: str, cat: DayCategory) -> bool:
+    return cat in EXERCISES[ex_name][0]
 
 # -----------------------
 # Assignment ILP Helper
@@ -356,7 +326,7 @@ def solve_muscle_coverage() -> Tuple[str, Dict[DayCategory, ExerciseCounts], Dic
     prob: pulp.LpProblem = pulp.LpProblem("muscle_coverage_solver", pulp.LpMinimize)
 
     # Define categories to process
-    categories = [DayCategory.UPPER_GYM, DayCategory.LOWER_GYM, DayCategory.UPPER_HOME, DayCategory.LOWER_HOME]
+    categories = list(DayCategory)
 
     # Exercise count variables per category
     c: Dict[DayCategory, LpVariableDict] = {}
@@ -377,7 +347,7 @@ def solve_muscle_coverage() -> Tuple[str, Dict[DayCategory, ExerciseCounts], Dic
                 machine_conflict = has_machine_conflict(ex1_name, ex2_name)
 
                 # Only allow pairing if both conditions are met
-                if muscle_overlap_ok and not machine_conflict and allowed_in_category(i, cat) and allowed_in_category(j, cat):
+                if muscle_overlap_ok and not machine_conflict and allowed_in_category(EXERCISE_NAMES[i], cat) and allowed_in_category(EXERCISE_NAMES[j], cat):
                     p[cat][(i,j)] = pulp.LpVariable(f"p_{cat.name.lower()}_{i}_{j}", lowBound=0, upBound=min(PAIRS_PER_CATEGORY[cat], MAX_USAGE), cat='Integer')
 
     s: LpVariableDict = {m_idx: pulp.LpVariable(f"s_{m_idx}", lowBound=0, cat='Continuous') for m_idx in range(M)}
