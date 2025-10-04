@@ -126,7 +126,7 @@ EXERCISES: ExerciseDict = {
         {
             Muscle.CHEST: 0.95,
             Muscle.ANT_DELTOID: 0.30,
-            Muscle.TRICEPS: 0.40,
+            Muscle.TRICEPS: 0.30,
             Muscle.FOREARMS: 0.20,
         },
         [Machine.CHEST_PRESS],
@@ -136,7 +136,7 @@ EXERCISES: ExerciseDict = {
         {
             Muscle.CHEST: 0.88,
             Muscle.ANT_DELTOID: 0.25,
-            Muscle.TRICEPS: 0.35,
+            Muscle.TRICEPS: 0.30,
             Muscle.CORE: 0.25,
         },
         [],
@@ -198,12 +198,12 @@ EXERCISES: ExerciseDict = {
     ),
     "Tricep Kickback (cable/band)": (
         [DayCategory.UPPER_GYM, DayCategory.UPPER_HOME],
-        {Muscle.TRICEPS: 0.90},
+        {Muscle.TRICEPS: 0.88},
         [Machine.CABLE],
     ),
     "Overhead Triceps Extensions (cable/band)": (
         [DayCategory.UPPER_GYM, DayCategory.UPPER_HOME],
-        {Muscle.TRICEPS: 0.90},
+        {Muscle.TRICEPS: 0.92},
         [Machine.CABLE],
     ),
     "Shrug (cable/band)": (
@@ -249,7 +249,7 @@ EXERCISES: ExerciseDict = {
             Muscle.QUADS: 0.95,
             Muscle.GLUTES: 0.45,
             Muscle.CORE: 0.28,
-            Muscle.HAMSTRINGS: 0.15,
+            Muscle.HAMSTRINGS: 0.10,
         },
         [Machine.LEG_PRESS],
     ),
@@ -281,7 +281,7 @@ EXERCISES: ExerciseDict = {
     ),
     "Good Morning (cable/band)": (
         [DayCategory.LOWER_GYM, DayCategory.LOWER_HOME],
-        {Muscle.ERECTORS: 0.90, Muscle.GLUTES: 0.25, Muscle.HAMSTRINGS: 0.20},
+        {Muscle.ERECTORS: 0.90, Muscle.GLUTES: 0.35, Muscle.HAMSTRINGS: 0.30},
         [Machine.CABLE],
     ),
     # Newly added abductors-focused exercises
@@ -336,8 +336,7 @@ EXERCISES: ExerciseDict = {
     "Banded Row": (
         [DayCategory.UPPER_HOME],
         {
-            Muscle.LATS: 0.62,
-            Muscle.UPPER_BACK: 0.50,
+            Muscle.LATS: 0.50, Muscle.UPPER_BACK: 0.65,
             Muscle.BICEPS: 0.22,
             Muscle.POST_DELTOID: 0.12,
             Muscle.FOREARMS: 0.10,
