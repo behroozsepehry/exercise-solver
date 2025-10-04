@@ -64,11 +64,14 @@ CoverageDict = Dict[Muscle, float]
 # -----------------------
 SETS_PER_INSTANCE: float = 4.6
 THRESHOLD: float = 0.2
-MAX_USAGE: int = 3  # Maximum times any single exercise can be used
 DAY_REQUIREMENTS = {DayCategory.UPPER_GYM: 12, DayCategory.LOWER_GYM: 12, DayCategory.UPPER_HOME: 6, DayCategory.LOWER_HOME: 6}
 PAIRS_PER_CATEGORY = {cat: DAY_REQUIREMENTS[cat] // 2 for cat in DAY_REQUIREMENTS}
 DAYS_PER_CATEGORY = {DayCategory.UPPER_GYM: 3, DayCategory.LOWER_GYM: 3, DayCategory.UPPER_HOME: 1, DayCategory.LOWER_HOME: 1}
 PAIRS_PER_DAY = {DayCategory.UPPER_GYM: 2, DayCategory.LOWER_GYM: 2, DayCategory.UPPER_HOME: 3, DayCategory.LOWER_HOME: 3}
+
+def get_max_usage_for_category(cat: DayCategory) -> int:
+    """Get the maximum times an exercise can be used in the given category"""
+    return DAYS_PER_CATEGORY[cat]
 
 # -----------------------
 # Targets: default sets/week (adjustable)
@@ -331,7 +334,8 @@ def solve_muscle_coverage() -> Tuple[str, Dict[DayCategory, ExerciseCounts], Dic
     # Exercise count variables per category
     c: Dict[DayCategory, LpVariableDict] = {}
     for cat in categories:
-        c[cat] = {e: pulp.LpVariable(f"c_{cat.name.lower()}_{e}", lowBound=0, upBound=min(DAY_REQUIREMENTS[cat], MAX_USAGE), cat='Integer') for e in range(E)}
+        max_usage = get_max_usage_for_category(cat)
+        c[cat] = {e: pulp.LpVariable(f"c_{cat.name.lower()}_{e}", lowBound=0, upBound=min(DAY_REQUIREMENTS[cat], max_usage), cat='Integer') for e in range(E)}
 
     # Pair variables per category
     p: Dict[DayCategory, LpVariableDict] = {cat: {} for cat in categories}
@@ -348,7 +352,7 @@ def solve_muscle_coverage() -> Tuple[str, Dict[DayCategory, ExerciseCounts], Dic
 
                 # Only allow pairing if both conditions are met
                 if muscle_overlap_ok and not machine_conflict and allowed_in_category(EXERCISE_NAMES[i], cat) and allowed_in_category(EXERCISE_NAMES[j], cat):
-                    p[cat][(i,j)] = pulp.LpVariable(f"p_{cat.name.lower()}_{i}_{j}", lowBound=0, upBound=min(PAIRS_PER_CATEGORY[cat], MAX_USAGE), cat='Integer')
+                    p[cat][(i,j)] = pulp.LpVariable(f"p_{cat.name.lower()}_{i}_{j}", lowBound=0, upBound=min(PAIRS_PER_CATEGORY[cat], get_max_usage_for_category(cat)), cat='Integer')
 
     s: LpVariableDict = {m_idx: pulp.LpVariable(f"s_{m_idx}", lowBound=0, cat='Continuous') for m_idx in range(M)}
 
