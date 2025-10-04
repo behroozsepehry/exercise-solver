@@ -96,19 +96,19 @@ MUSCLE_TARGETS: MuscleTargetDict = {
 
 EXERCISES: ExerciseDict = {
     # Upper-only
-    "Chest Press (machine/band)": ([DayCategory.UPPER], {
+    "Chest Press": ([DayCategory.UPPER], {
         Muscle.CHEST: 0.95, Muscle.ANT_DELTOID: 0.30, Muscle.TRICEPS: 0.40, Muscle.FOREARMS: 0.20
     }, [Machine.CHEST_PRESS]),
-    "Push-ups (standard/incline/decline)": ([DayCategory.UPPER], {
+    "Push-ups": ([DayCategory.UPPER], {
         Muscle.CHEST: 0.88, Muscle.ANT_DELTOID: 0.25, Muscle.TRICEPS: 0.35, Muscle.CORE: 0.25
     }, []),
     "Cable / Band Chest Fly": ([DayCategory.UPPER], {
         Muscle.CHEST: 0.85, Muscle.ANT_DELTOID: 0.20
     }, [Machine.CABLE]),
-    "Row (seated/band/all)": ([DayCategory.UPPER], {
+    "Row": ([DayCategory.UPPER], {
         Muscle.UPPER_BACK: 0.92, Muscle.LATS: 0.55, Muscle.BICEPS: 0.36, Muscle.POST_DELTOID: 0.28
     }, [Machine.SEATED_ROW]),
-    "Face Pull (band/cable)": ([DayCategory.UPPER], {
+    "Face Pull (cable/band)": ([DayCategory.UPPER], {
         Muscle.POST_DELTOID: 0.85, Muscle.UPPER_BACK: 0.40, Muscle.LATS: 0.15
     }, [Machine.CABLE]),
     "Lat Pulldown (machine)": ([DayCategory.UPPER], {
@@ -120,19 +120,19 @@ EXERCISES: ExerciseDict = {
     "Pike Push-ups (vertical press)": ([DayCategory.UPPER], {
         Muscle.ANT_DELTOID: 0.72, Muscle.TRICEPS: 0.34, Muscle.CORE: 0.25
     }, []),
-    "Cable Lateral Raise": ([DayCategory.UPPER], {
+    "Lateral Raise (cable/band)": ([DayCategory.UPPER], {
         Muscle.LAT_DELTOID: 0.92, Muscle.ANT_DELTOID: 0.15
     }, [Machine.CABLE]),
-    "Biceps Curl (band/cable)": ([DayCategory.UPPER], {
+    "Biceps Curl (cable/band)": ([DayCategory.UPPER], {
         Muscle.BICEPS: 0.92, Muscle.FOREARMS: 0.30
     }, [Machine.CABLE]),
-    "Hammer / Neutral Curl": ([DayCategory.UPPER], {
+    "Hammer / Neutral Curl (cable/band)": ([DayCategory.UPPER], {
         Muscle.BICEPS: 0.45, Muscle.FOREARMS: 0.92
-    }, []),
+    }, [Machine.CABLE]),
     "Triceps (pushdown / overhead merged)": ([DayCategory.UPPER], {
         Muscle.TRICEPS: 0.92
     }, [Machine.CABLE]),
-    "Close-Grip Press (machine/band)": ([DayCategory.UPPER], {
+    "Close-Grip Press": ([DayCategory.UPPER], {
         Muscle.TRICEPS: 0.62, Muscle.CHEST: 0.30, Muscle.ANT_DELTOID: 0.20
     }, [Machine.CHEST_PRESS]),
     "Band Shrug / Cable Shrug": ([DayCategory.UPPER], {
@@ -143,10 +143,10 @@ EXERCISES: ExerciseDict = {
     "Side Plank High Pull (cable/band)": ([DayCategory.UPPER, DayCategory.LOWER], {
         Muscle.OBLIQUES: 0.92, Muscle.LATS: 0.30, Muscle.UPPER_BACK: 0.30, Muscle.ANT_DELTOID: 0.18
     }, [Machine.CABLE]),
-    "Glute Bridge + Band Pull-Apart (combined)": ([DayCategory.LOWER], {
+    "Glute Bridge + Band Pull-Apart": ([DayCategory.LOWER], {
         Muscle.GLUTES: 0.92, Muscle.HAMSTRINGS: 0.30, Muscle.POST_DELTOID: 0.30, Muscle.ERECTORS: 0.28
     }, []),
-    "Pallof Press (band/cable)": ([DayCategory.LOWER], {
+    "Pallof Press (cable/band)": ([DayCategory.LOWER], {
         Muscle.CORE: 0.92, Muscle.OBLIQUES: 0.35
     }, [Machine.CABLE]),
 
@@ -157,30 +157,30 @@ EXERCISES: ExerciseDict = {
     "Leg Press (sumo/wide)": ([DayCategory.LOWER], {
         Muscle.ADDUCTORS: 0.65, Muscle.GLUTES: 0.70, Muscle.QUADS: 0.45
     }, [Machine.LEG_PRESS]),
-    "Seated / Lying Leg Curl (machine)": ([DayCategory.LOWER], {
+    "Seated Leg Curl": ([DayCategory.LOWER], {
         Muscle.HAMSTRINGS: 0.95
     }, [Machine.LEG_CURL]),
-    "Cable Pull-Through (both legs)": ([DayCategory.LOWER], {
+    "Cable Pull-Through": ([DayCategory.LOWER], {
         Muscle.GLUTES: 0.92, Muscle.HAMSTRINGS: 0.30, Muscle.ERECTORS: 0.28
     }, [Machine.CABLE]),
-    "Mini-Band Lateral Walk (both legs)": ([DayCategory.LOWER], {
+    "Mini-Band Lateral Walk": ([DayCategory.LOWER], {
         Muscle.GLUTES: 0.80, Muscle.ABDUCTORS: 0.70
     }, []),
-    "Calf Raise (leg press machine)": ([DayCategory.LOWER], {
+    "Calf Raise": ([DayCategory.LOWER], {
         Muscle.CALVES: 0.95
     }, [Machine.LEG_PRESS]),
     "Cable Woodchopper / Chop": ([DayCategory.LOWER], {
         Muscle.OBLIQUES: 0.92, Muscle.CORE: 0.30
     }, [Machine.CABLE]),
-    "Good Morning (band/cable)": ([DayCategory.LOWER], {
+    "Good Morning (cable/band)": ([DayCategory.LOWER], {
         Muscle.ERECTORS: 0.90, Muscle.GLUTES: 0.25, Muscle.HAMSTRINGS: 0.20
     }, [Machine.CABLE]),
 
     # Newly added abductors-focused exercises (compact set)
-    "Banded Monster Walk (both legs)": ([DayCategory.LOWER], {
+    "Banded Monster Walk": ([DayCategory.LOWER], {
         Muscle.ABDUCTORS: 0.85, Muscle.GLUTES: 0.60
     }, []),
-    "Cable Standing Hip Abduction (both legs)": ([DayCategory.LOWER], {
+    "Cable Standing Hip Abduction": ([DayCategory.LOWER], {
         Muscle.ABDUCTORS: 0.90, Muscle.GLUTES: 0.30
     }, [Machine.CABLE]),
     "Copenhagen Plank (adductor focus)": ([DayCategory.LOWER], {
