@@ -310,7 +310,7 @@ def assign_pairs_to_days(pairs_list: ExercisePairs, category_name: str) -> DayAs
 # -----------------------
 # Build combined ILP
 # -----------------------
-prob: pulp.LpProblem = pulp.LpProblem("combined_pairs_abductors_copenhagen", pulp.LpMinimize)
+prob: pulp.LpProblem = pulp.LpProblem("muscle_coverage_solver", pulp.LpMinimize)
 
 c_up: LpVariableDict = {e: pulp.LpVariable(f"c_up_{e}", lowBound=0, upBound=REQ_UP, cat='Integer') for e in range(E)}
 c_low: LpVariableDict = {e: pulp.LpVariable(f"c_low_{e}", lowBound=0, upBound=REQ_LOW, cat='Integer') for e in range(E)}
