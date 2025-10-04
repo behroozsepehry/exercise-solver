@@ -184,15 +184,44 @@ EXERCISES: ExerciseDict = {
     "Banded Monster Walk": ([DayCategory.LOWER_GYM, DayCategory.LOWER_HOME], {
         Muscle.ABDUCTORS: 0.85, Muscle.GLUTES: 0.60
     }, []),
-    "Cable Standing Hip Abduction": ([DayCategory.LOWER_GYM, DayCategory.LOWER_HOME], {
-        Muscle.ABDUCTORS: 0.90, Muscle.GLUTES: 0.30
-    }, [Machine.CABLE]),
-    "Copenhagen Plank (adductor focus)": ([DayCategory.LOWER_GYM, DayCategory.LOWER_HOME], {
-        Muscle.ADDUCTORS: 0.92, Muscle.CORE: 0.25, Muscle.GLUTES: 0.20
-    }, []),
+
     "Band Supine Hip Abduction": ([DayCategory.LOWER_GYM, DayCategory.LOWER_HOME], {
         Muscle.ABDUCTORS: 0.92, Muscle.GLUTES: 0.35, Muscle.CORE: 0.25
     }, []),
+}
+
+# Removed exercises (for reference, previously removed from main EXERCISES dict)
+REMOVED_EXERCISES: ExerciseDict = {
+    "Dead Bug (band)": ([DayCategory.UPPER_GYM, DayCategory.LOWER_GYM, DayCategory.UPPER_HOME, DayCategory.LOWER_HOME], {
+        Muscle.CORE: 0.90,
+        Muscle.OBLIQUES: 0.85,
+        Muscle.LAT_DELTOID: 0.20
+    }, [Machine.CABLE]),
+    "RDL (band) - double-leg": ([DayCategory.LOWER_GYM, DayCategory.LOWER_HOME], {
+        Muscle.HAMSTRINGS: 0.92,
+        Muscle.GLUTES: 0.88,
+        Muscle.ERECTORS: 0.80,
+        Muscle.CORE: 0.25
+    }, []),
+    "Chest-Supported Rear Delt Row": ([DayCategory.UPPER_GYM], {
+        Muscle.UPPER_BACK: 0.85,
+        Muscle.POST_DELTOID: 0.90,
+        Muscle.BICEPS: 0.35
+    }, [Machine.SEATED_ROW]),
+    "Upright Cable Row": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
+        Muscle.POST_DELTOID: 0.85,
+        Muscle.NECK: 0.80,
+        Muscle.UPPER_BACK: 0.20
+    }, [Machine.CABLE]),
+    "Copenhagen Plank (adductor focus)": ([DayCategory.LOWER_GYM, DayCategory.LOWER_HOME], {
+        Muscle.ADDUCTORS: 0.92,
+        Muscle.CORE: 0.25,
+        Muscle.GLUTES: 0.20
+    }, []),
+    "Cable Standing Hip Abduction": ([DayCategory.LOWER_GYM, DayCategory.LOWER_HOME], {
+        Muscle.ABDUCTORS: 0.90,
+        Muscle.GLUTES: 0.30
+    }, [Machine.CABLE]),
 }
 
 EXERCISE_NAMES: List[ExerciseName] = list(EXERCISES.keys())
