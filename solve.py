@@ -112,7 +112,7 @@ EXERCISES: ExerciseDict = {
     "Row": ([DayCategory.UPPER_GYM], {
         Muscle.UPPER_BACK: 0.92, Muscle.LATS: 0.55, Muscle.BICEPS: 0.36, Muscle.POST_DELTOID: 0.28
     }, [Machine.SEATED_ROW]),
-    "Face Pull (cable/band)": ([DayCategory.UPPER_GYM], {
+    "Face Pull (cable)": ([DayCategory.UPPER_GYM], {
         Muscle.POST_DELTOID: 0.85, Muscle.UPPER_BACK: 0.40, Muscle.LATS: 0.15
     }, [Machine.CABLE]),
     "Lat Pulldown (machine)": ([DayCategory.UPPER_GYM], {
@@ -196,6 +196,57 @@ EXERCISES: ExerciseDict = {
     "Banded front squat (sumo/wide)": ([DayCategory.LOWER_HOME], {
         Muscle.ADDUCTORS: 0.50, Muscle.GLUTES: 0.50, Muscle.QUADS: 0.35, Muscle.HAMSTRINGS: 0.20, Muscle.ERECTORS: 0.20
     }, []),
+
+    "Lying Band Leg Curl": (
+        [DayCategory.LOWER_HOME],
+        {
+            Muscle.HAMSTRINGS: 0.78,
+        },
+        []
+    ),
+
+    "Straight-Arm Pulldown (cable)": (
+        [DayCategory.UPPER_GYM],
+        {
+            Muscle.LATS: 0.90,
+            Muscle.UPPER_BACK: 0.35,
+            Muscle.CORE: 0.10,
+        },
+        [Machine.CABLE]
+    ),
+
+    "Banded Row": (
+        [DayCategory.UPPER_HOME],
+        {
+            Muscle.LATS:        0.62,
+            Muscle.UPPER_BACK:  0.50,
+            Muscle.BICEPS:      0.22, 
+            Muscle.POST_DELTOID:0.12,
+            Muscle.FOREARMS:    0.10,
+        },
+        []
+    ),
+
+    "Plank": (
+        [DayCategory.LOWER_HOME],
+        {
+            Muscle.CORE: 0.95,
+            Muscle.OBLIQUES: 0.40,
+            Muscle.ERECTORS: 0.20,
+        },
+        []
+    ),
+
+    "Wall Sit with Banded Abductions": (
+        [DayCategory.LOWER_HOME],
+        {
+            Muscle.QUADS: 0.90,
+            Muscle.ABDUCTORS: 0.60,
+            Muscle.GLUTES: 0.25,
+            Muscle.CORE: 0.12,
+        },
+        []
+    ),
 }
 
 # Removed exercises (for reference, previously removed from main EXERCISES dict)
