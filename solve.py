@@ -66,7 +66,12 @@ CoverageDict = Dict[Muscle, float]
 # -----------------------
 # Tunables
 # -----------------------
-SETS_PER_INSTANCE: float = 3.0 * 7 / 8
+SETS_PER_INSTANCE: Dict[DayCategory, float] = {
+    DayCategory.UPPER_GYM: 3.0 * 5 / 6,
+    DayCategory.LOWER_GYM: 3.0 * 5 / 6,
+    DayCategory.UPPER_HOME: 3.0,
+    DayCategory.LOWER_HOME: 3.0,
+}
 THRESHOLD: float = 0.2
 DAY_REQUIREMENTS = {
     DayCategory.UPPER_GYM: 12,
@@ -274,11 +279,6 @@ EXERCISES: ExerciseDict = {
         [],
     ),
     "Calf Raise": ([DayCategory.LOWER_GYM], {Muscle.CALVES: 0.95}, [Machine.LEG_PRESS]),
-    "Cable Woodchopper / Chop": (
-        [DayCategory.LOWER_GYM, DayCategory.LOWER_HOME],
-        {Muscle.OBLIQUES: 0.92, Muscle.CORE: 0.30},
-        [Machine.CABLE],
-    ),
     "Good Morning (cable)": (
         [DayCategory.LOWER_GYM],
         {Muscle.ERECTORS: 0.90, Muscle.GLUTES: 0.35, Muscle.HAMSTRINGS: 0.30},
@@ -372,6 +372,11 @@ EXERCISES: ExerciseDict = {
 
 # Removed exercises (for reference, previously removed from main EXERCISES dict)
 REMOVED_EXERCISES: ExerciseDict = {
+    "Cable Woodchopper / Chop": (
+        [DayCategory.LOWER_GYM, DayCategory.LOWER_HOME],
+        {Muscle.OBLIQUES: 0.92, Muscle.CORE: 0.30},
+        [Machine.CABLE],
+    ),
     "Close-Grip Press": (
         [DayCategory.UPPER_GYM],
         {Muscle.TRICEPS: 0.62, Muscle.CHEST: 0.30, Muscle.ANT_DELTOID: 0.20},
@@ -668,8 +673,9 @@ def solve_muscle_coverage() -> Tuple[
 
     # coverage & max shortfall constraints for minimax objective
     for m_idx, m in enumerate(Muscle):
-        coverage_expr = SETS_PER_INSTANCE * pulp.lpSum(
-            c[cat][e] * VEC[e][m_idx] for cat in categories for e in range(E)
+        coverage_expr = pulp.lpSum(
+            SETS_PER_INSTANCE[cat] * c[cat][e] * VEC[e][m_idx]
+            for cat in categories for e in range(E)
         )
         prob += (
             max_shortfall >= MUSCLE_TARGETS[m] - coverage_expr,
@@ -708,8 +714,8 @@ def solve_muscle_coverage() -> Tuple[
     # Coverage calculation sum over all categories
     coverage: CoverageDict = {}
     for m_idx, m in enumerate(Muscle):
-        cov = SETS_PER_INSTANCE * sum(
-            int(safe_value(c[cat][e])) * VEC[e][m_idx]
+        cov = sum(
+            SETS_PER_INSTANCE[cat] * int(safe_value(c[cat][e])) * VEC[e][m_idx]
             for cat in categories
             for e in range(E)
         )
@@ -763,7 +769,10 @@ else:
     print(f"\nMaximum shortfall = {max_shortfall:.3f}")
     print(f"Sum of shortfalls = {total_shortfall_sum:.3f}")
 
-    print(f"\nNote: SETS_PER_INSTANCE = {SETS_PER_INSTANCE}, THRESHOLD = {THRESHOLD}")
+    print(f"\nNote: THRESHOLD = {THRESHOLD}")
+    print("SETS_PER_INSTANCE:")
+    for cat, val in SETS_PER_INSTANCE.items():
+        print(f"  {cat.name}: {val}")
 
     # ---------------------------
     # Assignment ILP: Assign pairs to days per category
