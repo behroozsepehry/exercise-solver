@@ -10,7 +10,7 @@ REQ_UP: int = 12
 REQ_LOW: int = 12
 PAIRS_PER_CAT: int = REQ_UP // 2
 THRESHOLD: float = 0.2
-MAX_USAGE: int = 2  # Maximum times any single exercise can be used
+MAX_USAGE: int = 3  # Maximum times any single exercise can be used
 
 # -----------------------
 # Enums
