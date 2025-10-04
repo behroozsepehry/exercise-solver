@@ -106,7 +106,7 @@ EXERCISES: ExerciseDict = {
     "Push-ups": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
         Muscle.CHEST: 0.88, Muscle.ANT_DELTOID: 0.25, Muscle.TRICEPS: 0.35, Muscle.CORE: 0.25
     }, []),
-    "Cable / Band Chest Fly": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
+    "Chest Fly (cable/band)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
         Muscle.CHEST: 0.85, Muscle.ANT_DELTOID: 0.20
     }, [Machine.CABLE]),
     "Row": ([DayCategory.UPPER_GYM], {
@@ -130,7 +130,7 @@ EXERCISES: ExerciseDict = {
     "Biceps Curl (cable/band)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
         Muscle.BICEPS: 0.92, Muscle.FOREARMS: 0.30
     }, [Machine.CABLE]),
-    "Hammer / Neutral Curl (cable/band)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
+    "Hammer Curl (cable/band)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
         Muscle.BICEPS: 0.45, Muscle.FOREARMS: 0.92
     }, [Machine.CABLE]),
     "Triceps (pushdown / overhead merged)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
