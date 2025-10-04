@@ -109,7 +109,7 @@ MUSCLE_TARGETS: MuscleTargetDict = {
     Muscle.QUADS: 12,
     Muscle.HAMSTRINGS: 10,
     Muscle.GLUTES: 12,
-    Muscle.CALVES: 8,
+    Muscle.CALVES: 7,
     Muscle.CORE: 8,
     Muscle.OBLIQUES: 6,
     Muscle.ERECTORS: 6,
@@ -577,13 +577,14 @@ def solve_muscle_coverage() -> Tuple[
 ]:
     """
     Build and solve the ILP for muscle coverage optimization.
+    Objective: minimize the maximum shortfall across all muscles (minimax).
 
     Returns:
         status: Solver status ('Optimal', 'Feasible', etc.)
         counts_dict: Exercise counts per category
         pairs_dict: Expanded superset pairs per category
         coverage: Muscle coverage vs targets
-        total_shortfall: Total shortfall sum
+        max_shortfall: The minimized maximum shortfall value
     """
     prob: pulp.LpProblem = pulp.LpProblem("muscle_coverage_solver", pulp.LpMinimize)
 
@@ -633,10 +634,8 @@ def solve_muscle_coverage() -> Tuple[
                         cat="Integer",
                     )
 
-    s: LpVariableDict = {
-        m_idx: pulp.LpVariable(f"s_{m_idx}", lowBound=0, cat="Continuous")
-        for m_idx in range(M)
-    }
+    # Introduce a single max_shortfall variable for minimax objective
+    max_shortfall = pulp.LpVariable("max_shortfall", lowBound=0, cat="Continuous")
 
     # counts constraints per category
     for cat in categories:
@@ -666,14 +665,14 @@ def solve_muscle_coverage() -> Tuple[
             f"total_{cat.name.lower()}_pairs",
         )
 
-    # coverage & shortfall: use SETS_PER_INSTANCE variable, sum over all categories
+    # coverage & max shortfall constraints for minimax objective
     for m_idx, m in enumerate(Muscle):
         coverage_expr = SETS_PER_INSTANCE * pulp.lpSum(
             c[cat][e] * VEC[e][m_idx] for cat in categories for e in range(E)
         )
-        prob += s[m_idx] >= MUSCLE_TARGETS[m] - coverage_expr, f"shortfall_{m_idx}"
+        prob += max_shortfall >= MUSCLE_TARGETS[m] - coverage_expr, f"max_shortfall_{m_idx}"
 
-    prob += pulp.lpSum(s[m_idx] for m_idx in range(M)), "min_total_shortfall"
+    prob.setObjective(max_shortfall)
 
     # Solve
     solver = pulp.PULP_CBC_CMD(msg=False)
@@ -712,11 +711,9 @@ def solve_muscle_coverage() -> Tuple[
         )
         coverage[m] = cov
 
-    total_shortfall: float = sum(
-        max(0.0, MUSCLE_TARGETS[m] - coverage[m]) for m in Muscle
-    )
+    max_shortfall_value: float = safe_value(max_shortfall)
 
-    return status, counts_dict, pairs_dict, coverage, total_shortfall
+    return status, counts_dict, pairs_dict, coverage, max_shortfall_value
 
 
 # -----------------------
@@ -731,7 +728,7 @@ if status not in ("Optimal", "Feasible"):
     print("No feasible solution found.")
 else:
     # Unpack the successful results
-    status, counts_dict, pairs_dict, coverage, total_shortfall = result
+    status, counts_dict, pairs_dict, coverage, max_shortfall = result
 
     print("\n=== COUNTS ===")
     for cat in counts_dict:
@@ -755,7 +752,12 @@ else:
             f"  {m.name:20s} target {MUSCLE_TARGETS[m]:4.1f}   covered {coverage[m]:6.2f}   diff {coverage[m]-MUSCLE_TARGETS[m]:6.2f}"
         )
 
-    print(f"\nTotal shortfall sum = {total_shortfall:.3f}")
+    # Compute individual shortfalls for sum
+    shortfalls = {m: max(0.0, MUSCLE_TARGETS[m] - coverage[m]) for m in Muscle}
+    total_shortfall_sum = sum(shortfalls.values())
+
+    print(f"\nMaximum shortfall = {max_shortfall:.3f}")
+    print(f"Sum of shortfalls = {total_shortfall_sum:.3f}")
 
     print(f"\nNote: SETS_PER_INSTANCE = {SETS_PER_INSTANCE}, THRESHOLD = {THRESHOLD}")
 
