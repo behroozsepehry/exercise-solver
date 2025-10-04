@@ -139,7 +139,7 @@ EXERCISES: ExerciseDict = {
     "Overhead Triceps Extensions (cable/band)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
         Muscle.TRICEPS: 0.90
     }, [Machine.CABLE]),
-    "Band Shrug / Cable Shrug": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
+    "Shrug (cable/band)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
         Muscle.NECK: 0.90, Muscle.UPPER_BACK: 0.40
     }, []),
 

@@ -17,7 +17,7 @@
 ### UPPER HOME Days:
 | Workout Type | Superset 1 | Superset 2 | Superset 3 |
 |---|---|---|---|
-| UPPER HOME 1 | Push-ups<br>Biceps Curl (cable/band) | Overhead Press (cable/band)<br>Band Shrug / Cable Shrug | Pike Push-ups (vertical press)<br>Lateral Raise (cable/band) |
+| UPPER HOME 1 | Push-ups<br>Biceps Curl (cable/band) | Overhead Press (cable/band)<br>Shrug (cable/band) | Pike Push-ups (vertical press)<br>Lateral Raise (cable/band) |
 
 ### LOWER HOME Days:
 | Workout Type | Superset 1 | Superset 2 | Superset 3 |
