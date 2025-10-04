@@ -341,7 +341,8 @@ EXERCISES: ExerciseDict = {
     "Banded Row": (
         [DayCategory.UPPER_HOME],
         {
-            Muscle.LATS: 0.50, Muscle.UPPER_BACK: 0.65,
+            Muscle.LATS: 0.50,
+            Muscle.UPPER_BACK: 0.65,
             Muscle.BICEPS: 0.22,
             Muscle.POST_DELTOID: 0.12,
             Muscle.FOREARMS: 0.10,
@@ -670,7 +671,10 @@ def solve_muscle_coverage() -> Tuple[
         coverage_expr = SETS_PER_INSTANCE * pulp.lpSum(
             c[cat][e] * VEC[e][m_idx] for cat in categories for e in range(E)
         )
-        prob += max_shortfall >= MUSCLE_TARGETS[m] - coverage_expr, f"max_shortfall_{m_idx}"
+        prob += (
+            max_shortfall >= MUSCLE_TARGETS[m] - coverage_expr,
+            f"max_shortfall_{m_idx}",
+        )
 
     prob.setObjective(max_shortfall)
 
