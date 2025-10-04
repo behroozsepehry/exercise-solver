@@ -313,8 +313,8 @@ def assign_pairs_to_days(pairs_list: ExercisePairs, category_name: str) -> DayAs
 # -----------------------
 prob: pulp.LpProblem = pulp.LpProblem("muscle_coverage_solver", pulp.LpMinimize)
 
-c_up: LpVariableDict = {e: pulp.LpVariable(f"c_up_{e}", lowBound=0, upBound=MAX_USAGE, cat='Integer') for e in range(E)}
-c_low: LpVariableDict = {e: pulp.LpVariable(f"c_low_{e}", lowBound=0, upBound=MAX_USAGE, cat='Integer') for e in range(E)}
+c_up: LpVariableDict = {e: pulp.LpVariable(f"c_up_{e}", lowBound=0, upBound=min(REQ_UP, MAX_USAGE), cat='Integer') for e in range(E)}
+c_low: LpVariableDict = {e: pulp.LpVariable(f"c_low_{e}", lowBound=0, upBound=min(REQ_LOW, MAX_USAGE), cat='Integer') for e in range(E)}
 
 p_up: LpVariableDict = {}
 p_low: LpVariableDict = {}
@@ -330,9 +330,9 @@ for i in range(E):
 
         # Only allow pairing if both conditions are met
         if muscle_overlap_ok and not machine_conflict and allowed_in_category(i, DayCategory.UPPER) and allowed_in_category(j, DayCategory.UPPER):
-            p_up[(i,j)] = pulp.LpVariable(f"p_up_{i}_{j}", lowBound=0, upBound=PAIRS_PER_CATEGORY_UP, cat='Integer')
+            p_up[(i,j)] = pulp.LpVariable(f"p_up_{i}_{j}", lowBound=0, upBound=min(PAIRS_PER_CATEGORY_UP, MAX_USAGE), cat='Integer')
         if muscle_overlap_ok and not machine_conflict and allowed_in_category(i, DayCategory.LOWER) and allowed_in_category(j, DayCategory.LOWER):
-            p_low[(i,j)] = pulp.LpVariable(f"p_low_{i}_{j}", lowBound=0, upBound=PAIRS_PER_CATEGORY_LOW, cat='Integer')
+            p_low[(i,j)] = pulp.LpVariable(f"p_low_{i}_{j}", lowBound=0, upBound=min(PAIRS_PER_CATEGORY_LOW, MAX_USAGE), cat='Integer')
 
 s: LpVariableDict = {m_idx: pulp.LpVariable(f"s_{m_idx}", lowBound=0, cat='Continuous') for m_idx in range(M)}
 
