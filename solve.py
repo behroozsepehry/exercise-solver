@@ -10,6 +10,7 @@ REQ_UP: int = 12
 REQ_LOW: int = 12
 THRESHOLD: float = 0.2
 MAX_USAGE: int = 3  # Maximum times any single exercise can be used
+D: int = 3  # Number of days
 PAIRS_PER_CATEGORY_UP: int = REQ_UP // 2
 PAIRS_PER_CATEGORY_LOW: int = REQ_LOW // 2
 
@@ -238,19 +239,20 @@ def allowed_in_category(idx: int, cat: DayCategory) -> bool:
 # -----------------------
 # Assignment ILP Helper
 # -----------------------
-def assign_pairs_to_days(pairs_list: ExercisePairs, category_name: str) -> DayAssignments:
+def assign_pairs_to_days(pairs_list: ExercisePairs, category_name: str, num_days: int) -> DayAssignments:
     """
     Solve ILP to assign pairs to days with constraints.
     pairs_list: list of (ex1, ex2) tuples
     category_name: 'Upper' or 'Lower'
+    num_days: number of days to assign to
     """
     if not pairs_list:
         return {}
 
     P = len(pairs_list)
-    D = 3
-    if P != 6:
-        print(f"Warning: {P} pairs for {category_name}, expected 6")
+    if P % num_days != 0:
+        raise ValueError(f"Number of pairs {P} is not divisible by number of days {num_days}")
+    pairs_per_day = P // num_days
 
     # Precompute conflicts
     pair_sets = [set(pair) for pair in pairs_list]
@@ -263,20 +265,20 @@ def assign_pairs_to_days(pairs_list: ExercisePairs, category_name: str) -> DayAs
 
     # ILP
     assign_prob = pulp.LpProblem(f"{category_name.lower()}_assignment", pulp.LpMinimize)
-    x = [[pulp.LpVariable(f"x_{p}_{d}", cat='Binary') for d in range(D)] for p in range(P)]
+    x = [[pulp.LpVariable(f"x_{p}_{d}", cat='Binary') for d in range(num_days)] for p in range(P)]
     slack_conflicts = {}
 
     for p in range(P):
-        assign_prob += pulp.lpSum(x[p][d] for d in range(D)) == 1, f"assign_pair_{p}"
+        assign_prob += pulp.lpSum(x[p][d] for d in range(num_days)) == 1, f"assign_pair_{p}"
 
-    for d in range(D):
-        assign_prob += pulp.lpSum(x[p][d] for p in range(P)) == 2, f"day_capacity_{d}"
+    for d in range(num_days):
+        assign_prob += pulp.lpSum(x[p][d] for p in range(P)) == pairs_per_day, f"day_capacity_{d}"
 
     # Relaxed conflicts
     for p1 in range(P):
         for p2 in range(p1 + 1, P):
             if p2 in conflicts[p1]:
-                for d in range(D):
+                for d in range(num_days):
                     slack_var = pulp.LpVariable(f"slack_conf_{p1}_{p2}_{d}", lowBound=0, cat='Continuous')
                     slack_conflicts[(p1,p2,d)] = slack_var
                     assign_prob += x[p1][d] + x[p2][d] <= 1 + slack_var, f"conflict_{p1}_{p2}_{d}"
@@ -293,9 +295,9 @@ def assign_pairs_to_days(pairs_list: ExercisePairs, category_name: str) -> DayAs
         return {}
 
     # Extract
-    assignments = {f"Day {d}": [] for d in range(D)}
+    assignments = {f"Day {d}": [] for d in range(num_days)}
     for p in range(P):
-        for d in range(D):
+        for d in range(num_days):
             if safe_value(x[p][d]) > 0.5:
                 assignments[f"Day {d}"].append(pairs_list[p])
                 break
@@ -423,33 +425,42 @@ else:
 
     print(f"\nNote: SETS_PER_INSTANCE = {SETS_PER_INSTANCE}, THRESHOLD = {THRESHOLD}")
 
-    # ---------------------------
-    # Assignment ILP: Assign pairs to days
-    # ---------------------------
-    upper_assignments: DayAssignments = assign_pairs_to_days(expanded_up_pairs, "Upper")
-    lower_assignments: DayAssignments = assign_pairs_to_days(expanded_low_pairs, "Lower")
+    # ---------------------------                                                                                          
+    # Assignment ILP: Assign pairs to days                                                                            
+    # ---------------------------                                                                                      
+    upper_assignments: DayAssignments = assign_pairs_to_days(expanded_up_pairs, "Upper", D)                                
+    lower_assignments: DayAssignments = assign_pairs_to_days(expanded_low_pairs, "Lower", D)
 
     print("\n=== ASSIGNMENT ===\n")
-    day_names: List[str] = ["A", "B", "C"]
+    day_names: List[str] = [str(i + 1) for i in range(D)]
     print("## Workout Plan")
     print()
 
+    # Assuming both upper and lower have the same structure
+    if upper_assignments:
+        first_day_pairs = list(upper_assignments.values())[0]
+        pairs_per_day = len(first_day_pairs)
+    else:
+        pairs_per_day = PAIRS_PER_CATEGORY_UP // D  # Fallback, but since assignments exist, fine
+
     print("### Upper Days:")
-    print("| Workout Type | Superset 1 | Superset 2 |")
-    print("|---|---|---|")
+    header = "| Workout Type | " + " | ".join(f"Superset {j+1}" for j in range(pairs_per_day)) + " |"
+    print(header)
+    print("|" + "|".join(["---"] * (pairs_per_day + 1)) + "|")
     for i, (k, pairs) in enumerate(upper_assignments.items()):
         day_label = f"Upper {day_names[i]}"
-        sup1 = f"{pairs[0][0]}<br>{pairs[0][1]}"
-        sup2 = f"{pairs[1][0]}<br>{pairs[1][1]}"
-        print(f"| {day_label} | {sup1} | {sup2} |")
+        supersets = [f"{pair[0]}<br>{pair[1]}" for pair in pairs]
+        row = f"| {day_label} | " + " | ".join(supersets) + " |"
+        print(row)
     print()
 
     print("### Lower Days:")
-    print("| Workout Type | Superset 1 | Superset 2 |")
-    print("|---|---|---|")
+    header = "| Workout Type | " + " | ".join(f"Superset {j+1}" for j in range(pairs_per_day)) + " |"
+    print(header)
+    print("|" + "|".join(["---"] * (pairs_per_day + 1)) + "|")
     for i, (k, pairs) in enumerate(lower_assignments.items()):
         day_label = f"Lower {day_names[i]}"
-        sup1 = f"{pairs[0][0]}<br>{pairs[0][1]}"
-        sup2 = f"{pairs[1][0]}<br>{pairs[1][1]}"
-        print(f"| {day_label} | {sup1} | {sup2} |")
+        supersets = [f"{pair[0]}<br>{pair[1]}" for pair in pairs]
+        row = f"| {day_label} | " + " | ".join(supersets) + " |"
+        print(row)
     print()
