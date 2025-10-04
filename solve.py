@@ -177,7 +177,7 @@ EXERCISES: ExerciseDict = {
         [Machine.CABLE],
     ),
     "Pike Push-ups (vertical press)": (
-        [DayCategory.UPPER_GYM, DayCategory.UPPER_HOME],
+        [DayCategory.UPPER_HOME],
         {Muscle.ANT_DELTOID: 0.72, Muscle.TRICEPS: 0.34, Muscle.CORE: 0.25},
         [],
     ),
