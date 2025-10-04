@@ -9,7 +9,7 @@ The solver models exercises and muscles, enforces a maximum overlap between supe
 ## Key ideas
 
 * Exercises are represented with continuous activation values (0.1–0.95) for each muscle group.
-* Each chosen exercise instance contributes `SETS_PER_INSTANCE * activation` sets to a muscle's weekly volume (default SETS\_PER_INSTANCE = 3.0, configurable).
+* Each chosen exercise instance contributes `SETS_PER_INSTANCE * activation` sets to a muscle's weekly volume (default SETS_PER_INSTANCE, configurable).
 * Exercises are classified as `upper`, `lower`, or `both`. "Both" exercises can be assigned to either category.
 * **Machine constraints**: Exercises specify which machines they use (chest press, leg press, cable, etc.). Pairs are only allowed if they don't share machines, reducing equipment adjustment time during workouts.
 * Pairing constraint: each category (upper / lower) must form 6 unordered pairs (supersets). A pair is allowed only if the *overlap* (dot product of activation vectors) ≤ `THRESHOLD` AND they don't share machines.
@@ -89,9 +89,10 @@ python solve.py
 
 Open `solve.py` and edit the top of the file:
 
-* `SETS_PER_INSTANCE` — how many sets each exercise instance represents (default `3.0`). Example: if you plan 4 sets per exercise and 7 training days per week, set `SETS_PER_INSTANCE = 4.0 * (7/7) = 4.0` (the solver expects a weekly contribution per instance; earlier runs used e.g. `4.6`).
-* `THRESHOLD` — maximum allowed overlap for a pair to be allowed; default `0.5`. Increase to 0.6–0.7 to allow more pairings.
-* `REQ_UP` / `REQ_LOW` — number of upper and lower instances required (defaults 12 each). Keep them equal to preserve your 6-day split.
+* `SETS_PER_INSTANCE` — how many sets each exercise instance represents (see code for default). Example: if you plan 4 sets per exercise and 7 training days per week, set `SETS_PER_INSTANCE = 4.0 * (7/7) = 4.0` (the solver expects a weekly contribution per instance; earlier runs used e.g. values).
+* `THRESHOLD` — maximum allowed overlap for a pair to be allowed (see code for default). Increase to e.g. 0.6–0.7 to allow more pairings.
+* `REQ_UP` / `REQ_LOW` — number of upper and lower instances required (see code for defaults). Keep them equal to preserve your 6-day split.
+* `MAX_USAGE` — maximum times any single exercise can be used (see code for default).
 * `MUSCLE_TARGETS` — dictionary mapping muscle → weekly target sets. Edit these to reflect your own programming targets.
 
 ---
@@ -144,7 +145,5 @@ Adding or removing an exercise is straightforward — the ILP will adapt.
   - Relaxing `THRESHOLD` to allow more pairing flexibility
 
 ### Exercise data
-* Activations are estimates. If you disagree with a given exercise’s activation, tweak the numbers — the solver will reflect your judgment.
+* Activations are estimates. If you disagree with a given exercise's activation, tweak the numbers — the solver will reflect your judgment.
 * For assignment issues, check if THRESHOLD is too restrictive or exercises have high overlap; the solver penalizes conflicts but may not find perfect schedules in all cases.
-
----
