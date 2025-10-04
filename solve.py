@@ -279,10 +279,15 @@ EXERCISES: ExerciseDict = {
         {Muscle.OBLIQUES: 0.92, Muscle.CORE: 0.30},
         [Machine.CABLE],
     ),
-    "Good Morning (cable/band)": (
-        [DayCategory.LOWER_GYM, DayCategory.LOWER_HOME],
+    "Good Morning (cable)": (
+        [DayCategory.LOWER_GYM],
         {Muscle.ERECTORS: 0.90, Muscle.GLUTES: 0.35, Muscle.HAMSTRINGS: 0.30},
         [Machine.CABLE],
+    ),
+    "Good Morning (band)": (
+        [DayCategory.LOWER_HOME],
+        {Muscle.ERECTORS: 0.77, Muscle.GLUTES: 0.30, Muscle.HAMSTRINGS: 0.26},
+        [],
     ),
     # Newly added abductors-focused exercises
     "Banded Monster Walk": (
