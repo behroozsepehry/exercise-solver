@@ -1,6 +1,6 @@
 import pulp
 from enum import Enum, auto
-from typing import Dict, List, Tuple, Optional, Union, Any
+from typing import Dict, List, Tuple, Optional, Union, Any, cast
 
 # -----------------------
 # Tunables
@@ -310,95 +310,135 @@ def assign_pairs_to_days(pairs_list: ExercisePairs, category_name: str, num_days
 
     return assignments
 
+
 # -----------------------
-# Build combined ILP
+# Combined ILP Solver
 # -----------------------
-prob: pulp.LpProblem = pulp.LpProblem("muscle_coverage_solver", pulp.LpMinimize)
+def solve_muscle_coverage() -> Tuple[str, Optional[ExerciseCounts], Optional[ExerciseCounts],
+                                    Optional[ExercisePairs], Optional[ExercisePairs],
+                                    Optional[CoverageDict], Optional[float]]:
+    """
+    Build and solve the ILP for muscle coverage optimization.
 
-c_up: LpVariableDict = {e: pulp.LpVariable(f"c_up_{e}", lowBound=0, upBound=min(REQ_UP, MAX_USAGE), cat='Integer') for e in range(E)}
-c_low: LpVariableDict = {e: pulp.LpVariable(f"c_low_{e}", lowBound=0, upBound=min(REQ_LOW, MAX_USAGE), cat='Integer') for e in range(E)}
+    Returns:
+        status: Solver status ('Optimal', 'Feasible', etc.)
+        c_up_sol: Upper exercise counts (or None if infeasible)
+        c_low_sol: Lower exercise counts (or None if infeasible)
+        expanded_up_pairs: Upper superset pairs (or None if infeasible)
+        expanded_low_pairs: Lower superset pairs (or None if infeasible)
+        coverage: Muscle coverage vs targets (or None if infeasible)
+        total_shortfall: Total shortfall sum (or None if infeasible)
+    """
+    prob: pulp.LpProblem = pulp.LpProblem("muscle_coverage_solver", pulp.LpMinimize)
 
-p_up: LpVariableDict = {}
-p_low: LpVariableDict = {}
-for i in range(E):
-    for j in range(i, E):
-        # Check muscle overlap (existing)
-        muscle_overlap_ok = W[i][j] <= THRESHOLD + 1e-9
+    c_up: LpVariableDict = {e: pulp.LpVariable(f"c_up_{e}", lowBound=0, upBound=min(REQ_UP, MAX_USAGE), cat='Integer') for e in range(E)}
+    c_low: LpVariableDict = {e: pulp.LpVariable(f"c_low_{e}", lowBound=0, upBound=min(REQ_LOW, MAX_USAGE), cat='Integer') for e in range(E)}
 
-        # Check machine conflicts (new)
-        ex1_name = EXERCISE_NAMES[i]
-        ex2_name = EXERCISE_NAMES[j]
-        machine_conflict = has_machine_conflict(ex1_name, ex2_name)
+    p_up: LpVariableDict = {}
+    p_low: LpVariableDict = {}
+    for i in range(E):
+        for j in range(i, E):
+            # Check muscle overlap (existing)
+            muscle_overlap_ok = W[i][j] <= THRESHOLD + 1e-9
 
-        # Only allow pairing if both conditions are met
-        if muscle_overlap_ok and not machine_conflict and allowed_in_category(i, DayCategory.UPPER) and allowed_in_category(j, DayCategory.UPPER):
-            p_up[(i,j)] = pulp.LpVariable(f"p_up_{i}_{j}", lowBound=0, upBound=min(PAIRS_PER_CATEGORY_UP, MAX_USAGE), cat='Integer')
-        if muscle_overlap_ok and not machine_conflict and allowed_in_category(i, DayCategory.LOWER) and allowed_in_category(j, DayCategory.LOWER):
-            p_low[(i,j)] = pulp.LpVariable(f"p_low_{i}_{j}", lowBound=0, upBound=min(PAIRS_PER_CATEGORY_LOW, MAX_USAGE), cat='Integer')
+            # Check machine conflicts (new)
+            ex1_name = EXERCISE_NAMES[i]
+            ex2_name = EXERCISE_NAMES[j]
+            machine_conflict = has_machine_conflict(ex1_name, ex2_name)
 
-s: LpVariableDict = {m_idx: pulp.LpVariable(f"s_{m_idx}", lowBound=0, cat='Continuous') for m_idx in range(M)}
+            # Only allow pairing if both conditions are met
+            if muscle_overlap_ok and not machine_conflict and allowed_in_category(i, DayCategory.UPPER) and allowed_in_category(j, DayCategory.UPPER):
+                p_up[(i,j)] = pulp.LpVariable(f"p_up_{i}_{j}", lowBound=0, upBound=min(PAIRS_PER_CATEGORY_UP, MAX_USAGE), cat='Integer')
+            if muscle_overlap_ok and not machine_conflict and allowed_in_category(i, DayCategory.LOWER) and allowed_in_category(j, DayCategory.LOWER):
+                p_low[(i,j)] = pulp.LpVariable(f"p_low_{i}_{j}", lowBound=0, upBound=min(PAIRS_PER_CATEGORY_LOW, MAX_USAGE), cat='Integer')
 
-# counts constraints
-prob += pulp.lpSum(c_up[e] for e in range(E)) == REQ_UP, "total_upper_instances"
-prob += pulp.lpSum(c_low[e] for e in range(E)) == REQ_LOW, "total_lower_instances"
+    s: LpVariableDict = {m_idx: pulp.LpVariable(f"s_{m_idx}", lowBound=0, cat='Continuous') for m_idx in range(M)}
 
-# linking counts to pairs
-for e in range(E):
-    terms = []
-    if (e,e) in p_up: terms.append(2 * p_up[(e,e)])
-    for f in range(0,e):
-        if (f,e) in p_up: terms.append(p_up[(f,e)])
-    for f in range(e+1,E):
-        if (e,f) in p_up: terms.append(p_up[(e,f)])
-    prob += c_up[e] == pulp.lpSum(terms), f"link_up_{e}"
+    # counts constraints
+    prob += pulp.lpSum(c_up[e] for e in range(E)) == REQ_UP, "total_upper_instances"
+    prob += pulp.lpSum(c_low[e] for e in range(E)) == REQ_LOW, "total_lower_instances"
 
-for e in range(E):
-    terms = []
-    if (e,e) in p_low: terms.append(2 * p_low[(e,e)])
-    for f in range(0,e):
-        if (f,e) in p_low: terms.append(p_low[(f,e)])
-    for f in range(e+1,E):
-        if (e,f) in p_low: terms.append(p_low[(e,f)])
-    prob += c_low[e] == pulp.lpSum(terms), f"link_low_{e}"
+    # linking counts to pairs
+    for e in range(E):
+        terms = []
+        if (e,e) in p_up: terms.append(2 * p_up[(e,e)])
+        for f in range(0,e):
+            if (f,e) in p_up: terms.append(p_up[(f,e)])
+        for f in range(e+1,E):
+            if (e,f) in p_up: terms.append(p_up[(e,f)])
+        prob += c_up[e] == pulp.lpSum(terms), f"link_up_{e}"
 
-prob += pulp.lpSum(p_up.values()) == PAIRS_PER_CATEGORY_UP, "total_pairs_up"
-prob += pulp.lpSum(p_low.values()) == PAIRS_PER_CATEGORY_LOW, "total_pairs_low"
+    for e in range(E):
+        terms = []
+        if (e,e) in p_low: terms.append(2 * p_low[(e,e)])
+        for f in range(0,e):
+            if (f,e) in p_low: terms.append(p_low[(f,e)])
+        for f in range(e+1,E):
+            if (e,f) in p_low: terms.append(p_low[(e,f)])
+        prob += c_low[e] == pulp.lpSum(terms), f"link_low_{e}"
 
-# coverage & shortfall: use SETS_PER_INSTANCE variable
-for m_idx, m in enumerate(Muscle):
-    coverage_expr = SETS_PER_INSTANCE * pulp.lpSum( (c_up[e] + c_low[e]) * VEC[e][m_idx] for e in range(E) )
-    prob += s[m_idx] >= MUSCLE_TARGETS[m] - coverage_expr, f"shortfall_{m_idx}"
+    prob += pulp.lpSum(p_up.values()) == PAIRS_PER_CATEGORY_UP, "total_pairs_up"
+    prob += pulp.lpSum(p_low.values()) == PAIRS_PER_CATEGORY_LOW, "total_pairs_low"
 
-prob += pulp.lpSum(s[m_idx] for m_idx in range(M)), "min_total_shortfall"
+    # coverage & shortfall: use SETS_PER_INSTANCE variable
+    for m_idx, m in enumerate(Muscle):
+        coverage_expr = SETS_PER_INSTANCE * pulp.lpSum( (c_up[e] + c_low[e]) * VEC[e][m_idx] for e in range(E) )
+        prob += s[m_idx] >= MUSCLE_TARGETS[m] - coverage_expr, f"shortfall_{m_idx}"
 
-# Solve
-solver = pulp.PULP_CBC_CMD(msg=False)
-prob.solve(solver)
+    prob += pulp.lpSum(s[m_idx] for m_idx in range(M)), "min_total_shortfall"
 
-# Print results once
-status: str = pulp.LpStatus[prob.status]
+    # Solve
+    solver = pulp.PULP_CBC_CMD(msg=False)
+    prob.solve(solver)
+
+    status: str = pulp.LpStatus[prob.status]
+
+    if status not in ("Optimal", "Feasible"):
+        return status, None, None, None, None, None, None
+    else:
+        c_up_sol: ExerciseCounts = {EXERCISE_NAMES[e]: int(safe_value(c_up[e])) for e in range(E) if safe_value(c_up[e]) > 0}
+        c_low_sol: ExerciseCounts = {EXERCISE_NAMES[e]: int(safe_value(c_low[e])) for e in range(E) if safe_value(c_low[e]) > 0}
+
+        expanded_up_pairs: ExercisePairs = []
+        for (i,j), var in p_up.items():
+            q = int(safe_value(var))
+            expanded_up_pairs.extend( [(EXERCISE_NAMES[i], EXERCISE_NAMES[j])] * q )
+
+        expanded_low_pairs: ExercisePairs = []
+        for (i,j), var in p_low.items():
+            q = int(safe_value(var))
+            expanded_low_pairs.extend( [(EXERCISE_NAMES[i], EXERCISE_NAMES[j])] * q )
+
+        coverage: CoverageDict = {}
+        for m_idx, m in enumerate(Muscle):
+            cov = SETS_PER_INSTANCE * sum( (int(safe_value(c_up[e])) + int(safe_value(c_low[e]))) * VEC[e][m_idx] for e in range(E) )
+            coverage[m] = cov
+
+        total_shortfall: float = sum(max(0.0, MUSCLE_TARGETS[m] - coverage[m]) for m in Muscle)
+
+        return status, c_up_sol, c_low_sol, expanded_up_pairs, expanded_low_pairs, coverage, total_shortfall
+
+
+# -----------------------
+# Run solver and assign pairs to days
+# -----------------------
+result = solve_muscle_coverage()
+
+status = result[0]
 print("Solver status:", status)
 
 if status not in ("Optimal", "Feasible"):
     print("No feasible solution found.")
 else:
-    c_up_sol: ExerciseCounts = {EXERCISE_NAMES[e]: int(safe_value(c_up[e])) for e in range(E) if safe_value(c_up[e]) > 0}
-    c_low_sol: ExerciseCounts = {EXERCISE_NAMES[e]: int(safe_value(c_low[e])) for e in range(E) if safe_value(c_low[e]) > 0}
-
-    expanded_up_pairs: ExercisePairs = []
-    for (i,j), var in p_up.items():
-        q = int(safe_value(var))
-        expanded_up_pairs.extend( [(EXERCISE_NAMES[i], EXERCISE_NAMES[j])] * q )
-
-    expanded_low_pairs: ExercisePairs = []
-    for (i,j), var in p_low.items():
-        q = int(safe_value(var))
-        expanded_low_pairs.extend( [(EXERCISE_NAMES[i], EXERCISE_NAMES[j])] * q )
-
-    coverage: CoverageDict = {}
-    for m_idx, m in enumerate(Muscle):
-        cov = SETS_PER_INSTANCE * sum( (int(safe_value(c_up[e])) + int(safe_value(c_low[e]))) * VEC[e][m_idx] for e in range(E) )
-        coverage[m] = cov
+    # Unpack the successful results (known to be non-None here)
+    status, c_up_sol, c_low_sol, expanded_up_pairs, expanded_low_pairs, coverage, total_shortfall = result
+    # Type casts to satisfy type checker
+    c_up_sol = cast(ExerciseCounts, c_up_sol)
+    c_low_sol = cast(ExerciseCounts, c_low_sol)
+    expanded_up_pairs = cast(ExercisePairs, expanded_up_pairs)
+    expanded_low_pairs = cast(ExercisePairs, expanded_low_pairs)
+    coverage = cast(CoverageDict, coverage)
+    total_shortfall = cast(float, total_shortfall)  # Though it's float already
 
     print("\n=== COUNTS ===")
     print("Upper counts (12 total):")
@@ -420,16 +460,15 @@ else:
     for m in Muscle:
         print(f"  {m.name:20s} target {MUSCLE_TARGETS[m]:4.1f}   covered {coverage[m]:6.2f}   diff {coverage[m]-MUSCLE_TARGETS[m]:6.2f}")
 
-    total_shortfall: float = sum(max(0.0, MUSCLE_TARGETS[m] - coverage[m]) for m in Muscle)
     print(f"\nTotal shortfall sum = {total_shortfall:.3f}")
 
     print(f"\nNote: SETS_PER_INSTANCE = {SETS_PER_INSTANCE}, THRESHOLD = {THRESHOLD}")
 
-    # ---------------------------                                                                                          
-    # Assignment ILP: Assign pairs to days                                                                            
-    # ---------------------------                                                                                      
-    upper_assignments: DayAssignments = assign_pairs_to_days(expanded_up_pairs, "Upper", D)                                
-    lower_assignments: DayAssignments = assign_pairs_to_days(expanded_low_pairs, "Lower", D)
+    # ---------------------------
+    # Assignment ILP: Assign pairs to days
+    # ---------------------------
+    upper_assignments = assign_pairs_to_days(expanded_up_pairs, "Upper", D)
+    lower_assignments = assign_pairs_to_days(expanded_low_pairs, "Lower", D)
 
     print("\n=== ASSIGNMENT ===\n")
     day_names: List[str] = [str(i + 1) for i in range(D)]
