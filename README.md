@@ -1,6 +1,6 @@
 # Exercise Pair Optimizer
 
-A solver that builds a time-efficient 6-day resistance-training plan (Upper A/B/C, Lower A/B/C) by selecting 12 upper and 12 lower exercise instances per week, grouping them into 6 supersets per category, and automatically assigning these supersets to days while minimizing exercise repeats within the same day.
+A solver that builds a time-efficient 7-day resistance-training plan (Upper Gym 1/2/3, Lower Gym 1/2/3, Upper Home, Lower Home) by selecting 12 gym and 6 home exercise instances per upper/lower category (total 36 instances), grouping them into supersets (6 pairs for gym categories, 3 pairs for home categories), and automatically assigning these supersets to days while minimizing exercise repeats within the same day.
 
 The solver models exercises and muscles, enforces a maximum overlap between superset partners, chooses exercises to meet weekly muscle activation targets (minimizing shortfall), and finally assigns pairs to days with minimal conflicts via integer linear programming (ILP), using slack variables to penalize unavoidable exercise repeats within days.
 
@@ -10,10 +10,10 @@ The solver models exercises and muscles, enforces a maximum overlap between supe
 
 * Exercises are represented with continuous activation values (0.1–0.95) for each muscle group.
 * Each chosen exercise instance contributes `SETS_PER_INSTANCE * activation` sets to a muscle's weekly volume (default SETS_PER_INSTANCE, configurable).
-* Exercises are classified as `upper`, `lower`, or `both`. "Both" exercises can be assigned to either category.
+* Exercises are classified by category: `UPPER_GYM`, `LOWER_GYM`, `UPPER_HOME`, `LOWER_HOME` based on equipment type. Exercises using machines (chest press, leg press, cable only indirectly) are gym-only, while cable and bodyweight exercises are eligible for both gym and home categories.
 * **Machine constraints**: Exercises specify which machines they use (chest press, leg press, cable, etc.). Pairs are only allowed if they don't share machines, reducing equipment adjustment time during workouts.
-* Pairing constraint: each category (upper / lower) must form 6 unordered pairs (supersets). A pair is allowed only if the *overlap* (dot product of activation vectors) ≤ `THRESHOLD` AND they don't share machines.
-* Day assignment: After pairing, assign pairs to days (3 per category) with 2 pairs/day, minimizing exercise repeats within a day. Conflicts are handled via ILP relaxation if needed.
+* Pairing constraint: each category forms pairs (supersets) where gym categories get 6 pairs (for 3 days × 2 pairs/day), home categories get 3 pairs (for 1 day × 3 pairs/day). A pair is allowed only if the *overlap* (dot product of activation vectors) ≤ `THRESHOLD` AND they don't share machines.
+* Day assignment: After pairing, assign pairs to days (3 gym days + 1 home day per upper/lower, totaling 7 days) with 2 pairs/day for gym and 3 pairs/day for home, minimizing exercise repeats within a day. Conflicts are handled via ILP relaxation if needed.
 * Objective: minimize total shortfall `sum(max(0, target - achieved))` across all muscles, plus assignment penalties if conflicts exist.
 
 ---
@@ -77,11 +77,11 @@ python solve.py
 
 ### Output explained
 
-* **Counts**: how many times each exercise is used in the upper and lower schedules (sum = 12 each).
-* **Expanded pairs**: list of 6 unordered superset pairs for upper and 6 for lower.
+* **Counts**: how many times each exercise is used in each category: Upper Gym (12 total), Lower Gym (12 total), Upper Home (6 total), Lower Home (6 total).
+* **Expanded pairs**: list of 6 unordered superset pairs for gym categories, 3 pairs for home categories per upper/lower.
 * **Coverage vs targets**: weekly sets contributed to each muscle vs the target; a positive diff means over target; negative means shortfall.
 * **Total shortfall sum**: the objective value (lower is better). Zero means all targets met.
-* **Assignment**: Day-by-day superset pairs for Upper A/B/C and Lower A/B/C, with 2 supersets per day and minimized exercise repeats within days (with penalties if unavoidable).
+* **Assignment**: Day-by-day superset pairs for Upper Gym 1/2/3, Lower Gym 1/2/3, Upper Home, Lower Home with 2 supersets per gym day and 3 supersets per home day, minimizing exercise repeats within days (with penalties if unavoidable).
 
 ---
 
@@ -91,8 +91,10 @@ Open `solve.py` and edit the top of the file:
 
 * `SETS_PER_INSTANCE` — how many sets each exercise instance represents (see code for default). Example: if you plan 4 sets per exercise and 7 training days per week, set `SETS_PER_INSTANCE = 4.0 * (7/7) = 4.0` (the solver expects a weekly contribution per instance; earlier runs used e.g. values).
 * `THRESHOLD` — maximum allowed overlap for a pair to be allowed (see code for default). Increase to e.g. 0.6–0.7 to allow more pairings.
-* `REQ_UP` / `REQ_LOW` — number of upper and lower instances required (see code for defaults). Keep them equal to preserve your 6-day split.
-* `MAX_USAGE` — maximum times any single exercise can be used (see code for default).
+* `DAY_REQUIREMENTS` — dictionary specifying required instances per category: Upper Gym/Lower Gym (12 each), Upper Home/Lower Home (6 each). Adjust to change total volume.
+* `DAYS_PER_CATEGORY` — dictionary specifying training days per category: 3 for gym categories, 1 for home categories (total 7 days).
+* `PAIRS_PER_DAY` — dictionary specifying pairs (supersets) per day: 2 for gym, 3 for home.
+* `get_max_usage_for_category(category)` — function returning max usage of an exercise in the given category (defaults to DAYS_PER_CATEGORY value).
 * `MUSCLE_TARGETS` — dictionary mapping muscle → weekly target sets. Edit these to reflect your own programming targets.
 
 ---
@@ -103,14 +105,14 @@ Exercises are declared as a dictionary in the script with this shape:
 
 ```py
 EXERCISES = {
-  "Exercise Name": ("upper"|"lower"|"both", {Muscle.CHEST: 0.9, Muscle.LATS: 0.35, ...}, [Machine.CHEST_PRESS, Machine.CABLE]),
+  "Exercise Name": ([DayCategory.UPPER_GYM, DayCategory.LOWER_GYM, ...], {Muscle.CHEST: 0.9, Muscle.LATS: 0.35, ...}, [Machine.CHEST_PRESS, Machine.CABLE]),
   ...
 }
 ```
 
-* Category: use `"upper"`, `"lower"` or `"both"`.
+* Categories: List of eligible `DayCategory` (UPPER_GYM, LOWER_GYM, UPPER_HOME, LOWER_HOME). Machines restrict eligibility: exercise using machines (chest press, leg press) are gym-only; cable and bodyweight exercises are gym and home eligible.
 * Activation values: continuous floats in `[0,1]`. Only activations ≥ `0.1` are included to keep the model tidy.
-* **Machine specification**: List the machines this exercise uses in brackets. Use an empty list `[]` for bodyweight/free-weight exercises. Available machines: `Machine.CHEST_PRESS`, `Machine.LEG_PRESS`, `Machine.LEG_CURL`, `Machine.LAT_PULLDOWN`, `Machine.SEATED_ROW`, `Machine.CABLE`.
+* **Machine specification**: List the machines this exercise uses in brackets. Use an empty list `[]` for bodyweight/free-weight exercises. Machines include: `Machine.CHEST_PRESS`, `Machine.LEG_PRESS`, `Machine.LEG_CURL`, `Machine.LAT_PULLDOWN`, `Machine.SEATED_ROW`, `Machine.CABLE`.
 * If two exercise names are redundant (identical activations), prefer merging them into one canonical entry.
 
 Adding or removing an exercise is straightforward — the ILP will adapt.
@@ -135,7 +137,7 @@ Adding or removing an exercise is straightforward — the ILP will adapt.
 
 ### Solver performance
 * If the CBC solver is slow or times out on your machine, try limiting solve time with `pulp.PULP_CBC_CMD(timeLimit=30)` or switch to another solver.
-* If the model is infeasible, either relax `REQ_UP`/`REQ_LOW` (make them `>=` instead of `==`) or relax `THRESHOLD`, or add more exercises.
+* If the model is infeasible, either relax `DAY_REQUIREMENTS` values (make them `>=` instead of `==` in a custom version) or relax `THRESHOLD`, or add more exercises.
 
 ### Machine constraints
 * **Machine conflicts**: The solver now prevents pairing exercises that use the same equipment. This may make some pairings impossible if you have limited exercise variety.
