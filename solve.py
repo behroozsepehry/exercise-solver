@@ -62,7 +62,7 @@ CoverageDict = Dict[Muscle, float]
 # -----------------------
 # Tunables
 # -----------------------
-SETS_PER_INSTANCE: float = 4.6
+SETS_PER_INSTANCE: float = 3.0*7/8
 THRESHOLD: float = 0.2
 DAY_REQUIREMENTS = {DayCategory.UPPER_GYM: 12, DayCategory.LOWER_GYM: 12, DayCategory.UPPER_HOME: 6, DayCategory.LOWER_HOME: 6}
 PAIRS_PER_CATEGORY = {cat: DAY_REQUIREMENTS[cat] // 2 for cat in DAY_REQUIREMENTS}
@@ -103,7 +103,7 @@ EXERCISES: ExerciseDict = {
     "Chest Press": ([DayCategory.UPPER_GYM], {
         Muscle.CHEST: 0.95, Muscle.ANT_DELTOID: 0.30, Muscle.TRICEPS: 0.40, Muscle.FOREARMS: 0.20
     }, [Machine.CHEST_PRESS]),
-    "Push-ups": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
+    "Push-ups": ([DayCategory.UPPER_HOME], {
         Muscle.CHEST: 0.88, Muscle.ANT_DELTOID: 0.25, Muscle.TRICEPS: 0.35, Muscle.CORE: 0.25
     }, []),
     "Chest Fly (cable/band)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
@@ -112,7 +112,7 @@ EXERCISES: ExerciseDict = {
     "Row": ([DayCategory.UPPER_GYM], {
         Muscle.UPPER_BACK: 0.92, Muscle.LATS: 0.55, Muscle.BICEPS: 0.36, Muscle.POST_DELTOID: 0.28
     }, [Machine.SEATED_ROW]),
-    "Face Pull (cable/band)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
+    "Face Pull (cable/band)": ([DayCategory.UPPER_GYM], {
         Muscle.POST_DELTOID: 0.85, Muscle.UPPER_BACK: 0.40, Muscle.LATS: 0.15
     }, [Machine.CABLE]),
     "Lat Pulldown (machine)": ([DayCategory.UPPER_GYM], {
@@ -139,9 +139,6 @@ EXERCISES: ExerciseDict = {
     "Overhead Triceps Extensions (cable/band)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
         Muscle.TRICEPS: 0.90
     }, [Machine.CABLE]),
-    "Close-Grip Press": ([DayCategory.UPPER_GYM], {
-        Muscle.TRICEPS: 0.62, Muscle.CHEST: 0.30, Muscle.ANT_DELTOID: 0.20
-    }, [Machine.CHEST_PRESS]),
     "Band Shrug / Cable Shrug": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
         Muscle.NECK: 0.90, Muscle.UPPER_BACK: 0.40
     }, []),
@@ -158,7 +155,7 @@ EXERCISES: ExerciseDict = {
     }, [Machine.CABLE]),
 
     # Lower exercises (machine: only gym, cable/bodyweight: both gym and home)
-    "Leg Press / Front Squat (quad-dominant)": ([DayCategory.LOWER_GYM], {
+    "Leg Press": ([DayCategory.LOWER_GYM], {
         Muscle.QUADS: 0.95, Muscle.GLUTES: 0.45, Muscle.CORE: 0.28, Muscle.HAMSTRINGS: 0.15
     }, [Machine.LEG_PRESS]),
     "Leg Press (sumo/wide)": ([DayCategory.LOWER_GYM], {
@@ -191,10 +188,21 @@ EXERCISES: ExerciseDict = {
     "Band Supine Hip Abduction": ([DayCategory.LOWER_GYM, DayCategory.LOWER_HOME], {
         Muscle.ABDUCTORS: 0.92, Muscle.GLUTES: 0.35, Muscle.CORE: 0.25
     }, []),
+
+    "Banded front squat": ([DayCategory.LOWER_HOME], {
+        Muscle.QUADS: 0.70, Muscle.GLUTES: 0.45, Muscle.HAMSTRINGS: 0.20, Muscle.CORE: 0.20, Muscle.ERECTORS: 0.20
+    }, []),
+
+    "Banded front squat (sumo/wide)": ([DayCategory.LOWER_HOME], {
+        Muscle.ADDUCTORS: 0.50, Muscle.GLUTES: 0.50, Muscle.QUADS: 0.35, Muscle.HAMSTRINGS: 0.20, Muscle.ERECTORS: 0.20
+    }, []),
 }
 
 # Removed exercises (for reference, previously removed from main EXERCISES dict)
 REMOVED_EXERCISES: ExerciseDict = {
+    "Close-Grip Press": ([DayCategory.UPPER_GYM], {
+        Muscle.TRICEPS: 0.62, Muscle.CHEST: 0.30, Muscle.ANT_DELTOID: 0.20
+    }, [Machine.CHEST_PRESS]),
     "Dead Bug (band)": ([DayCategory.UPPER_GYM, DayCategory.LOWER_GYM, DayCategory.UPPER_HOME, DayCategory.LOWER_HOME], {
         Muscle.CORE: 0.90,
         Muscle.OBLIQUES: 0.85,
