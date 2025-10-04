@@ -133,8 +133,11 @@ EXERCISES: ExerciseDict = {
     "Hammer Curl (cable/band)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
         Muscle.BICEPS: 0.45, Muscle.FOREARMS: 0.92
     }, [Machine.CABLE]),
-    "Triceps (pushdown / overhead merged)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
-        Muscle.TRICEPS: 0.92
+    "Tricep Kickback (cable/band)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
+        Muscle.TRICEPS: 0.90
+    }, [Machine.CABLE]),
+    "Overhead Triceps Extensions (cable/band)": ([DayCategory.UPPER_GYM, DayCategory.UPPER_HOME], {
+        Muscle.TRICEPS: 0.90
     }, [Machine.CABLE]),
     "Close-Grip Press": ([DayCategory.UPPER_GYM], {
         Muscle.TRICEPS: 0.62, Muscle.CHEST: 0.30, Muscle.ANT_DELTOID: 0.20
