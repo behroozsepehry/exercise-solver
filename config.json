@@ -61,15 +61,23 @@
       },
       []
     ],
-    "Chest Fly (cable/band)": [
-      ["UPPER_GYM", "UPPER_HOME"],
+    "Chest Fly (cable)": [
+      ["UPPER_GYM"],
       {
         "CHEST": 0.85,
         "ANT_DELTOID": 0.20
       },
       ["CABLE"]
     ],
-    "Row": [
+    "Chest Fly (band)": [
+      ["UPPER_HOME"],
+      {
+        "CHEST": 0.72,
+        "ANT_DELTOID": 0.17
+      },
+      []
+    ],
+    "Row (machine)": [
       ["UPPER_GYM"],
       {
         "UPPER_BACK": 0.92,
@@ -97,8 +105,8 @@
       },
       ["LAT_PULLDOWN"]
     ],
-    "Overhead Press (cable/band)": [
-      ["UPPER_GYM", "UPPER_HOME"],
+    "Overhead Press (cable)": [
+      ["UPPER_GYM"],
       {
         "ANT_DELTOID": 0.82,
         "LAT_DELTOID": 0.36,
@@ -106,6 +114,16 @@
         "CORE": 0.22
       },
       ["CABLE"]
+    ],
+    "Overhead Press (band)": [
+      ["UPPER_HOME"],
+      {
+        "ANT_DELTOID": 0.70,
+        "LAT_DELTOID": 0.31,
+        "TRICEPS": 0.32,
+        "CORE": 0.19
+      },
+      []
     ],
     "Pike Push-ups (vertical press)": [
       ["UPPER_HOME"],
@@ -116,43 +134,81 @@
       },
       []
     ],
-    "Lateral Raise (cable/band)": [
-      ["UPPER_GYM", "UPPER_HOME"],
+    "Lateral Raise (cable)": [
+      ["UPPER_GYM"],
       {
         "LAT_DELTOID": 0.92,
         "ANT_DELTOID": 0.15
       },
       ["CABLE"]
     ],
-    "Biceps Curl (cable/band)": [
-      ["UPPER_GYM", "UPPER_HOME"],
+    "Lateral Raise (band)": [
+      ["UPPER_HOME"],
+      {
+        "LAT_DELTOID": 0.78,
+        "ANT_DELTOID": 0.13
+      },
+      []
+    ],
+    "Biceps Curl (cable)": [
+      ["UPPER_GYM"],
       {
         "BICEPS": 0.92,
         "FOREARMS": 0.30
       },
       ["CABLE"]
     ],
-    "Hammer Curl (cable/band)": [
-      ["UPPER_GYM", "UPPER_HOME"],
+    "Biceps Curl (band)": [
+      ["UPPER_HOME"],
+      {
+        "BICEPS": 0.78,
+        "FOREARMS": 0.26
+      },
+      []
+    ],
+    "Hammer Curl (cable)": [
+      ["UPPER_GYM"],
       {
         "BICEPS": 0.45,
         "FOREARMS": 0.92
       },
       ["CABLE"]
     ],
-    "Tricep Kickback (cable/band)": [
-      ["UPPER_GYM", "UPPER_HOME"],
+    "Hammer Curl (band)": [
+      ["UPPER_HOME"],
+      {
+        "BICEPS": 0.38,
+        "FOREARMS": 0.78
+      },
+      []
+    ],
+    "Tricep Kickback (cable)": [
+      ["UPPER_GYM"],
       {
         "TRICEPS": 0.88
       },
       ["CABLE"]
     ],
-    "Overhead Triceps Extensions (cable/band)": [
-      ["UPPER_GYM", "UPPER_HOME"],
+    "Tricep Kickback (band)": [
+      ["UPPER_HOME"],
+      {
+        "TRICEPS": 0.75
+      },
+      []
+    ],
+    "Overhead Triceps Extensions (cable)": [
+      ["UPPER_GYM"],
       {
         "TRICEPS": 0.92
       },
       ["CABLE"]
+    ],
+    "Overhead Triceps Extensions (band)": [
+      ["UPPER_HOME"],
+      {
+        "TRICEPS": 0.78
+      },
+      []
     ],
     "Shrug (cable/band)": [
       ["UPPER_GYM", "UPPER_HOME"],
