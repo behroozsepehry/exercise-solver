@@ -85,11 +85,16 @@ DAYS_PER_CATEGORY = {
     DayCategory[cat]: val
     for cat, val in config["days_per_category"].items()
 }
-PAIRS_PER_DAY = {
-    DayCategory[cat]: val
-    for cat, val in config["pairs_per_day"].items()
-}
 PAIRS_PER_CATEGORY = {cat: DAY_REQUIREMENTS[cat] // 2 for cat in DAY_REQUIREMENTS}
+PAIRS_PER_DAY = {cat: PAIRS_PER_CATEGORY[cat] // DAYS_PER_CATEGORY[cat] for cat in DAY_REQUIREMENTS}
+
+# Validate divisibility to prevent runtime errors
+for cat in DAY_REQUIREMENTS:
+    if DAY_REQUIREMENTS[cat] % (2 * DAYS_PER_CATEGORY[cat]) != 0:
+        raise ValueError(
+            f"day_requirements[{cat.name}] ({DAY_REQUIREMENTS[cat]}) not evenly divisible by 2 * days_per_category ({DAYS_PER_CATEGORY[cat]}). "
+            "Ensure total instances per category can be split into pairs and distributed evenly across days."
+        )
 
 
 def get_max_usage_for_category(cat: DayCategory) -> int:
