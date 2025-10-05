@@ -21,9 +21,10 @@ The solver models exercises and muscles, enforces a maximum overlap between supe
 ## What's included
 
 * `solve.py`: combined ILP solver with **integrated day assignment** using PuLP and CBC.
+* `config.json`: JSON configuration file containing all tunable parameters, muscle targets, and exercise definitions.
 * `assign_pairs_to_days()` function: Additional ILP to assign pairs to days, handling conflicts with slacks for feasibility.
 * **Machine constraint system**: Prevents pairing exercises that use the same equipment (chest press, leg press, cable machines, etc.) to reduce workout adjustment time.
-* Exercise pool and muscle definitions embedded in the script. The exercise pool is compact and uses compound, time-efficient movements (machines, bands, and bodyweight).
+* Exercise pool and muscle definitions loaded from `config.json`. The exercise pool is compact and uses compound, time-efficient movements (machines, bands, and bodyweight).
 
 ---
 
@@ -51,7 +52,7 @@ python -m venv .venv
 
 ## Quick start
 
-1. Edit `solve.py` if you want to change targets or the exercise pool (see sections below).
+1. Edit `config.json` if you want to change targets or the exercise pool (see sections below).
 2. Run the solver:
 ```bash
 .\.venv\Scripts\python.exe solve.py
@@ -81,38 +82,54 @@ python solve.py
 * **Expanded pairs**: list of 6 unordered superset pairs for gym categories, 3 pairs for home categories per upper/lower.
 * **Coverage vs targets**: weekly sets contributed to each muscle vs the target; a positive diff means over target; negative means shortfall.
 * **Total shortfall sum**: the objective value (lower is better). Zero means all targets met.
-* **Assignment**: Day-by-day superset pairs for Upper Gym 1/2/3, Lower Gym 1/2/3, Upper Home, Lower Home with 2 supersets per gym day and 3 supersets per home day, minimizing exercise repeats within days (with penalties if unavoidable).
+* **Assignment**: Markdown table for each category showing supersets per day, e.g.:
+
+  ```
+
+  ## Workout Plan
+
+  ### Upper Gym Days:
+
+  | Workout Type | Superset 1 | Superset 2 |
+
+  | Upper Gym 1 | Ex1<br>Ex2 | Ex3<br>Ex4 |
+
+  ```
+
+  With 2 supersets per gym day, 3 for home day, minimizing exercise repeats (with penalties if unavoidable).
 
 ---
 
 ## Important configuration variables
 
-Open `solve.py` and edit the top of the file:
+Open `config.json` and edit the following keys:
 
-* `SETS_PER_INSTANCE` — how many sets each exercise instance represents (see code for default). Example: if you plan 4 sets per exercise and 7 training days per week, set `SETS_PER_INSTANCE = 4.0 * (7/7) = 4.0` (the solver expects a weekly contribution per instance; earlier runs used e.g. values).
-* `THRESHOLD` — maximum allowed overlap for a pair to be allowed (see code for default). Increase to e.g. 0.6–0.7 to allow more pairings.
-* `DAY_REQUIREMENTS` — dictionary specifying required instances per category: Upper Gym/Lower Gym (12 each), Upper Home/Lower Home (6 each). Adjust to change total volume.
-* `DAYS_PER_CATEGORY` — dictionary specifying training days per category: 3 for gym categories, 1 for home categories (total 7 days).
-* `PAIRS_PER_DAY` — dictionary specifying pairs (supersets) per day: 2 for gym, 3 for home.
-* `get_max_usage_for_category(category)` — function returning max usage of an exercise in the given category (defaults to DAYS_PER_CATEGORY value).
-* `MUSCLE_TARGETS` — dictionary mapping muscle → weekly target sets. Edit these to reflect your own programming targets.
+* `"sets_per_instance"`: Object specifying sets per instance per category (e.g., `"UPPER_GYM": 2.5`), controls weekly contribution per exercise. Example: if you plan 4 sets per exercise and 7 training days per week, adjust values accordingly.
+* `"threshold"`: Maximum muscle activation overlap for superset pairs (default 0.2). Increase to e.g. 0.6–0.7 to allow more pairings.
+* `"day_requirements"`: Object specifying required instances per category: 12 for gym, 6 for home. Adjust to change total volume.
+* `"days_per_category"`: Object specifying training days per category: 3 for gym, 1 for home (total 7 days).
+* `"muscle_targets"`: Object mapping muscle names → weekly target sets. Edit to reflect your programming targets (see code for current values).
 
 ---
 
 ## How to modify the exercise pool
 
-Exercises are declared as a dictionary in the script with this shape:
+Exercises are defined in `config.json`'s `"exercises"` object with this structure:
 
-```py
-EXERCISES = {
-  "Exercise Name": ([DayCategory.UPPER_GYM, DayCategory.LOWER_GYM, ...], {Muscle.CHEST: 0.9, Muscle.LATS: 0.35, ...}, [Machine.CHEST_PRESS, Machine.CABLE]),
+```json
+"exercises": {
+  "Exercise Name": [
+    ["UPPER_GYM", "UPPER_HOME"],  // eligible categories
+    {"CHEST": 0.9, "TRICEPS": 0.3},  // activations
+    ["CHEST_PRESS"]  // machines used
+  ],
   ...
 }
 ```
 
-* Categories: List of eligible `DayCategory` (UPPER_GYM, LOWER_GYM, UPPER_HOME, LOWER_HOME). Machines restrict eligibility: exercise using machines (chest press, leg press) are gym-only; cable and bodyweight exercises are gym and home eligible.
-* Activation values: continuous floats in `[0,1]`. Only activations ≥ `0.1` are included to keep the model tidy.
-* **Machine specification**: List the machines this exercise uses in brackets. Use an empty list `[]` for bodyweight/free-weight exercises. Machines include: `Machine.CHEST_PRESS`, `Machine.LEG_PRESS`, `Machine.LEG_CURL`, `Machine.LAT_PULLDOWN`, `Machine.SEATED_ROW`, `Machine.CABLE`.
+* Categories: Array of eligible category strings. Machines restrict eligibility: exercise using machines (chest press, leg press) are gym-only; cable and bodyweight exercises are gym and home eligible.
+* Activation values: Object with floats in `[0,1]`. Only activations ≥ `0.1` are included to keep the model tidy.
+* **Machine specification**: Array of machine strings. Use empty array `[]` for bodyweight/free-weight exercises. Machines include: `"CHEST_PRESS"`, `"LEG_PRESS"`, `"LEG_CURL"`, `"LAT_PULLDOWN"`, `"SEATED_ROW"`, `"CABLE"`.
 * If two exercise names are redundant (identical activations), prefer merging them into one canonical entry.
 
 Adding or removing an exercise is straightforward — the ILP will adapt.
@@ -148,4 +165,5 @@ Adding or removing an exercise is straightforward — the ILP will adapt.
 
 ### Exercise data
 * Activations are estimates. If you disagree with a given exercise's activation, tweak the numbers — the solver will reflect your judgment.
+* Some exercises are defined in `REMOVED_EXERCISES` dict in the code for reference but not used in the solver.
 * For assignment issues, check if THRESHOLD is too restrictive or exercises have high overlap; the solver penalizes conflicts but may not find perfect schedules in all cases.
