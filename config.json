@@ -46,8 +46,7 @@
       {
         "CHEST": 0.95,
         "ANT_DELTOID": 0.30,
-        "TRICEPS": 0.30,
-        "FOREARMS": 0.20
+        "TRICEPS": 0.30
       },
       ["CHEST_PRESS"]
     ],
@@ -382,8 +381,7 @@
         "LATS": 0.50,
         "UPPER_BACK": 0.65,
         "BICEPS": 0.22,
-        "POST_DELTOID": 0.12,
-        "FOREARMS": 0.10
+        "POST_DELTOID": 0.12
       },
       []
     ],

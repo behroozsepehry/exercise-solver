@@ -4,8 +4,8 @@
 | Workout Type | Superset 1 | Superset 2 |
 |---|---|---|
 | UPPER GYM 1 | Chest Press<br>Face Pull (cable) | Lat Pulldown (machine)<br>Overhead Press (cable) |
-| UPPER GYM 2 | Chest Press<br>Face Pull (cable) | Lat Pulldown (machine)<br>Hammer Curl (cable) |
-| UPPER GYM 3 | Row (machine)<br>Overhead Triceps Extensions (cable) | Lat Pulldown (machine)<br>Lateral Raise (cable) |
+| UPPER GYM 2 | Chest Press<br>Face Pull (cable) | Lat Pulldown (machine)<br>Lateral Raise (cable) |
+| UPPER GYM 3 | Row (machine)<br>Hammer Curl (cable) | Lat Pulldown (machine)<br>Overhead Press (cable) |
 
 ### LOWER GYM Days:
 | Workout Type | Superset 1 | Superset 2 |
@@ -17,9 +17,9 @@
 ### UPPER HOME Days:
 | Workout Type | Superset 1 | Superset 2 | Superset 3 |
 |---|---|---|---|
-| UPPER HOME 1 | Push-ups<br>Shrug (cable/band) | Chest Fly (band)<br>Overhead Press (band) | Lateral Raise (band)<br>Biceps Curl (band) |
+| UPPER HOME 1 | Push-ups<br>Biceps Curl (band) | Chest Fly (band)<br>Overhead Triceps Extensions (band) | Lateral Raise (band)<br>Shrug (cable/band) |
 
 ### LOWER HOME Days:
 | Workout Type | Superset 1 | Superset 2 | Superset 3 |
 |---|---|---|---|
-| LOWER HOME 1 | Side Plank High Pull (cable/band)<br>Banded Wall Sit + Pull-Apart | Band Supine Hip Abduction<br>Banded front squat (sumo/wide) | Banded front squat<br>Lying Band Leg Curl |
+| LOWER HOME 1 | Side Plank High Pull (cable/band)<br>Banded front squat | Band Supine Hip Abduction<br>Banded front squat (sumo/wide) | Lying Band Leg Curl<br>Banded Wall Sit + Pull-Apart |
