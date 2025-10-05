@@ -530,7 +530,7 @@ else:
     assignments = {}
     for cat in pairs_dict:
         if pairs_dict[cat]:
-            category_name = cat.name.lower().replace("_", " ")
+            category_name = cat.name.lower()
             num_days = DAYS_PER_CATEGORY[cat]
             pairs_per_day = PAIRS_PER_DAY[cat]
             assignments[cat] = assign_pairs_to_days(
