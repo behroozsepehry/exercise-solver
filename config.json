@@ -2,15 +2,15 @@
   "sets_per_instance": {
     "UPPER_GYM": 2.5,
     "LOWER_GYM": 2.5,
-    "UPPER_HOME": 3.0,
-    "LOWER_HOME": 3.0
+    "UPPER_HOME": 4.0,
+    "LOWER_HOME": 4.0
   },
   "threshold": 0.2,
   "day_requirements": {
     "UPPER_GYM": 12,
     "LOWER_GYM": 12,
-    "UPPER_HOME": 8,
-    "LOWER_HOME": 8
+    "UPPER_HOME": 6,
+    "LOWER_HOME": 6
   },
   "days_per_category": {
     "UPPER_GYM": 3,
@@ -336,8 +336,8 @@
     "Wall Sit with Banded Abductions": [
       ["LOWER_HOME"],
       {
-        "QUADS": 0.90,
-        "ABDUCTORS": 0.60,
+        "QUADS": 0.80,
+        "ABDUCTORS": 0.55,
         "GLUTES": 0.25,
         "CORE": 0.12
       },
