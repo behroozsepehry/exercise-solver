@@ -9,7 +9,7 @@ The solver models exercises and muscles, enforces a maximum overlap between supe
 ## Key ideas
 
 * Exercises are represented with continuous activation values (0.1–0.95) for each muscle group.
-* Each chosen exercise instance contributes `SETS_PER_INSTANCE * activation` sets to a muscle's weekly volume (default SETS_PER_INSTANCE, configurable).
+* Each chosen exercise instance contributes sets based on `sets_per_instance[category] * activation` (from `config.json`) to a muscle's weekly volume.
 * Exercises are classified by category: `UPPER_GYM`, `LOWER_GYM`, `UPPER_HOME`, `LOWER_HOME` based on equipment type. Exercises using machines (chest press, leg press, cable only indirectly) are gym-only, while cable and bodyweight exercises are eligible for both gym and home categories.
 * **Machine constraints**: Exercises specify which machines they use (chest press, leg press, cable, etc.). Pairs are only allowed if they don't share machines, reducing equipment adjustment time during workouts.
 * Pairing constraint: each category forms pairs (supersets) where gym categories get 6 pairs (for 3 days × 2 pairs/day), home categories get 3 pairs (for 1 day × 3 pairs/day). A pair is allowed only if the *overlap* (dot product of activation vectors) ≤ `THRESHOLD` AND they don't share machines.
@@ -138,7 +138,7 @@ Adding or removing an exercise is straightforward — the ILP will adapt.
 
 ## Tips to reduce shortfall or change program behavior
 
-* Increase `SETS_PER_INSTANCE` to raise total weekly capacity per chosen exercise.
+* Adjust `sets_per_instance` values (e.g., increase `"UPPER_GYM": 2.5` to 3.0) to raise total weekly capacity per chosen exercise in specific categories.
 * Relax `THRESHOLD` to allow more pairings (more flexibility) — try `0.6` or `0.7`.
 * Add a few compound exercises that emphasize under-covered muscles (e.g., upright rows, shrugs for neck/traps, monster walks or Copenhagen plank for abductors/adductors).
 * If you want variety, add a secondary optimization stage to prefer diverse selections (minimize `sum(c_e^2)` or number of repeats) while keeping the shortfall optimal.
@@ -154,7 +154,7 @@ Adding or removing an exercise is straightforward — the ILP will adapt.
 
 ### Solver performance
 * If the CBC solver is slow or times out on your machine, try limiting solve time with `pulp.PULP_CBC_CMD(timeLimit=30)` or switch to another solver.
-* If the model is infeasible, either relax `DAY_REQUIREMENTS` values (make them `>=` instead of `==` in a custom version) or relax `THRESHOLD`, or add more exercises.
+* If the model is infeasible, either relax `"day_requirements"` values in `config.json` (make them smaller, e.g., reduce gym from 12 to 10) or relax `"threshold"`, or add more exercises.
 
 ### Machine constraints
 * **Machine conflicts**: The solver now prevents pairing exercises that use the same equipment. This may make some pairings impossible if you have limited exercise variety.
@@ -164,6 +164,5 @@ Adding or removing an exercise is straightforward — the ILP will adapt.
   - Relaxing `THRESHOLD` to allow more pairing flexibility
 
 ### Exercise data
-* Activations are estimates. If you disagree with a given exercise's activation, tweak the numbers — the solver will reflect your judgment.
-* Some exercises are defined in `REMOVED_EXERCISES` dict in the code for reference but not used in the solver.
-* For assignment issues, check if THRESHOLD is too restrictive or exercises have high overlap; the solver penalizes conflicts but may not find perfect schedules in all cases.
+* Activations are estimates. If you disagree with a given exercise's activation values, edit them in `config.json`.
+* For assignment issues, check if `"threshold"` is too restrictive (try increasing to 0.4–0.5) or exercises have high overlap; the solver penalizes conflicts but may not find perfect schedules in all cases.
