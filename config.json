@@ -1,0 +1,352 @@
+{
+  "sets_per_instance": {
+    "UPPER_GYM": 2.5,
+    "LOWER_GYM": 2.5,
+    "UPPER_HOME": 3.0,
+    "LOWER_HOME": 3.0
+  },
+  "threshold": 0.2,
+  "day_requirements": {
+    "UPPER_GYM": 12,
+    "LOWER_GYM": 12,
+    "UPPER_HOME": 8,
+    "LOWER_HOME": 8
+  },
+  "days_per_category": {
+    "UPPER_GYM": 3,
+    "LOWER_GYM": 3,
+    "UPPER_HOME": 1,
+    "LOWER_HOME": 1
+  },
+  "pairs_per_day": {
+    "UPPER_GYM": 2,
+    "LOWER_GYM": 2,
+    "UPPER_HOME": 4,
+    "LOWER_HOME": 4
+  },
+  "muscle_targets": {
+    "CHEST": 12.0,
+    "UPPER_BACK": 10.0,
+    "LATS": 12.0,
+    "ANT_DELTOID": 8.0,
+    "LAT_DELTOID": 8.0,
+    "POST_DELTOID": 8.0,
+    "BICEPS": 8.0,
+    "TRICEPS": 8.0,
+    "QUADS": 12.0,
+    "HAMSTRINGS": 10.0,
+    "GLUTES": 12.0,
+    "CALVES": 7.0,
+    "CORE": 8.0,
+    "OBLIQUES": 6.0,
+    "ERECTORS": 6.0,
+    "FOREARMS": 4.0,
+    "ADDUCTORS": 6.0,
+    "ABDUCTORS": 6.0,
+    "NECK": 3.0
+  },
+  "exercises": {
+    "Chest Press": [
+      ["UPPER_GYM"],
+      {
+        "CHEST": 0.95,
+        "ANT_DELTOID": 0.30,
+        "TRICEPS": 0.30,
+        "FOREARMS": 0.20
+      },
+      ["CHEST_PRESS"]
+    ],
+    "Push-ups": [
+      ["UPPER_HOME"],
+      {
+        "CHEST": 0.88,
+        "ANT_DELTOID": 0.25,
+        "TRICEPS": 0.30,
+        "CORE": 0.25
+      },
+      []
+    ],
+    "Chest Fly (cable/band)": [
+      ["UPPER_GYM", "UPPER_HOME"],
+      {
+        "CHEST": 0.85,
+        "ANT_DELTOID": 0.20
+      },
+      ["CABLE"]
+    ],
+    "Row": [
+      ["UPPER_GYM"],
+      {
+        "UPPER_BACK": 0.92,
+        "LATS": 0.55,
+        "BICEPS": 0.36,
+        "POST_DELTOID": 0.28
+      },
+      ["SEATED_ROW"]
+    ],
+    "Face Pull (cable)": [
+      ["UPPER_GYM"],
+      {
+        "POST_DELTOID": 0.85,
+        "UPPER_BACK": 0.40,
+        "LATS": 0.15
+      },
+      ["CABLE"]
+    ],
+    "Lat Pulldown (machine)": [
+      ["UPPER_GYM"],
+      {
+        "LATS": 0.93,
+        "UPPER_BACK": 0.35,
+        "BICEPS": 0.30
+      },
+      ["LAT_PULLDOWN"]
+    ],
+    "Overhead Press (cable/band)": [
+      ["UPPER_GYM", "UPPER_HOME"],
+      {
+        "ANT_DELTOID": 0.82,
+        "LAT_DELTOID": 0.36,
+        "TRICEPS": 0.38,
+        "CORE": 0.22
+      },
+      ["CABLE"]
+    ],
+    "Pike Push-ups (vertical press)": [
+      ["UPPER_HOME"],
+      {
+        "ANT_DELTOID": 0.72,
+        "TRICEPS": 0.34,
+        "CORE": 0.25
+      },
+      []
+    ],
+    "Lateral Raise (cable/band)": [
+      ["UPPER_GYM", "UPPER_HOME"],
+      {
+        "LAT_DELTOID": 0.92,
+        "ANT_DELTOID": 0.15
+      },
+      ["CABLE"]
+    ],
+    "Biceps Curl (cable/band)": [
+      ["UPPER_GYM", "UPPER_HOME"],
+      {
+        "BICEPS": 0.92,
+        "FOREARMS": 0.30
+      },
+      ["CABLE"]
+    ],
+    "Hammer Curl (cable/band)": [
+      ["UPPER_GYM", "UPPER_HOME"],
+      {
+        "BICEPS": 0.45,
+        "FOREARMS": 0.92
+      },
+      ["CABLE"]
+    ],
+    "Tricep Kickback (cable/band)": [
+      ["UPPER_GYM", "UPPER_HOME"],
+      {
+        "TRICEPS": 0.88
+      },
+      ["CABLE"]
+    ],
+    "Overhead Triceps Extensions (cable/band)": [
+      ["UPPER_GYM", "UPPER_HOME"],
+      {
+        "TRICEPS": 0.92
+      },
+      ["CABLE"]
+    ],
+    "Shrug (cable/band)": [
+      ["UPPER_GYM", "UPPER_HOME"],
+      {
+        "NECK": 0.90,
+        "UPPER_BACK": 0.40
+      },
+      []
+    ],
+    "Side Plank High Pull (cable/band)": [
+      ["UPPER_GYM", "LOWER_GYM", "UPPER_HOME", "LOWER_HOME"],
+      {
+        "OBLIQUES": 0.92,
+        "LATS": 0.30,
+        "UPPER_BACK": 0.30,
+        "ANT_DELTOID": 0.18
+      },
+      ["CABLE"]
+    ],
+    "Glute Bridge + Band Pull-Apart": [
+      ["LOWER_GYM", "LOWER_HOME"],
+      {
+        "GLUTES": 0.92,
+        "HAMSTRINGS": 0.30,
+        "POST_DELTOID": 0.30,
+        "ERECTORS": 0.28
+      },
+      []
+    ],
+    "Pallof Press (cable/band)": [
+      ["LOWER_GYM", "LOWER_HOME"],
+      {
+        "CORE": 0.92,
+        "OBLIQUES": 0.35
+      },
+      ["CABLE"]
+    ],
+    "Leg Press": [
+      ["LOWER_GYM"],
+      {
+        "QUADS": 0.95,
+        "GLUTES": 0.45,
+        "CORE": 0.28,
+        "HAMSTRINGS": 0.10
+      },
+      ["LEG_PRESS"]
+    ],
+    "Leg Press (sumo/wide)": [
+      ["LOWER_GYM"],
+      {
+        "ADDUCTORS": 0.65,
+        "GLUTES": 0.70,
+        "QUADS": 0.45
+      },
+      ["LEG_PRESS"]
+    ],
+    "Seated Leg Curl": [
+      ["LOWER_GYM"],
+      {
+        "HAMSTRINGS": 0.95
+      },
+      ["LEG_CURL"]
+    ],
+    "Cable Pull-Through": [
+      ["LOWER_GYM", "LOWER_HOME"],
+      {
+        "GLUTES": 0.92,
+        "HAMSTRINGS": 0.30,
+        "ERECTORS": 0.28
+      },
+      ["CABLE"]
+    ],
+    "Mini-Band Lateral Walk": [
+      ["LOWER_GYM", "LOWER_HOME"],
+      {
+        "GLUTES": 0.80,
+        "ABDUCTORS": 0.70
+      },
+      []
+    ],
+    "Calf Raise": [
+      ["LOWER_GYM"],
+      {
+        "CALVES": 0.95
+      },
+      ["LEG_PRESS"]
+    ],
+    "Good Morning (cable)": [
+      ["LOWER_GYM"],
+      {
+        "ERECTORS": 0.90,
+        "GLUTES": 0.35,
+        "HAMSTRINGS": 0.30
+      },
+      ["CABLE"]
+    ],
+    "Good Morning (band)": [
+      ["LOWER_HOME"],
+      {
+        "ERECTORS": 0.77,
+        "GLUTES": 0.30,
+        "HAMSTRINGS": 0.26
+      },
+      []
+    ],
+    "Banded Monster Walk": [
+      ["LOWER_GYM", "LOWER_HOME"],
+      {
+        "ABDUCTORS": 0.85,
+        "GLUTES": 0.60
+      },
+      []
+    ],
+    "Band Supine Hip Abduction": [
+      ["LOWER_GYM", "LOWER_HOME"],
+      {
+        "ABDUCTORS": 0.92,
+        "GLUTES": 0.35,
+        "CORE": 0.25
+      },
+      []
+    ],
+    "Banded front squat": [
+      ["LOWER_HOME"],
+      {
+        "QUADS": 0.70,
+        "GLUTES": 0.45,
+        "HAMSTRINGS": 0.20,
+        "CORE": 0.20,
+        "ERECTORS": 0.20
+      },
+      []
+    ],
+    "Banded front squat (sumo/wide)": [
+      ["LOWER_HOME"],
+      {
+        "ADDUCTORS": 0.50,
+        "GLUTES": 0.50,
+        "QUADS": 0.35,
+        "HAMSTRINGS": 0.20,
+        "ERECTORS": 0.20
+      },
+      []
+    ],
+    "Lying Band Leg Curl": [
+      ["LOWER_HOME"],
+      {
+        "HAMSTRINGS": 0.78
+      },
+      []
+    ],
+    "Straight-Arm Pulldown (cable)": [
+      ["UPPER_GYM"],
+      {
+        "LATS": 0.90,
+        "UPPER_BACK": 0.35,
+        "CORE": 0.10
+      },
+      ["CABLE"]
+    ],
+    "Banded Row": [
+      ["UPPER_HOME"],
+      {
+        "LATS": 0.50,
+        "UPPER_BACK": 0.65,
+        "BICEPS": 0.22,
+        "POST_DELTOID": 0.12,
+        "FOREARMS": 0.10
+      },
+      []
+    ],
+    "Plank": [
+      ["LOWER_HOME"],
+      {
+        "CORE": 0.95,
+        "OBLIQUES": 0.40,
+        "ERECTORS": 0.20
+      },
+      []
+    ],
+    "Wall Sit with Banded Abductions": [
+      ["LOWER_HOME"],
+      {
+        "QUADS": 0.90,
+        "ABDUCTORS": 0.60,
+        "GLUTES": 0.25,
+        "CORE": 0.12
+      },
+      []
+    ]
+  }
+}

@@ -1,6 +1,7 @@
 import pulp
 from enum import Enum, auto
 from typing import Dict, List, Tuple, Optional, Union, Any, cast
+import json
 
 
 # -----------------------
@@ -64,34 +65,31 @@ DayAssignments = Dict[str, ExercisePairs]
 CoverageDict = Dict[Muscle, float]
 
 # -----------------------
-# Tunables
+# Load config
 # -----------------------
+# Load config
+with open('config.json', 'r') as f:
+    config = json.load(f)
+
+# Parse tunables
 SETS_PER_INSTANCE: Dict[DayCategory, float] = {
-    DayCategory.UPPER_GYM: 3.0 * 5 / 6,
-    DayCategory.LOWER_GYM: 3.0 * 5 / 6,
-    DayCategory.UPPER_HOME: 3.0,
-    DayCategory.LOWER_HOME: 3.0,
+    DayCategory[cat]: val
+    for cat, val in config["sets_per_instance"].items()
 }
-THRESHOLD: float = 0.2
+THRESHOLD: float = config["threshold"]
 DAY_REQUIREMENTS = {
-    DayCategory.UPPER_GYM: 12,
-    DayCategory.LOWER_GYM: 12,
-    DayCategory.UPPER_HOME: 6,
-    DayCategory.LOWER_HOME: 6,
+    DayCategory[cat]: val
+    for cat, val in config["day_requirements"].items()
 }
-PAIRS_PER_CATEGORY = {cat: DAY_REQUIREMENTS[cat] // 2 for cat in DAY_REQUIREMENTS}
 DAYS_PER_CATEGORY = {
-    DayCategory.UPPER_GYM: 3,
-    DayCategory.LOWER_GYM: 3,
-    DayCategory.UPPER_HOME: 1,
-    DayCategory.LOWER_HOME: 1,
+    DayCategory[cat]: val
+    for cat, val in config["days_per_category"].items()
 }
 PAIRS_PER_DAY = {
-    DayCategory.UPPER_GYM: 2,
-    DayCategory.LOWER_GYM: 2,
-    DayCategory.UPPER_HOME: 3,
-    DayCategory.LOWER_HOME: 3,
+    DayCategory[cat]: val
+    for cat, val in config["pairs_per_day"].items()
 }
+PAIRS_PER_CATEGORY = {cat: DAY_REQUIREMENTS[cat] // 2 for cat in DAY_REQUIREMENTS}
 
 
 def get_max_usage_for_category(cat: DayCategory) -> int:
@@ -100,275 +98,22 @@ def get_max_usage_for_category(cat: DayCategory) -> int:
 
 
 # -----------------------
-# Targets: default sets/week (adjustable)
+# Targets
 # -----------------------
 MUSCLE_TARGETS: MuscleTargetDict = {
-    Muscle.CHEST: 12,
-    Muscle.UPPER_BACK: 10,
-    Muscle.LATS: 12,
-    Muscle.ANT_DELTOID: 8,
-    Muscle.LAT_DELTOID: 8,
-    Muscle.POST_DELTOID: 8,
-    Muscle.BICEPS: 8,
-    Muscle.TRICEPS: 8,
-    Muscle.QUADS: 12,
-    Muscle.HAMSTRINGS: 10,
-    Muscle.GLUTES: 12,
-    Muscle.CALVES: 7,
-    Muscle.CORE: 8,
-    Muscle.OBLIQUES: 6,
-    Muscle.ERECTORS: 6,
-    Muscle.FOREARMS: 4,
-    Muscle.ADDUCTORS: 6,
-    Muscle.ABDUCTORS: 6,
-    Muscle.NECK: 3,
+    Muscle[muscle]: target
+    for muscle, target in config["muscle_targets"].items()
 }
 
-EXERCISES: ExerciseDict = {
-    # Upper exercises (machine: only gym, cable/bodyweight: both gym and home)
-    "Chest Press": (
-        [DayCategory.UPPER_GYM],
-        {
-            Muscle.CHEST: 0.95,
-            Muscle.ANT_DELTOID: 0.30,
-            Muscle.TRICEPS: 0.30,
-            Muscle.FOREARMS: 0.20,
-        },
-        [Machine.CHEST_PRESS],
-    ),
-    "Push-ups": (
-        [DayCategory.UPPER_HOME],
-        {
-            Muscle.CHEST: 0.88,
-            Muscle.ANT_DELTOID: 0.25,
-            Muscle.TRICEPS: 0.30,
-            Muscle.CORE: 0.25,
-        },
-        [],
-    ),
-    "Chest Fly (cable/band)": (
-        [DayCategory.UPPER_GYM, DayCategory.UPPER_HOME],
-        {Muscle.CHEST: 0.85, Muscle.ANT_DELTOID: 0.20},
-        [Machine.CABLE],
-    ),
-    "Row": (
-        [DayCategory.UPPER_GYM],
-        {
-            Muscle.UPPER_BACK: 0.92,
-            Muscle.LATS: 0.55,
-            Muscle.BICEPS: 0.36,
-            Muscle.POST_DELTOID: 0.28,
-        },
-        [Machine.SEATED_ROW],
-    ),
-    "Face Pull (cable)": (
-        [DayCategory.UPPER_GYM],
-        {Muscle.POST_DELTOID: 0.85, Muscle.UPPER_BACK: 0.40, Muscle.LATS: 0.15},
-        [Machine.CABLE],
-    ),
-    "Lat Pulldown (machine)": (
-        [DayCategory.UPPER_GYM],
-        {Muscle.LATS: 0.93, Muscle.UPPER_BACK: 0.35, Muscle.BICEPS: 0.30},
-        [Machine.LAT_PULLDOWN],
-    ),
-    "Overhead Press (cable/band)": (
-        [DayCategory.UPPER_GYM, DayCategory.UPPER_HOME],
-        {
-            Muscle.ANT_DELTOID: 0.82,
-            Muscle.LAT_DELTOID: 0.36,
-            Muscle.TRICEPS: 0.38,
-            Muscle.CORE: 0.22,
-        },
-        [Machine.CABLE],
-    ),
-    "Pike Push-ups (vertical press)": (
-        [DayCategory.UPPER_HOME],
-        {Muscle.ANT_DELTOID: 0.72, Muscle.TRICEPS: 0.34, Muscle.CORE: 0.25},
-        [],
-    ),
-    "Lateral Raise (cable/band)": (
-        [DayCategory.UPPER_GYM, DayCategory.UPPER_HOME],
-        {Muscle.LAT_DELTOID: 0.92, Muscle.ANT_DELTOID: 0.15},
-        [Machine.CABLE],
-    ),
-    "Biceps Curl (cable/band)": (
-        [DayCategory.UPPER_GYM, DayCategory.UPPER_HOME],
-        {Muscle.BICEPS: 0.92, Muscle.FOREARMS: 0.30},
-        [Machine.CABLE],
-    ),
-    "Hammer Curl (cable/band)": (
-        [DayCategory.UPPER_GYM, DayCategory.UPPER_HOME],
-        {Muscle.BICEPS: 0.45, Muscle.FOREARMS: 0.92},
-        [Machine.CABLE],
-    ),
-    "Tricep Kickback (cable/band)": (
-        [DayCategory.UPPER_GYM, DayCategory.UPPER_HOME],
-        {Muscle.TRICEPS: 0.88},
-        [Machine.CABLE],
-    ),
-    "Overhead Triceps Extensions (cable/band)": (
-        [DayCategory.UPPER_GYM, DayCategory.UPPER_HOME],
-        {Muscle.TRICEPS: 0.92},
-        [Machine.CABLE],
-    ),
-    "Shrug (cable/band)": (
-        [DayCategory.UPPER_GYM, DayCategory.UPPER_HOME],
-        {Muscle.NECK: 0.90, Muscle.UPPER_BACK: 0.40},
-        [],
-    ),
-    # Both-category exercises
-    "Side Plank High Pull (cable/band)": (
-        [
-            DayCategory.UPPER_GYM,
-            DayCategory.LOWER_GYM,
-            DayCategory.UPPER_HOME,
-            DayCategory.LOWER_HOME,
-        ],
-        {
-            Muscle.OBLIQUES: 0.92,
-            Muscle.LATS: 0.30,
-            Muscle.UPPER_BACK: 0.30,
-            Muscle.ANT_DELTOID: 0.18,
-        },
-        [Machine.CABLE],
-    ),
-    "Glute Bridge + Band Pull-Apart": (
-        [DayCategory.LOWER_GYM, DayCategory.LOWER_HOME],
-        {
-            Muscle.GLUTES: 0.92,
-            Muscle.HAMSTRINGS: 0.30,
-            Muscle.POST_DELTOID: 0.30,
-            Muscle.ERECTORS: 0.28,
-        },
-        [],
-    ),
-    "Pallof Press (cable/band)": (
-        [DayCategory.LOWER_GYM, DayCategory.LOWER_HOME],
-        {Muscle.CORE: 0.92, Muscle.OBLIQUES: 0.35},
-        [Machine.CABLE],
-    ),
-    # Lower exercises (machine: only gym, cable/bodyweight: both gym and home)
-    "Leg Press": (
-        [DayCategory.LOWER_GYM],
-        {
-            Muscle.QUADS: 0.95,
-            Muscle.GLUTES: 0.45,
-            Muscle.CORE: 0.28,
-            Muscle.HAMSTRINGS: 0.10,
-        },
-        [Machine.LEG_PRESS],
-    ),
-    "Leg Press (sumo/wide)": (
-        [DayCategory.LOWER_GYM],
-        {Muscle.ADDUCTORS: 0.65, Muscle.GLUTES: 0.70, Muscle.QUADS: 0.45},
-        [Machine.LEG_PRESS],
-    ),
-    "Seated Leg Curl": (
-        [DayCategory.LOWER_GYM],
-        {Muscle.HAMSTRINGS: 0.95},
-        [Machine.LEG_CURL],
-    ),
-    "Cable Pull-Through": (
-        [DayCategory.LOWER_GYM, DayCategory.LOWER_HOME],
-        {Muscle.GLUTES: 0.92, Muscle.HAMSTRINGS: 0.30, Muscle.ERECTORS: 0.28},
-        [Machine.CABLE],
-    ),
-    "Mini-Band Lateral Walk": (
-        [DayCategory.LOWER_GYM, DayCategory.LOWER_HOME],
-        {Muscle.GLUTES: 0.80, Muscle.ABDUCTORS: 0.70},
-        [],
-    ),
-    "Calf Raise": ([DayCategory.LOWER_GYM], {Muscle.CALVES: 0.95}, [Machine.LEG_PRESS]),
-    "Good Morning (cable)": (
-        [DayCategory.LOWER_GYM],
-        {Muscle.ERECTORS: 0.90, Muscle.GLUTES: 0.35, Muscle.HAMSTRINGS: 0.30},
-        [Machine.CABLE],
-    ),
-    "Good Morning (band)": (
-        [DayCategory.LOWER_HOME],
-        {Muscle.ERECTORS: 0.77, Muscle.GLUTES: 0.30, Muscle.HAMSTRINGS: 0.26},
-        [],
-    ),
-    # Newly added abductors-focused exercises
-    "Banded Monster Walk": (
-        [DayCategory.LOWER_GYM, DayCategory.LOWER_HOME],
-        {Muscle.ABDUCTORS: 0.85, Muscle.GLUTES: 0.60},
-        [],
-    ),
-    "Band Supine Hip Abduction": (
-        [DayCategory.LOWER_GYM, DayCategory.LOWER_HOME],
-        {Muscle.ABDUCTORS: 0.92, Muscle.GLUTES: 0.35, Muscle.CORE: 0.25},
-        [],
-    ),
-    "Banded front squat": (
-        [DayCategory.LOWER_HOME],
-        {
-            Muscle.QUADS: 0.70,
-            Muscle.GLUTES: 0.45,
-            Muscle.HAMSTRINGS: 0.20,
-            Muscle.CORE: 0.20,
-            Muscle.ERECTORS: 0.20,
-        },
-        [],
-    ),
-    "Banded front squat (sumo/wide)": (
-        [DayCategory.LOWER_HOME],
-        {
-            Muscle.ADDUCTORS: 0.50,
-            Muscle.GLUTES: 0.50,
-            Muscle.QUADS: 0.35,
-            Muscle.HAMSTRINGS: 0.20,
-            Muscle.ERECTORS: 0.20,
-        },
-        [],
-    ),
-    "Lying Band Leg Curl": (
-        [DayCategory.LOWER_HOME],
-        {
-            Muscle.HAMSTRINGS: 0.78,
-        },
-        [],
-    ),
-    "Straight-Arm Pulldown (cable)": (
-        [DayCategory.UPPER_GYM],
-        {
-            Muscle.LATS: 0.90,
-            Muscle.UPPER_BACK: 0.35,
-            Muscle.CORE: 0.10,
-        },
-        [Machine.CABLE],
-    ),
-    "Banded Row": (
-        [DayCategory.UPPER_HOME],
-        {
-            Muscle.LATS: 0.50,
-            Muscle.UPPER_BACK: 0.65,
-            Muscle.BICEPS: 0.22,
-            Muscle.POST_DELTOID: 0.12,
-            Muscle.FOREARMS: 0.10,
-        },
-        [],
-    ),
-    "Plank": (
-        [DayCategory.LOWER_HOME],
-        {
-            Muscle.CORE: 0.95,
-            Muscle.OBLIQUES: 0.40,
-            Muscle.ERECTORS: 0.20,
-        },
-        [],
-    ),
-    "Wall Sit with Banded Abductions": (
-        [DayCategory.LOWER_HOME],
-        {
-            Muscle.QUADS: 0.90,
-            Muscle.ABDUCTORS: 0.60,
-            Muscle.GLUTES: 0.25,
-            Muscle.CORE: 0.12,
-        },
-        [],
-    ),
-}
+EXERCISES: ExerciseDict = {}
+for name, (cat_list, act_dict, mach_list) in config["exercises"].items():
+    categories = [DayCategory[cat] for cat in cat_list]
+    activations: Dict[Muscle, float] = {
+        Muscle[m]: val
+        for m, val in act_dict.items()
+    }
+    machines = [Machine[m] for m in mach_list] if mach_list else []
+    EXERCISES[name] = (categories, activations, machines)
 
 # Removed exercises (for reference, previously removed from main EXERCISES dict)
 REMOVED_EXERCISES: ExerciseDict = {
