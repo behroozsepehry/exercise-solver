@@ -4,7 +4,7 @@ function Escape-Xml {
 }
 
 $allFiles = Get-ChildItem -Path . -File -Force
-$files = $allFiles | Where-Object { $_.Extension -eq '.py' -or $_.Extension -eq '.md' }
+$files = $allFiles | Where-Object { $_.Extension -eq '.py' -or $_.Extension -eq '.md' -or $_.Extension -eq '.json'}
 
 Write-Output "<?xml version=`"1.0`" encoding=`"UTF-8`"?>"
 Write-Output "<files>"
