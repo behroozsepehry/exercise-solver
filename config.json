@@ -169,16 +169,32 @@
     "Hammer Curl (cable)": [
       ["UPPER_GYM"],
       {
-        "BICEPS": 0.45,
-        "FOREARMS": 0.92
+        "BICEPS": 0.50,
+        "FOREARMS": 0.80
       },
       ["CABLE"]
     ],
     "Hammer Curl (band)": [
       ["UPPER_HOME"],
       {
-        "BICEPS": 0.38,
-        "FOREARMS": 0.78
+        "BICEPS": 0.42,
+        "FOREARMS": 0.68
+      },
+      []
+    ],
+    "Reverse Curl (cable)": [
+      ["UPPER_GYM"],
+      {
+        "FOREARMS": 0.95,
+        "BICEPS": 0.30
+      },
+      ["CABLE"]
+    ],
+    "Reverse Curl (band)": [
+      ["UPPER_HOME"],
+      {
+        "FOREARMS": 0.81,
+        "BICEPS": 0.26
       },
       []
     ],
