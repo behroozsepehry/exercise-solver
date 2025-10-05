@@ -211,7 +211,7 @@
       []
     ],
     "Shrug (cable/band)": [
-      ["UPPER_GYM", "UPPER_HOME"],
+      ["UPPER_HOME"],
       {
         "NECK": 0.90,
         "UPPER_BACK": 0.40
@@ -305,15 +305,6 @@
       },
       ["CABLE"]
     ],
-    "Good Morning (band)": [
-      ["LOWER_HOME"],
-      {
-        "ERECTORS": 0.77,
-        "GLUTES": 0.30,
-        "HAMSTRINGS": 0.26
-      },
-      []
-    ],
     "Banded Monster Walk": [
       ["LOWER_GYM", "LOWER_HOME"],
       {
@@ -389,13 +380,15 @@
       },
       []
     ],
-    "Wall Sit with Banded Abductions": [
+    "Banded Wall Sit + Pull-Apart": [
       ["LOWER_HOME"],
       {
         "QUADS": 0.80,
-        "ABDUCTORS": 0.55,
+        "ABDUCTORS": 0.35,
         "GLUTES": 0.25,
-        "CORE": 0.12
+        "CORE": 0.12,
+        "POST_DELTOID": 0.30,
+        "UPPER_BACK": 0.10
       },
       []
     ]
