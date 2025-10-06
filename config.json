@@ -76,34 +76,6 @@
       },
       []
     ],
-    "Row (machine)": [
-      ["UPPER_GYM"],
-      {
-        "UPPER_BACK": 0.92,
-        "LATS": 0.55,
-        "BICEPS": 0.36,
-        "POST_DELTOID": 0.28
-      },
-      ["SEATED_ROW"]
-    ],
-    "Face Pull (cable)": [
-      ["UPPER_GYM"],
-      {
-        "POST_DELTOID": 0.85,
-        "UPPER_BACK": 0.40,
-        "LATS": 0.15
-      },
-      ["CABLE"]
-    ],
-    "Lat Pulldown (machine)": [
-      ["UPPER_GYM"],
-      {
-        "LATS": 0.93,
-        "UPPER_BACK": 0.35,
-        "BICEPS": 0.30
-      },
-      ["LAT_PULLDOWN"]
-    ],
     "Overhead Press (cable)": [
       ["UPPER_GYM"],
       {
@@ -148,6 +120,62 @@
         "ANT_DELTOID": 0.13
       },
       []
+    ],
+    "Tricep Kickback (cable)": [
+      ["UPPER_GYM"],
+      {
+        "TRICEPS": 0.88
+      },
+      ["CABLE"]
+    ],
+    "Tricep Kickback (band)": [
+      ["UPPER_HOME"],
+      {
+        "TRICEPS": 0.75
+      },
+      []
+    ],
+    "Overhead Triceps Extensions (cable)": [
+      ["UPPER_GYM"],
+      {
+        "TRICEPS": 0.92
+      },
+      ["CABLE"]
+    ],
+    "Overhead Triceps Extensions (band)": [
+      ["UPPER_HOME"],
+      {
+        "TRICEPS": 0.78
+      },
+      []
+    ],
+    "Row (machine)": [
+      ["UPPER_GYM"],
+      {
+        "UPPER_BACK": 0.92,
+        "LATS": 0.55,
+        "BICEPS": 0.36,
+        "POST_DELTOID": 0.28
+      },
+      ["SEATED_ROW"]
+    ],
+    "Face Pull (cable)": [
+      ["UPPER_GYM"],
+      {
+        "POST_DELTOID": 0.85,
+        "UPPER_BACK": 0.40,
+        "LATS": 0.15
+      },
+      ["CABLE"]
+    ],
+    "Lat Pulldown (machine)": [
+      ["UPPER_GYM"],
+      {
+        "LATS": 0.93,
+        "UPPER_BACK": 0.35,
+        "BICEPS": 0.30
+      },
+      ["LAT_PULLDOWN"]
     ],
     "Biceps Curl (cable)": [
       ["UPPER_GYM"],
@@ -197,51 +225,24 @@
       },
       []
     ],
-    "Tricep Kickback (cable)": [
+    "Straight-Arm Pulldown (cable)": [
       ["UPPER_GYM"],
       {
-        "TRICEPS": 0.88
+        "LATS": 0.90,
+        "UPPER_BACK": 0.35,
+        "CORE": 0.10
       },
       ["CABLE"]
     ],
-    "Tricep Kickback (band)": [
+    "Banded Row": [
       ["UPPER_HOME"],
       {
-        "TRICEPS": 0.75
+        "LATS": 0.50,
+        "UPPER_BACK": 0.65,
+        "BICEPS": 0.22,
+        "POST_DELTOID": 0.12
       },
       []
-    ],
-    "Overhead Triceps Extensions (cable)": [
-      ["UPPER_GYM"],
-      {
-        "TRICEPS": 0.92
-      },
-      ["CABLE"]
-    ],
-    "Overhead Triceps Extensions (band)": [
-      ["UPPER_HOME"],
-      {
-        "TRICEPS": 0.78
-      },
-      []
-    ],
-    "Shrug (cable/band)": [
-      ["UPPER_HOME"],
-      {
-        "NECK": 0.90,
-        "UPPER_BACK": 0.40
-      },
-      []
-    ],
-    "Side Plank High Pull (cable/band)": [
-      ["UPPER_GYM", "LOWER_GYM", "UPPER_HOME", "LOWER_HOME"],
-      {
-        "OBLIQUES": 0.92,
-        "LATS": 0.30,
-        "UPPER_BACK": 0.30,
-        "ANT_DELTOID": 0.18
-      },
-      ["CABLE"]
     ],
     "Glute Bridge + Band Pull-Apart": [
       ["LOWER_GYM", "LOWER_HOME"],
@@ -252,14 +253,6 @@
         "ERECTORS": 0.28
       },
       []
-    ],
-    "Pallof Press (cable/band)": [
-      ["LOWER_GYM", "LOWER_HOME"],
-      {
-        "CORE": 0.92,
-        "OBLIQUES": 0.35
-      },
-      ["CABLE"]
     ],
     "Leg Press": [
       ["LOWER_GYM"],
@@ -366,34 +359,6 @@
       },
       []
     ],
-    "Straight-Arm Pulldown (cable)": [
-      ["UPPER_GYM"],
-      {
-        "LATS": 0.90,
-        "UPPER_BACK": 0.35,
-        "CORE": 0.10
-      },
-      ["CABLE"]
-    ],
-    "Banded Row": [
-      ["UPPER_HOME"],
-      {
-        "LATS": 0.50,
-        "UPPER_BACK": 0.65,
-        "BICEPS": 0.22,
-        "POST_DELTOID": 0.12
-      },
-      []
-    ],
-    "Plank": [
-      ["LOWER_HOME"],
-      {
-        "CORE": 0.95,
-        "OBLIQUES": 0.40,
-        "ERECTORS": 0.20
-      },
-      []
-    ],
     "Banded Wall Sit + Pull-Apart": [
       ["LOWER_HOME"],
       {
@@ -405,6 +370,41 @@
         "UPPER_BACK": 0.10
       },
       []
+    ],
+    "Pallof Press (cable/band)": [
+      ["LOWER_GYM", "LOWER_HOME"],
+      {
+        "CORE": 0.92,
+        "OBLIQUES": 0.35
+      },
+      ["CABLE"]
+    ],
+    "Plank": [
+      ["LOWER_HOME"],
+      {
+        "CORE": 0.95,
+        "OBLIQUES": 0.40,
+        "ERECTORS": 0.20
+      },
+      []
+    ],
+    "Shrug (cable/band)": [
+      ["UPPER_HOME"],
+      {
+        "NECK": 0.90,
+        "UPPER_BACK": 0.40
+      },
+      []
+    ],
+    "Side Plank High Pull (cable/band)": [
+      ["UPPER_GYM", "LOWER_GYM", "UPPER_HOME", "LOWER_HOME"],
+      {
+        "OBLIQUES": 0.92,
+        "LATS": 0.30,
+        "UPPER_BACK": 0.30,
+        "ANT_DELTOID": 0.18
+      },
+      ["CABLE"]
     ]
   }
 }
