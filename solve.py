@@ -143,6 +143,7 @@ SETS_PER_INSTANCE: Dict[DayCategory, float] = {
     for cat, val in config["sets_per_instance"].items()
 }
 THRESHOLD: float = config["threshold"]
+SUM_SHORTFALL_WEIGHT: float = config["shortfall_sum_weight"]
 DAY_REQUIREMENTS = {
     DayCategory[cat]: val
     for cat, val in config["day_requirements"].items()
@@ -344,6 +345,7 @@ def solve_muscle_coverage() -> Tuple[
     Dict[DayCategory, ExercisePairs],
     CoverageDict,
     float,
+    float,
 ]:
     """
     Build and solve the ILP for muscle coverage optimization.
@@ -407,6 +409,12 @@ def solve_muscle_coverage() -> Tuple[
     # Introduce a single max_shortfall variable for minimax objective
     max_shortfall = pulp.LpVariable("max_shortfall", lowBound=0, cat="Continuous")
 
+    # Per-muscle shortfall variables
+    shortfall_muscle: Dict[Muscle, pulp.LpVariable] = {
+        m: pulp.LpVariable(f"shortfall_{m.name}", lowBound=0, cat="Continuous")
+        for m in Muscle
+    }
+
     # counts constraints per category
     for cat in categories:
         prob += (
@@ -435,18 +443,23 @@ def solve_muscle_coverage() -> Tuple[
             f"total_{cat.name.lower()}_pairs",
         )
 
-    # coverage & max shortfall constraints for minimax objective
+    # coverage & shortfall constraints
     for m_idx, m in enumerate(Muscle):
         coverage_expr = pulp.lpSum(
             SETS_PER_INSTANCE[cat] * c[cat][e] * VEC[e][m_idx]
             for cat in categories for e in range(E)
         )
         prob += (
-            max_shortfall >= MUSCLE_TARGETS[m] - coverage_expr,
-            f"max_shortfall_{m_idx}",
+            shortfall_muscle[m] >= MUSCLE_TARGETS[m] - coverage_expr,
+            f"shortfall_{m.name}",
+        )
+        prob += (
+            max_shortfall >= shortfall_muscle[m],
+            f"max_shortfall_{m.name}",
         )
 
-    prob.setObjective(max_shortfall)
+    sum_shortfall = pulp.lpSum(shortfall_muscle.values())
+    prob.setObjective(max_shortfall + SUM_SHORTFALL_WEIGHT * sum_shortfall)
 
     # Solve
     solver = pulp.PULP_CBC_CMD(msg=False)
@@ -458,7 +471,7 @@ def solve_muscle_coverage() -> Tuple[
         # Return empty dicts for infeasible case (but type says no Optional, assume always succeeds for now)
         empty_counts = {cat: {} for cat in categories}
         empty_pairs = {cat: [] for cat in categories}
-        return status, empty_counts, empty_pairs, {}, 0.0
+        return status, empty_counts, empty_pairs, {}, 0.0, 0.0
 
     # Build results per category
     counts_dict: Dict[DayCategory, ExerciseCounts] = {}
@@ -487,7 +500,9 @@ def solve_muscle_coverage() -> Tuple[
 
     max_shortfall_value: float = safe_value(max_shortfall)
 
-    return status, counts_dict, pairs_dict, coverage, max_shortfall_value
+    total_shortfall_sum: float = sum(safe_value(shortfall_muscle[m]) for m in shortfall_muscle)
+
+    return status, counts_dict, pairs_dict, coverage, max_shortfall_value, total_shortfall_sum
 
 
 # -----------------------
@@ -502,7 +517,7 @@ if status not in ("Optimal", "Feasible"):
     print("No feasible solution found.")
 else:
     # Unpack the successful results
-    status, counts_dict, pairs_dict, coverage, max_shortfall = result
+    status, counts_dict, pairs_dict, coverage, max_shortfall, total_shortfall_sum = result
 
     print("\n=== COUNTS ===")
     for cat in counts_dict:
@@ -526,12 +541,7 @@ else:
             f"  {m.name:20s} target {MUSCLE_TARGETS[m]:4.1f}   covered {coverage[m]:6.2f}   diff {coverage[m]-MUSCLE_TARGETS[m]:6.2f}"
         )
 
-    # Compute individual shortfalls for sum
-    shortfalls = {m: max(0.0, MUSCLE_TARGETS[m] - coverage[m]) for m in Muscle}
-    total_shortfall_sum = sum(shortfalls.values())
-
-    print(f"\nMaximum shortfall = {max_shortfall:.3f}")
-    print(f"Sum of shortfalls = {total_shortfall_sum:.3f}")
+    print(f"\nObjective = max_shortfall {max_shortfall:.3f} + weight {SUM_SHORTFALL_WEIGHT:.3f} * sum {total_shortfall_sum:.3f} = {max_shortfall + SUM_SHORTFALL_WEIGHT * total_shortfall_sum:.3f}")
 
     print(f"\nNote: THRESHOLD = {THRESHOLD}")
     print("SETS_PER_INSTANCE:")
