@@ -8,25 +8,91 @@ import json
 # Enums
 # -----------------------
 class Muscle(Enum):
-    CHEST = auto()
-    UPPER_BACK = auto()
+    # Pectoral complex
+    PEC_CLAVICULAR = auto()     # upper / clavicular head of pec major
+    PEC_STERNAL = auto()        # sternal (mid/lower) head of pec major
+
+    # Scapular protractors / stabilizers
+    SERRATUS_ANTERIOR = auto()
+    PECTORAL_MINOR = auto()     # rarely used directly but included for completeness
+
+    # Trapezius / upper-back & scapular retractors
+    TRAP_UPPER = auto()
+    TRAP_MIDDLE = auto()
+    TRAP_LOWER = auto()
+    RHOMBOIDS = auto()
+    LEVATOR_SCAPULAE = auto()
+
+    # Rotator cuff & adjacent stabilizers (important for posterior shoulder work)
+    SUPRASPINATUS = auto()
+    INFRASPINATUS = auto()
+    TERES_MINOR = auto()
+    SUBSCAPULARIS = auto()
+
+    # Large arm movers
     LATS = auto()
+    TERES_MAJOR = auto()
     ANT_DELTOID = auto()
-    LAT_DELTOID = auto()
+    LAT_DELTOID = auto()        # middle deltoid
     POST_DELTOID = auto()
-    BICEPS = auto()
-    TRICEPS = auto()
-    QUADS = auto()
-    HAMSTRINGS = auto()
-    GLUTES = auto()
-    CALVES = auto()
-    CORE = auto()
-    OBLIQUES = auto()
-    ERECTORS = auto()
-    FOREARMS = auto()
-    ADDUCTORS = auto()
-    ABDUCTORS = auto()
+
+    # Elbow flexors / forearm
+    BICEPS_LONG = auto()
+    BICEPS_SHORT = auto()
+    BRACHIALIS = auto()
+    BRACHIORADIALIS = auto()
+    FOREARM_FLEXORS = auto()
+    FOREARM_EXTENSORS = auto()
+
+    # Triceps heads
+    TRICEPS_LONG = auto()
+    TRICEPS_LATERAL = auto()
+    TRICEPS_MEDIAL = auto()
+
+    # Thigh / knee extensors
+    RECTUS_FEMORIS = auto()
+    VASTUS_LATERALIS = auto()
+    VASTUS_MEDIALIS = auto()
+    VASTUS_INTERMEDIUS = auto()
+
+    # Hamstrings (split)
+    HAM_BICEPS_FEMORIS = auto()
+    HAM_SEMITENDINOSUS = auto()
+    HAM_SEMIMEMBRANOSUS = auto()
+
+    # Hip / gluteal complex
+    GLUTE_MAX = auto()
+    GLUTE_MED = auto()
+    GLUTE_MIN = auto()
+    TENSOR_FASCIAE_LATAE = auto()
+
+    # Hip adductors group (split)
+    ADDUCTOR_MAGNUS = auto()
+    ADDUCTOR_LONGUS = auto()
+    GRACILIS = auto()
+
+    # Calf / plantarflexors
+    GASTROC_MED = auto()
+    GASTROC_LAT = auto()
+    SOLEUS = auto()
+
+    # Ankle dorsiflexor
+    TIBIALIS_ANTERIOR = auto()
+
+    # Core (split)
+    RECTUS_ABDOMINIS = auto()
+    EXTERNAL_OBLIQUE = auto()
+    INTERNAL_OBLIQUE = auto()
+    TRANSVERSUS_ABDOMINIS = auto()
+    ERECTOR_SPINAE = auto()
+
+    # Neck (kept as general)
     NECK = auto()
+
+    # Generic / fallback (if you still want aggregated groups)
+    # NOTE: keep these only if your solver expects them; otherwise remove.
+    # FOREARMS_GENERIC = auto()
+    # QUADS_GENERIC = auto()
 
 
 class Machine(Enum):
@@ -120,59 +186,7 @@ for name, (cat_list, act_dict, mach_list) in config["exercises"].items():
     machines = [Machine[m] for m in mach_list] if mach_list else []
     EXERCISES[name] = (categories, activations, machines)
 
-# Removed exercises (for reference, previously removed from main EXERCISES dict)
-REMOVED_EXERCISES: ExerciseDict = {
-    "Cable Woodchopper / Chop": (
-        [DayCategory.LOWER_GYM, DayCategory.LOWER_HOME],
-        {Muscle.OBLIQUES: 0.92, Muscle.CORE: 0.30},
-        [Machine.CABLE],
-    ),
-    "Close-Grip Press": (
-        [DayCategory.UPPER_GYM],
-        {Muscle.TRICEPS: 0.62, Muscle.CHEST: 0.30, Muscle.ANT_DELTOID: 0.20},
-        [Machine.CHEST_PRESS],
-    ),
-    "Dead Bug (band)": (
-        [
-            DayCategory.UPPER_GYM,
-            DayCategory.LOWER_GYM,
-            DayCategory.UPPER_HOME,
-            DayCategory.LOWER_HOME,
-        ],
-        {Muscle.CORE: 0.90, Muscle.OBLIQUES: 0.85, Muscle.LAT_DELTOID: 0.20},
-        [Machine.CABLE],
-    ),
-    "RDL (band) - double-leg": (
-        [DayCategory.LOWER_GYM, DayCategory.LOWER_HOME],
-        {
-            Muscle.HAMSTRINGS: 0.92,
-            Muscle.GLUTES: 0.88,
-            Muscle.ERECTORS: 0.80,
-            Muscle.CORE: 0.25,
-        },
-        [],
-    ),
-    "Chest-Supported Rear Delt Row": (
-        [DayCategory.UPPER_GYM],
-        {Muscle.UPPER_BACK: 0.85, Muscle.POST_DELTOID: 0.90, Muscle.BICEPS: 0.35},
-        [Machine.SEATED_ROW],
-    ),
-    "Upright Cable Row": (
-        [DayCategory.UPPER_GYM, DayCategory.UPPER_HOME],
-        {Muscle.POST_DELTOID: 0.85, Muscle.NECK: 0.80, Muscle.UPPER_BACK: 0.20},
-        [Machine.CABLE],
-    ),
-    "Copenhagen Plank (adductor focus)": (
-        [DayCategory.LOWER_GYM, DayCategory.LOWER_HOME],
-        {Muscle.ADDUCTORS: 0.92, Muscle.CORE: 0.25, Muscle.GLUTES: 0.20},
-        [],
-    ),
-    "Cable Standing Hip Abduction": (
-        [DayCategory.LOWER_GYM, DayCategory.LOWER_HOME],
-        {Muscle.ABDUCTORS: 0.90, Muscle.GLUTES: 0.30},
-        [Machine.CABLE],
-    ),
-}
+
 
 EXERCISE_NAMES: List[ExerciseName] = list(EXERCISES.keys())
 E: int = len(EXERCISE_NAMES)

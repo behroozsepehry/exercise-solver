@@ -1,7 +1,7 @@
 {
   "sets_per_instance": {
-    "UPPER_GYM": 2.5,
-    "LOWER_GYM": 2.5,
+    "UPPER_GYM": 3.3,
+    "LOWER_GYM": 3.3,
     "UPPER_HOME": 4.0,
     "LOWER_HOME": 4.0
   },
@@ -20,69 +20,107 @@
   },
 
   "muscle_targets": {
-    "CHEST": 12.0,
-    "UPPER_BACK": 10.0,
+    "PEC_CLAVICULAR": 5.0,
+    "PEC_STERNAL": 7.0,
+    "SERRATUS_ANTERIOR": 2.5,
+    "PECTORAL_MINOR": 0.0,
+    "TRAP_UPPER": 3.0,
+    "TRAP_MIDDLE": 3.0,
+    "TRAP_LOWER": 2.0,
+    "RHOMBOIDS": 3.0,
+    "LEVATOR_SCAPULAE": 0.0,
+    "SUPRASPINATUS": 0.1,
     "LATS": 12.0,
+    "TERES_MAJOR": 1.5,
     "ANT_DELTOID": 8.0,
     "LAT_DELTOID": 8.0,
     "POST_DELTOID": 8.0,
-    "BICEPS": 8.0,
-    "TRICEPS": 8.0,
-    "QUADS": 12.0,
-    "HAMSTRINGS": 10.0,
-    "GLUTES": 12.0,
-    "CALVES": 7.0,
-    "CORE": 8.0,
-    "OBLIQUES": 6.0,
-    "ERECTORS": 6.0,
-    "FOREARMS": 4.0,
-    "ADDUCTORS": 6.0,
-    "ABDUCTORS": 6.0,
-    "NECK": 3.0
+    "INFRASPINATUS": 1.2,
+    "TERES_MINOR": 1.0,
+    "BICEPS_LONG": 4.5,
+    "BICEPS_SHORT": 3.5,
+    "BRACHIALIS": 1.0,
+    "BRACHIORADIALIS": 1.5,
+    "FOREARM_FLEXORS": 1.5,
+    "FOREARM_EXTENSORS": 1.0,
+    "TRICEPS_LONG": 3.5,
+    "TRICEPS_LATERAL": 2.5,
+    "TRICEPS_MEDIAL": 2.0,
+    "RECTUS_FEMORIS": 4.0,
+    "VASTUS_LATERALIS": 4.0,
+    "VASTUS_MEDIALIS": 4.0,
+    "VASTUS_INTERMEDIUS": 0.5,
+    "HAM_BICEPS_FEMORIS": 4.0,
+    "HAM_SEMITENDINOSUS": 3.0,
+    "HAM_SEMIMEMBRANOSUS": 3.0,
+    "GLUTE_MAX": 8.0,
+    "GLUTE_MED": 2.5,
+    "GLUTE_MIN": 1.5,
+    "TENSOR_FASCIAE_LATAE": 1.0,
+    "ADDUCTOR_MAGNUS": 2.5,
+    "ADDUCTOR_LONGUS": 2.5,
+    "GRACILIS": 1.0,
+    "GASTROC_MED": 3.5,
+    "GASTROC_LAT": 3.5,
+    "SOLEUS": 2.0,
+    "TIBIALIS_ANTERIOR": 0.5,
+    "RECTUS_ABDOMINIS": 4.0,
+    "EXTERNAL_OBLIQUE": 2.0,
+    "INTERNAL_OBLIQUE": 2.0,
+    "TRANSVERSUS_ABDOMINIS": 1.0,
+    "ERECTOR_SPINAE": 6.0,
+    "NECK": 1.5,
+    "SERRATUS_ANTERIOR": 2.5,
+    "SUBSCAPULARIS": 0.5
   },
   "exercises": {
     "Chest Press": [
       ["UPPER_GYM"],
       {
-        "CHEST": 0.95,
+        "PEC_STERNAL": 0.88,
+        "PEC_CLAVICULAR": 0.45,
         "ANT_DELTOID": 0.30,
-        "TRICEPS": 0.30
+        "TRICEPS_LONG": 0.36
       },
       ["CHEST_PRESS"]
     ],
     "Push-ups": [
       ["UPPER_HOME"],
       {
-        "CHEST": 0.88,
+        "PEC_STERNAL": 0.80,
+        "PEC_CLAVICULAR": 0.40,
         "ANT_DELTOID": 0.25,
-        "TRICEPS": 0.30,
-        "CORE": 0.25
+        "TRICEPS_LONG": 0.32,
+        "RECTUS_ABDOMINIS": 0.20
       },
       []
     ],
     "Chest Fly (cable)": [
       ["UPPER_GYM"],
       {
-        "CHEST": 0.85,
-        "ANT_DELTOID": 0.20
+        "PEC_STERNAL": 0.78,
+        "PEC_CLAVICULAR": 0.50,
+        "ANT_DELTOID": 0.18
       },
       ["CABLE"]
     ],
     "Chest Fly (band)": [
       ["UPPER_HOME"],
       {
-        "CHEST": 0.72,
-        "ANT_DELTOID": 0.17
+        "PEC_STERNAL": 0.64,
+        "PEC_CLAVICULAR": 0.41,
+        "ANT_DELTOID": 0.15
       },
       []
     ],
     "Overhead Press (cable)": [
       ["UPPER_GYM"],
       {
-        "ANT_DELTOID": 0.82,
+        "ANT_DELTOID": 0.85,
         "LAT_DELTOID": 0.36,
-        "TRICEPS": 0.38,
-        "CORE": 0.22
+        "TRICEPS_LONG": 0.40,
+        "ERECTOR_SPINAE": 0.22,
+        "TRAP_UPPER": 0.15
       },
       ["CABLE"]
     ],
@@ -91,8 +129,9 @@
       {
         "ANT_DELTOID": 0.70,
         "LAT_DELTOID": 0.31,
-        "TRICEPS": 0.32,
-        "CORE": 0.19
+        "TRICEPS_LONG": 0.33,
+        "ERECTOR_SPINAE": 0.18,
+        "TRAP_UPPER": 0.12
       },
       []
     ],
@@ -100,8 +139,9 @@
       ["UPPER_HOME"],
       {
         "ANT_DELTOID": 0.72,
-        "TRICEPS": 0.34,
-        "CORE": 0.25
+        "TRICEPS_LONG": 0.34,
+        "ERECTOR_SPINAE": 0.18,
+        "RECTUS_ABDOMINIS": 0.18
       },
       []
     ],
@@ -109,62 +149,72 @@
       ["UPPER_GYM"],
       {
         "LAT_DELTOID": 0.92,
-        "ANT_DELTOID": 0.15
+        "ANT_DELTOID": 0.12,
+        "TRAP_UPPER": 0.10
       },
       ["CABLE"]
     ],
     "Lateral Raise (band)": [
       ["UPPER_HOME"],
       {
-        "LAT_DELTOID": 0.78,
-        "ANT_DELTOID": 0.13
+        "LAT_DELTOID": 0.76,
+        "ANT_DELTOID": 0.10,
+        "TRAP_UPPER": 0.08
       },
       []
     ],
     "Tricep Kickback (cable)": [
       ["UPPER_GYM"],
       {
-        "TRICEPS": 0.88
+        "TRICEPS_LATERAL": 0.48,
+        "TRICEPS_LONG": 0.40
       },
       ["CABLE"]
     ],
     "Tricep Kickback (band)": [
       ["UPPER_HOME"],
       {
-        "TRICEPS": 0.75
+        "TRICEPS_LATERAL": 0.40,
+        "TRICEPS_LONG": 0.33
       },
       []
     ],
     "Overhead Triceps Extensions (cable)": [
       ["UPPER_GYM"],
       {
-        "TRICEPS": 0.92
+        "TRICEPS_LONG": 0.92,
+        "TRICEPS_MEDIAL": 0.28
       },
       ["CABLE"]
     ],
     "Overhead Triceps Extensions (band)": [
       ["UPPER_HOME"],
       {
-        "TRICEPS": 0.78
+        "TRICEPS_LONG": 0.76,
+        "TRICEPS_MEDIAL": 0.23
       },
       []
     ],
     "Row (machine)": [
       ["UPPER_GYM"],
       {
-        "UPPER_BACK": 0.92,
+        "RHOMBOIDS": 0.65,
+        "TRAP_MIDDLE": 0.45,
         "LATS": 0.55,
-        "BICEPS": 0.36,
-        "POST_DELTOID": 0.28
+        "BICEPS_LONG": 0.20,
+        "BICEPS_SHORT": 0.18,
+        "POST_DELTOID": 0.22
       },
       ["SEATED_ROW"]
     ],
     "Face Pull (cable)": [
       ["UPPER_GYM"],
       {
-        "POST_DELTOID": 0.85,
-        "UPPER_BACK": 0.40,
-        "LATS": 0.15
+        "POST_DELTOID": 0.82,
+        "RHOMBOIDS": 0.40,
+        "TRAP_MIDDLE": 0.30,
+        "INFRASPINATUS": 0.18,
+        "TERES_MINOR": 0.12
       },
       ["CABLE"]
     ],
@@ -172,56 +222,63 @@
       ["UPPER_GYM"],
       {
         "LATS": 0.93,
-        "UPPER_BACK": 0.35,
-        "BICEPS": 0.30
+        "TERES_MAJOR": 0.25,
+        "RHOMBOIDS": 0.20,
+        "BICEPS_LONG": 0.28
       },
       ["LAT_PULLDOWN"]
     ],
     "Biceps Curl (cable)": [
       ["UPPER_GYM"],
       {
-        "BICEPS": 0.92,
-        "FOREARMS": 0.30
+        "BICEPS_LONG": 0.60,
+        "BICEPS_SHORT": 0.32,
+        "FOREARM_FLEXORS": 0.30
       },
       ["CABLE"]
     ],
     "Biceps Curl (band)": [
       ["UPPER_HOME"],
       {
-        "BICEPS": 0.78,
-        "FOREARMS": 0.26
+        "BICEPS_LONG": 0.50,
+        "BICEPS_SHORT": 0.26,
+        "FOREARM_FLEXORS": 0.25
       },
       []
     ],
     "Hammer Curl (cable)": [
       ["UPPER_GYM"],
       {
-        "BICEPS": 0.50,
-        "FOREARMS": 0.80
+        "BICEPS_LONG": 0.42,
+        "BRACHIORADIALIS": 0.80,
+        "BRACHIALIS": 0.28
       },
       ["CABLE"]
     ],
     "Hammer Curl (band)": [
       ["UPPER_HOME"],
       {
-        "BICEPS": 0.42,
-        "FOREARMS": 0.68
+        "BICEPS_LONG": 0.34,
+        "BRACHIORADIALIS": 0.66,
+        "BRACHIALIS": 0.23
       },
       []
     ],
     "Reverse Curl (cable)": [
       ["UPPER_GYM"],
       {
-        "FOREARMS": 0.95,
-        "BICEPS": 0.30
+        "FOREARM_EXTENSORS": 0.95,
+        "BRACHIORADIALIS": 0.30,
+        "BICEPS_SHORT": 0.18
       },
       ["CABLE"]
     ],
     "Reverse Curl (band)": [
       ["UPPER_HOME"],
       {
-        "FOREARMS": 0.81,
-        "BICEPS": 0.26
+        "FOREARM_EXTENSORS": 0.78,
+        "BRACHIORADIALIS": 0.26,
+        "BICEPS_SHORT": 0.15
       },
       []
     ],
@@ -229,17 +286,18 @@
       ["UPPER_GYM"],
       {
         "LATS": 0.90,
-        "UPPER_BACK": 0.35,
-        "CORE": 0.10
+        "TERES_MAJOR": 0.30,
+        "ERECTOR_SPINAE": 0.10,
+        "RHOMBOIDS": 0.12
       },
       ["CABLE"]
     ],
     "Banded Row": [
       ["UPPER_HOME"],
       {
-        "LATS": 0.50,
-        "UPPER_BACK": 0.65,
-        "BICEPS": 0.22,
+        "RHOMBOIDS": 0.60,
+        "LATS": 0.45,
+        "BICEPS_LONG": 0.18,
         "POST_DELTOID": 0.12
       },
       []
@@ -247,161 +305,176 @@
     "Glute Bridge + Band Pull-Apart": [
       ["LOWER_GYM", "LOWER_HOME"],
       {
-        "GLUTES": 0.92,
-        "HAMSTRINGS": 0.30,
+        "GLUTE_MAX": 0.92,
+        "GLUTE_MED": 0.28,
+        "HAM_BICEPS_FEMORIS": 0.30,
         "POST_DELTOID": 0.30,
-        "ERECTORS": 0.28
+        "ERECTOR_SPINAE": 0.28
       },
       []
     ],
     "Leg Press": [
       ["LOWER_GYM"],
       {
-        "QUADS": 0.95,
-        "GLUTES": 0.45,
-        "CORE": 0.28,
-        "HAMSTRINGS": 0.10
+        "VASTUS_LATERALIS": 0.92,
+        "RECTUS_FEMORIS": 0.72,
+        "VASTUS_MEDIALIS": 0.80,
+        "GLUTE_MAX": 0.45,
+        "HAM_BICEPS_FEMORIS": 0.10,
+        "ERECTOR_SPINAE": 0.10
       },
       ["LEG_PRESS"]
     ],
     "Leg Press (sumo/wide)": [
       ["LOWER_GYM"],
       {
-        "ADDUCTORS": 0.65,
-        "GLUTES": 0.70,
-        "QUADS": 0.45
+        "ADDUCTOR_MAGNUS": 0.65,
+        "GLUTE_MAX": 0.70,
+        "VASTUS_LATERALIS": 0.45,
+        "VASTUS_MEDIALIS": 0.38
       },
       ["LEG_PRESS"]
     ],
     "Seated Leg Curl": [
       ["LOWER_GYM"],
       {
-        "HAMSTRINGS": 0.95
+        "HAM_BICEPS_FEMORIS": 0.95,
+        "HAM_SEMITENDINOSUS": 0.60,
+        "HAM_SEMIMEMBRANOSUS": 0.60
       },
       ["LEG_CURL"]
     ],
     "Cable Pull-Through": [
       ["LOWER_GYM", "LOWER_HOME"],
       {
-        "GLUTES": 0.92,
-        "HAMSTRINGS": 0.30,
-        "ERECTORS": 0.28
+        "GLUTE_MAX": 0.92,
+        "HAM_BICEPS_FEMORIS": 0.30,
+        "ERECTOR_SPINAE": 0.28
       },
       ["CABLE"]
     ],
     "Mini-Band Lateral Walk": [
       ["LOWER_GYM", "LOWER_HOME"],
       {
-        "GLUTES": 0.80,
-        "ABDUCTORS": 0.70
+        "GLUTE_MED": 0.80,
+        "TENSOR_FASCIAE_LATAE": 0.40,
+        "GLUTE_MAX": 0.50
       },
       []
     ],
     "Calf Raise": [
       ["LOWER_GYM"],
       {
-        "CALVES": 0.95
+        "GASTROC_MED": 0.48,
+        "GASTROC_LAT": 0.48,
+        "SOLEUS": 0.70
       },
       ["LEG_PRESS"]
     ],
     "Good Morning (cable)": [
       ["LOWER_GYM"],
       {
-        "ERECTORS": 0.90,
-        "GLUTES": 0.35,
-        "HAMSTRINGS": 0.30
+        "ERECTOR_SPINAE": 0.90,
+        "GLUTE_MAX": 0.35,
+        "HAM_BICEPS_FEMORIS": 0.30
       },
       ["CABLE"]
     ],
     "Banded Monster Walk": [
       ["LOWER_GYM", "LOWER_HOME"],
       {
-        "ABDUCTORS": 0.85,
-        "GLUTES": 0.60
+        "GLUTE_MED": 0.75,
+        "GLUTE_MAX": 0.55,
+        "TENSOR_FASCIAE_LATAE": 0.25
       },
       []
     ],
     "Band Supine Hip Abduction": [
       ["LOWER_GYM", "LOWER_HOME"],
       {
-        "ABDUCTORS": 0.92,
-        "GLUTES": 0.35,
-        "CORE": 0.25
+        "GLUTE_MED": 0.92,
+        "GLUTE_MAX": 0.35,
+        "RECTUS_ABDOMINIS": 0.12
       },
       []
     ],
     "Banded front squat": [
       ["LOWER_HOME"],
       {
-        "QUADS": 0.70,
-        "GLUTES": 0.45,
-        "HAMSTRINGS": 0.20,
-        "CORE": 0.20,
-        "ERECTORS": 0.20
+        "VASTUS_LATERALIS": 0.70,
+        "RECTUS_FEMORIS": 0.60,
+        "GLUTE_MAX": 0.45,
+        "HAM_BICEPS_FEMORIS": 0.20,
+        "ERECTOR_SPINAE": 0.20
       },
       []
     ],
     "Banded front squat (sumo/wide)": [
       ["LOWER_HOME"],
       {
-        "ADDUCTORS": 0.50,
-        "GLUTES": 0.50,
-        "QUADS": 0.35,
-        "HAMSTRINGS": 0.20,
-        "ERECTORS": 0.20
+        "ADDUCTOR_LONGUS": 0.50,
+        "GLUTE_MAX": 0.50,
+        "VASTUS_LATERALIS": 0.35,
+        "HAM_BICEPS_FEMORIS": 0.20,
+        "ERECTOR_SPINAE": 0.20
       },
       []
     ],
     "Lying Band Leg Curl": [
       ["LOWER_HOME"],
       {
-        "HAMSTRINGS": 0.78
+        "HAM_BICEPS_FEMORIS": 0.78,
+        "HAM_SEMITENDINOSUS": 0.45
       },
       []
     ],
     "Banded Wall Sit + Pull-Apart": [
       ["LOWER_HOME"],
       {
-        "QUADS": 0.80,
-        "ABDUCTORS": 0.35,
-        "GLUTES": 0.25,
-        "CORE": 0.12,
+        "VASTUS_LATERALIS": 0.80,
+        "VASTUS_MEDIALIS": 0.60,
+        "GLUTE_MAX": 0.25,
+        "RECTUS_ABDOMINIS": 0.12,
         "POST_DELTOID": 0.30,
-        "UPPER_BACK": 0.10
+        "RHOMBOIDS": 0.10
       },
       []
     ],
     "Pallof Press (cable/band)": [
       ["LOWER_GYM", "LOWER_HOME"],
       {
-        "CORE": 0.92,
-        "OBLIQUES": 0.35
+        "RECTUS_ABDOMINIS": 0.70,
+        "EXTERNAL_OBLIQUE": 0.35,
+        "INTERNAL_OBLIQUE": 0.30,
+        "TRANSVERSUS_ABDOMINIS": 0.20
       },
       ["CABLE"]
     ],
     "Plank": [
       ["LOWER_HOME"],
       {
-        "CORE": 0.95,
-        "OBLIQUES": 0.40,
-        "ERECTORS": 0.20
+        "RECTUS_ABDOMINIS": 0.95,
+        "EXTERNAL_OBLIQUE": 0.40,
+        "ERECTOR_SPINAE": 0.20,
+        "TRANSVERSUS_ABDOMINIS": 0.22
       },
       []
     ],
     "Shrug (cable/band)": [
       ["UPPER_HOME"],
       {
-        "NECK": 0.90,
-        "UPPER_BACK": 0.40
+        "TRAP_UPPER": 0.90,
+        "TRAP_MIDDLE": 0.25,
+        "RHOMBOIDS": 0.20
       },
       []
     ],
     "Side Plank High Pull (cable/band)": [
-      ["UPPER_GYM", "LOWER_GYM", "UPPER_HOME", "LOWER_HOME"],
+      ["LOWER_GYM", "LOWER_HOME"],
       {
-        "OBLIQUES": 0.92,
+        "EXTERNAL_OBLIQUE": 0.92,
         "LATS": 0.30,
-        "UPPER_BACK": 0.30,
+        "RHOMBOIDS": 0.30,
         "ANT_DELTOID": 0.18
       },
       ["CABLE"]
