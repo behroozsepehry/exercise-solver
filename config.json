@@ -5,21 +5,20 @@
     "UPPER_HOME": 4.0,
     "LOWER_HOME": 4.0
   },
-  "threshold": 0.2,
+  "threshold": 0.1,
   "shortfall_sum_weight": 0.1,
   "day_requirements": {
-    "UPPER_GYM": 12,
-    "LOWER_GYM": 12,
-    "UPPER_HOME": 6,
-    "LOWER_HOME": 6
+    "UPPER_GYM": 0,
+    "LOWER_GYM": 0,
+    "UPPER_HOME": 24,
+    "LOWER_HOME": 24
   },
   "days_per_category": {
-    "UPPER_GYM": 3,
-    "LOWER_GYM": 3,
-    "UPPER_HOME": 1,
-    "LOWER_HOME": 1
+    "UPPER_GYM": 0,
+    "LOWER_GYM": 0,
+    "UPPER_HOME": 4,
+    "LOWER_HOME": 4
   },
-
   "muscle_targets": {
     "PEC_CLAVICULAR": 5.0,
     "PEC_STERNAL": 7.0,
@@ -36,8 +35,9 @@
     "ANT_DELTOID": 8.0,
     "LAT_DELTOID": 8.0,
     "POST_DELTOID": 8.0,
-    "INFRASPINATUS": 1.2,
-    "TERES_MINOR": 1.0,
+    "INFRASPINATUS": 2.0,
+    "TERES_MINOR": 2.0,
+    "SUBSCAPULARIS": 2.0,
     "BICEPS_LONG": 4.5,
     "BICEPS_SHORT": 3.5,
     "BRACHIALIS": 1.0,
@@ -70,9 +70,7 @@
     "INTERNAL_OBLIQUE": 2.0,
     "TRANSVERSUS_ABDOMINIS": 1.0,
     "ERECTOR_SPINAE": 6.0,
-    "NECK": 1.5,
-    "SERRATUS_ANTERIOR": 2.5,
-    "SUBSCAPULARIS": 0.5
+    "NECK": 1.5
   },
   "exercises": {
     "Chest Press": [
@@ -93,6 +91,37 @@
         "ANT_DELTOID": 0.25,
         "TRICEPS_LONG": 0.32,
         "RECTUS_ABDOMINIS": 0.20
+      },
+      []
+    ],
+    "Close-Grip Push-ups": [
+      ["UPPER_HOME"],
+      {
+        "TRICEPS_LONG": 0.60,
+        "TRICEPS_MEDIAL": 0.50,
+        "PEC_STERNAL": 0.55,
+        "PEC_CLAVICULAR": 0.30,
+        "ANT_DELTOID": 0.20
+      },
+      []
+    ],
+    "Diamond Push-ups": [
+      ["UPPER_HOME"],
+      {
+        "TRICEPS_MEDIAL": 0.80,
+        "TRICEPS_LATERAL": 0.70,
+        "TRICEPS_LONG": 0.65,
+        "PEC_STERNAL": 0.60,
+        "ANT_DELTOID": 0.25
+      },
+      []
+    ],
+    "Scapular Push-ups": [
+      ["UPPER_HOME"],
+      {
+        "SERRATUS_ANTERIOR": 0.90,
+        "PECTORAL_MINOR": 0.40,
+        "TRAP_MIDDLE": 0.15
       },
       []
     ],
@@ -164,6 +193,15 @@
       },
       []
     ],
+    "Triceps Pushdown (cable)": [
+      ["UPPER_GYM"],
+      {
+        "TRICEPS_LATERAL": 0.85,
+        "TRICEPS_MEDIAL": 0.6,
+        "TRICEPS_LONG": 0.15
+      },
+      ["CABLE"]
+    ],
     "Tricep Kickback (cable)": [
       ["UPPER_GYM"],
       {
@@ -225,9 +263,30 @@
         "LATS": 0.93,
         "TERES_MAJOR": 0.25,
         "RHOMBOIDS": 0.20,
-        "BICEPS_LONG": 0.28
+        "BICEPS_LONG": 0.28,
+        "TRAP_LOWER": 0.25
       },
       ["LAT_PULLDOWN"]
+    ],
+    "Cable Y-Raise": [
+      ["UPPER_GYM"],
+      {
+        "TRAP_LOWER": 0.95,
+        "TRAP_MIDDLE": 0.35,
+        "POST_DELTOID": 0.30,
+        "INFRASPINATUS": 0.20
+      },
+      ["CABLE"]
+    ],
+    "Band Y-Raise": [
+      ["UPPER_HOME"],
+      {
+        "TRAP_LOWER": 0.85,
+        "TRAP_MIDDLE": 0.30,
+        "POST_DELTOID": 0.25,
+        "INFRASPINATUS": 0.15
+      },
+      []
     ],
     "Biceps Curl (cable)": [
       ["UPPER_GYM"],
@@ -394,6 +453,7 @@
       ["LOWER_GYM", "LOWER_HOME"],
       {
         "GLUTE_MED": 0.92,
+        "GLUTE_MIN": 0.80,
         "GLUTE_MAX": 0.35,
         "RECTUS_ABDOMINIS": 0.12
       },
@@ -455,9 +515,9 @@
       ["LOWER_HOME"],
       {
         "RECTUS_ABDOMINIS": 0.95,
+        "TRANSVERSUS_ABDOMINIS": 0.75,
         "EXTERNAL_OBLIQUE": 0.40,
-        "ERECTOR_SPINAE": 0.20,
-        "TRANSVERSUS_ABDOMINIS": 0.22
+        "ERECTOR_SPINAE": 0.20
       },
       []
     ],
@@ -467,6 +527,21 @@
         "TRAP_UPPER": 0.90,
         "TRAP_MIDDLE": 0.25,
         "RHOMBOIDS": 0.20
+      },
+      []
+    ],
+    "Banded Neck Extension": [
+      ["UPPER_GYM", "UPPER_HOME"],
+      {
+        "NECK": 0.85,
+        "TRAP_UPPER": 0.15
+      },
+      []
+    ],
+    "Banded Neck Flexion": [
+      ["UPPER_GYM", "UPPER_HOME"],
+      {
+        "NECK": 0.85
       },
       []
     ],
