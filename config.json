@@ -281,10 +281,10 @@
     "Band Y-Raise": [
       ["UPPER_HOME"],
       {
-        "TRAP_LOWER": 0.85,
-        "TRAP_MIDDLE": 0.30,
-        "POST_DELTOID": 0.25,
-        "INFRASPINATUS": 0.15
+        "TRAP_LOWER": 0.76,
+        "TRAP_MIDDLE": 0.28,
+        "POST_DELTOID": 0.24,
+        "INFRASPINATUS": 0.16
       },
       []
     ],
