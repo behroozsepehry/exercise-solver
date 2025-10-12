@@ -1,0 +1,1 @@
+Always assess if README needs an update after changes to the code or configuration and update it accordingly.
