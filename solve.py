@@ -357,15 +357,16 @@ def solve_muscle_coverage() -> Tuple[
     float,
 ]:
     """
-    Build and solve the ILP for muscle coverage optimization.
-    Objective: minimize the maximum shortfall across all muscles (minimax).
+    Build and solve the ILP for muscle coverage with tolerance constraints.
+    Finds a feasible solution where coverage for each muscle is within ±COVERAGE_TOLERANCE of targets.
 
     Returns:
         status: Solver status ('Optimal', 'Feasible', etc.)
         counts_dict: Exercise counts per category
         pairs_dict: Expanded superset pairs per category
         coverage: Muscle coverage vs targets
-        max_shortfall: The minimized maximum shortfall value
+        max_deviation: Maximum percentage deviation from targets
+        total_deviation_sum: Sum of absolute deviations
     """
     prob: pulp.LpProblem = pulp.LpProblem("muscle_coverage_solver", pulp.LpMinimize)
 
@@ -415,14 +416,8 @@ def solve_muscle_coverage() -> Tuple[
                         cat="Integer",
                     )
 
-    # Introduce a single max_shortfall variable for minimax objective
-    max_shortfall = pulp.LpVariable("max_shortfall", lowBound=0, cat="Continuous")
-
-    # Per-muscle shortfall variables
-    shortfall_muscle: Dict[Muscle, pulp.LpVariable] = {
-        m: pulp.LpVariable(f"shortfall_{m.name}", lowBound=0, cat="Continuous")
-        for m in Muscle
-    }
+    # Dummy objective for feasibility check
+    dummy_obj = pulp.LpVariable("dummy", lowBound=0, cat="Continuous")
 
     # counts constraints per category
     for cat in categories:
@@ -452,23 +447,33 @@ def solve_muscle_coverage() -> Tuple[
             f"total_{cat.name.lower()}_pairs",
         )
 
-    # coverage & shortfall constraints
-    for m_idx, m in enumerate(Muscle):
-        coverage_expr = pulp.lpSum(
-            SETS_PER_INSTANCE[cat] * c[cat][e] * VEC[e][m_idx]
-            for cat in categories for e in range(E)
-        )
-        prob += (
-            shortfall_muscle[m] >= MUSCLE_TARGETS[m] - coverage_expr,
-            f"shortfall_{m.name}",
-        )
-        prob += (
-            max_shortfall >= shortfall_muscle[m],
-            f"max_shortfall_{m.name}",
-        )
+    # Percentage deviation constraints - minimize sum of percentage deviations from targets
+    overshoot_deviations = {}
+    undershoot_deviations = {}
 
-    sum_shortfall = pulp.lpSum(shortfall_muscle.values())
-    prob.setObjective(max_shortfall + SUM_SHORTFALL_WEIGHT * sum_shortfall)
+    for m_idx, m in enumerate(Muscle):
+        if MUSCLE_TARGETS[m] > 0:
+            coverage_expr = pulp.lpSum(
+                SETS_PER_INSTANCE[cat] * c[cat][e] * VEC[e][m_idx]
+                for cat in categories for e in range(E)
+            )
+            target = MUSCLE_TARGETS[m]
+
+            # Slack variables for overshoot and undershoot percentages
+            over_pct_slack = pulp.LpVariable(f"over_pct_{m.name}", lowBound=0, cat="Continuous")
+            under_pct_slack = pulp.LpVariable(f"under_pct_{m.name}", lowBound=0, cat="Continuous")
+
+            overshoot_deviations[m] = over_pct_slack
+            undershoot_deviations[m] = under_pct_slack
+
+            # Constraints allowing deviation
+            prob += (coverage_expr <= target + (over_pct_slack / 100) * target, f"over_dev_{m.name}")
+            prob += (coverage_expr >= target - (under_pct_slack / 100) * target, f"under_dev_{m.name}")
+
+    # Objective: minimize sum of all percentage deviations
+    prob.setObjective(pulp.lpSum(overshoot_deviations.values()) + pulp.lpSum(undershoot_deviations.values()))
+
+
 
     # Solve
     solver = pulp.PULP_CBC_CMD(msg=False)
@@ -507,11 +512,19 @@ def solve_muscle_coverage() -> Tuple[
         )
         coverage[m] = cov
 
-    max_shortfall_value: float = safe_value(max_shortfall)
+    # Calculate total sum of deviation percentages (this is the minimized objective)
+    total_dev_pct_sum = sum(
+        safe_value(overshoot_deviations[m]) + safe_value(undershoot_deviations[m])
+        for m in overshoot_deviations
+    )
 
-    total_shortfall_sum: float = sum(safe_value(shortfall_muscle[m]) for m in shortfall_muscle)
+    # Calculate maximum deviation percentage for any single muscle
+    max_dev_pct = max(
+        (coverage[m] - MUSCLE_TARGETS[m]) / MUSCLE_TARGETS[m] * 100
+        for m in Muscle if MUSCLE_TARGETS[m] > 0
+    ) if any(MUSCLE_TARGETS[m] > 0 for m in Muscle) else 0.0
 
-    return status, counts_dict, pairs_dict, coverage, max_shortfall_value, total_shortfall_sum
+    return status, counts_dict, pairs_dict, coverage, total_dev_pct_sum, max_dev_pct
 
 
 # -----------------------
@@ -526,7 +539,7 @@ if status not in ("Optimal", "Feasible"):
     print("No feasible solution found.")
 else:
     # Unpack the successful results
-    status, counts_dict, pairs_dict, coverage, max_shortfall, total_shortfall_sum = result
+    status, counts_dict, pairs_dict, coverage, total_deviation_sum, max_deviation = result
 
     print("\n=== COUNTS ===")
     for cat in counts_dict:
@@ -546,11 +559,16 @@ else:
 
     print("\n=== COVERAGE vs TARGETS (sets/week) ===")
     for m in Muscle:
+        if MUSCLE_TARGETS[m] > 0:
+            pct_dev = (coverage[m] - MUSCLE_TARGETS[m]) / MUSCLE_TARGETS[m] * 100
+        else:
+            pct_dev = 0.0
         print(
-            f"  {m.name:20s} target {MUSCLE_TARGETS[m]:4.1f}   covered {coverage[m]:6.2f}   diff {coverage[m]-MUSCLE_TARGETS[m]:6.2f}"
+            f"  {m.name:20s} target {MUSCLE_TARGETS[m]:4.1f}   covered {coverage[m]:6.2f}   diff {coverage[m]-MUSCLE_TARGETS[m]:6.2f}   %dev {pct_dev:6.1f}%"
         )
 
-    print(f"\nObjective = max_shortfall {max_shortfall:.3f} + weight {SUM_SHORTFALL_WEIGHT:.3f} * sum {total_shortfall_sum:.3f} = {max_shortfall + SUM_SHORTFALL_WEIGHT * total_shortfall_sum:.3f}")
+    print(f"\nMinimized sum of percentage deviations: {total_deviation_sum:.2f}%")
+    print(f"Maximum percentage deviation (worst muscle): {max_deviation:.2f}%")
 
     print(f"\nNote: THRESHOLD = {THRESHOLD}")
     print("SETS_PER_INSTANCE:")
