@@ -1,25 +1,17 @@
 ## Workout Plan
 
-### UPPER GYM Days:
-| Workout Type | Superset 1 | Superset 2 |
-|---|---|---|
-| UPPER GYM 1 | Chest Press<br>Face Pull (cable) | Overhead Press (cable)<br>Lat Pulldown (machine) |
-| UPPER GYM 2 | Chest Press<br>Face Pull (cable) | Lateral Raise (cable)<br>Lat Pulldown (machine) |
-| UPPER GYM 3 | Overhead Press (cable)<br>Row (machine) | Lat Pulldown (machine)<br>Hammer Curl (cable) |
-
-### LOWER GYM Days:
-| Workout Type | Superset 1 | Superset 2 |
-|---|---|---|
-| LOWER GYM 1 | Glute Bridge + Band Pull-Apart<br>Calf Raise | Leg Press (sumo/wide)<br>Pallof Press (cable/band) |
-| LOWER GYM 2 | Glute Bridge + Band Pull-Apart<br>Calf Raise | Leg Press (sumo/wide)<br>Side Plank High Pull (cable/band) |
-| LOWER GYM 3 | Leg Press<br>Seated Leg Curl | Calf Raise<br>Good Morning (cable) |
-
 ### UPPER HOME Days:
 | Workout Type | Superset 1 | Superset 2 | Superset 3 |
 |---|---|---|---|
-| UPPER HOME 1 | Push-ups<br>Biceps Curl (band) | Chest Fly (band)<br>Shrug (cable/band) | Lateral Raise (band)<br>Overhead Triceps Extensions (band) |
+| UPPER HOME 1 | Close-Grip Push-ups<br>Tricep Kickback (band) | Lateral Raise (band)<br>Biceps Curl (band) | Band Y-Raise<br>Banded Straight-Arm Pulldowns |
+| UPPER HOME 2 | Push-ups<br>Reverse Curl (band) | Lateral Raise (band)<br>Biceps Curl (band) | Band Y-Raise<br>Banded Straight-Arm Pulldowns |
+| UPPER HOME 3 | Push-ups<br>Banded Straight-Arm Pulldowns | Scapular Push-ups<br>Banded Neck Flexion | Tricep Kickback (band)<br>Hammer Curl (band) |
+| UPPER HOME 4 | Overhead Press (band)<br>Shrug (band) | Lateral Raise (band)<br>Biceps Curl (band) | Band Y-Raise<br>Banded Straight-Arm Pulldowns |
 
 ### LOWER HOME Days:
 | Workout Type | Superset 1 | Superset 2 | Superset 3 |
 |---|---|---|---|
-| LOWER HOME 1 | Band Supine Hip Abduction<br>Banded front squat (sumo/wide) | Banded front squat<br>Side Plank High Pull (cable/band) | Lying Band Leg Curl<br>Banded Wall Sit + Pull-Apart |
+| LOWER HOME 1 | Mini-Band Lateral Walk<br>Lying Band Leg Curl | Banded front squat<br>Plank | Banded front squat (sumo/wide)<br>Pallof Press (cable/band) |
+| LOWER HOME 2 | Mini-Band Lateral Walk<br>Lying Band Leg Curl | Band Supine Hip Abduction<br>Banded front squat | Banded front squat (sumo/wide)<br>Pallof Press (cable/band) |
+| LOWER HOME 3 | Mini-Band Lateral Walk<br>Banded Wall Sit + Pull-Apart | Banded front squat (sumo/wide)<br>Pallof Press (cable/band) | Lying Band Leg Curl<br>Side Plank High Pull (cable/band) |
+| LOWER HOME 4 | Mini-Band Lateral Walk<br>Banded Wall Sit + Pull-Apart | Banded front squat (sumo/wide)<br>Pallof Press (cable/band) | Lying Band Leg Curl<br>Side Plank High Pull (cable/band) |
