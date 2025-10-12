@@ -352,6 +352,27 @@
       },
       ["CABLE"]
     ],
+    "Banded Straight-Arm Pulldowns": [
+      ["UPPER_HOME"],
+      {
+        "LATS": 0.74,
+        "TERES_MAJOR": 0.25,
+        "ERECTOR_SPINAE": 0.08,
+        "RHOMBOIDS": 0.10
+      },
+      []
+    ],
+    "Banded Bent-Arm Pulldowns": [
+      ["UPPER_HOME"],
+      {
+        "LATS": 0.77,
+        "TERES_MAJOR": 0.21,
+        "RHOMBOIDS": 0.17,
+        "BICEPS_LONG": 0.23,
+        "TRAP_LOWER": 0.21
+      },
+      []
+    ],
     "Banded Row": [
       ["UPPER_HOME"],
       {
