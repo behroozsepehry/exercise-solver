@@ -2,11 +2,11 @@
   "sets_per_instance": {
     "UPPER_GYM": 2.5,
     "LOWER_GYM": 2.5,
-    "UPPER_HOME": 4.0,
-    "LOWER_HOME": 4.0
+    "UPPER_HOME": 3.5,
+    "LOWER_HOME": 3.5
   },
-  "threshold": 0.1,
-  "deviation_sum_weight": 0.1,
+  "threshold": 0.2,
+  "deviation_sum_weight": 1.0,
   "supersets_per_day": {
     "UPPER_GYM": 2,
     "LOWER_GYM": 2,
@@ -14,10 +14,10 @@
     "LOWER_HOME": 3
   },
   "days_per_category": {
-    "UPPER_GYM": 3,
-    "LOWER_GYM": 3,
-    "UPPER_HOME": 1,
-    "LOWER_HOME": 1
+    "UPPER_GYM": 0,
+    "LOWER_GYM": 0,
+    "UPPER_HOME": 4,
+    "LOWER_HOME": 4
   },
   "muscle_targets": {
     "PEC_CLAVICULAR": 5.0,
