@@ -6,8 +6,8 @@
     "LOWER_HOME": 3.5
   },
   "threshold": 0.2,
-  "deviation_sum_weight": 1.0,
-  "exercise_repeat_limit_per_category": 2,
+  "deviation_sum_weight": 0.1,
+  "exercise_repeat_limit_per_category": 4,
   "supersets_per_day": {
     "UPPER_GYM": 2,
     "LOWER_GYM": 2,
@@ -134,15 +134,6 @@
         "ANT_DELTOID": 0.18
       },
       ["CABLE"]
-    ],
-    "Chest Fly (band)": [
-      ["UPPER_HOME"],
-      {
-        "PEC_STERNAL": 0.64,
-        "PEC_CLAVICULAR": 0.41,
-        "ANT_DELTOID": 0.15
-      },
-      []
     ],
     "Overhead Press (cable)": [
       ["UPPER_GYM"],
