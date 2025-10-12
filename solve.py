@@ -143,7 +143,7 @@ SETS_PER_INSTANCE: Dict[DayCategory, float] = {
     for cat, val in config["sets_per_instance"].items()
 }
 THRESHOLD: float = config["threshold"]
-SUM_SHORTFALL_WEIGHT: float = config["shortfall_sum_weight"]
+DEVIATION_SUM_WEIGHT: float = config["deviation_sum_weight"]
 DAY_REQUIREMENTS = {
     DayCategory[cat]: val
     for cat, val in config["day_requirements"].items()
@@ -355,18 +355,20 @@ def solve_muscle_coverage() -> Tuple[
     CoverageDict,
     float,
     float,
+    float,
 ]:
     """
-    Build and solve the ILP for muscle coverage with tolerance constraints.
-    Finds a feasible solution where coverage for each muscle is within ±COVERAGE_TOLERANCE of targets.
+    Build and solve the ILP for muscle coverage with mixed-objective minimization.
+    Minimizes weighted sum of percentage deviations plus maximum deviation across muscles.
 
     Returns:
         status: Solver status ('Optimal', 'Feasible', etc.)
         counts_dict: Exercise counts per category
         pairs_dict: Expanded superset pairs per category
         coverage: Muscle coverage vs targets
-        max_deviation: Maximum percentage deviation from targets
-        total_deviation_sum: Sum of absolute deviations
+        total_deviation_sum: Sum of all percentage deviations
+        max_deviation: Maximum percentage deviation (worst muscle)
+        objective_value: Minimized objective value (weighted sum + max dev)
     """
     prob: pulp.LpProblem = pulp.LpProblem("muscle_coverage_solver", pulp.LpMinimize)
 
@@ -451,6 +453,9 @@ def solve_muscle_coverage() -> Tuple[
     overshoot_deviations = {}
     undershoot_deviations = {}
 
+    # Variable for maximum deviation
+    max_dev_pct_slack = pulp.LpVariable("max_dev_pct_slack", lowBound=0, cat="Continuous")
+
     for m_idx, m in enumerate(Muscle):
         if MUSCLE_TARGETS[m] > 0:
             coverage_expr = pulp.lpSum(
@@ -470,8 +475,13 @@ def solve_muscle_coverage() -> Tuple[
             prob += (coverage_expr <= target + (over_pct_slack / 100) * target, f"over_dev_{m.name}")
             prob += (coverage_expr >= target - (under_pct_slack / 100) * target, f"under_dev_{m.name}")
 
-    # Objective: minimize sum of all percentage deviations
-    prob.setObjective(pulp.lpSum(overshoot_deviations.values()) + pulp.lpSum(undershoot_deviations.values()))
+            # Constraints for max deviation
+            prob += (max_dev_pct_slack >= over_pct_slack, f"max_over_{m.name}")
+            prob += (max_dev_pct_slack >= under_pct_slack, f"max_under_{m.name}")
+
+    # Objective: minimize weighted sum of deviations plus max deviation
+    dev_sum_expr = pulp.lpSum(overshoot_deviations.values()) + pulp.lpSum(undershoot_deviations.values())
+    prob.setObjective(DEVIATION_SUM_WEIGHT * dev_sum_expr + max_dev_pct_slack)
 
 
 
@@ -485,7 +495,7 @@ def solve_muscle_coverage() -> Tuple[
         # Return empty dicts for infeasible case (but type says no Optional, assume always succeeds for now)
         empty_counts = {cat: {} for cat in categories}
         empty_pairs = {cat: [] for cat in categories}
-        return status, empty_counts, empty_pairs, {}, 0.0, 0.0
+        return status, empty_counts, empty_pairs, {}, 0.0, 0.0, 0.0
 
     # Build results per category
     counts_dict: Dict[DayCategory, ExerciseCounts] = {}
@@ -524,7 +534,10 @@ def solve_muscle_coverage() -> Tuple[
         for m in Muscle if MUSCLE_TARGETS[m] > 0
     ) if any(MUSCLE_TARGETS[m] > 0 for m in Muscle) else 0.0
 
-    return status, counts_dict, pairs_dict, coverage, total_dev_pct_sum, max_dev_pct
+    # Calculate objective value
+    objective_value = safe_value(max_dev_pct_slack) + DEVIATION_SUM_WEIGHT * total_dev_pct_sum
+
+    return status, counts_dict, pairs_dict, coverage, total_dev_pct_sum, max_dev_pct, objective_value
 
 
 # -----------------------
@@ -539,7 +552,7 @@ if status not in ("Optimal", "Feasible"):
     print("No feasible solution found.")
 else:
     # Unpack the successful results
-    status, counts_dict, pairs_dict, coverage, total_deviation_sum, max_deviation = result
+    status, counts_dict, pairs_dict, coverage, total_deviation_sum, max_deviation, objective_value = result
 
     print("\n=== COUNTS ===")
     for cat in counts_dict:
@@ -567,8 +580,7 @@ else:
             f"  {m.name:20s} target {MUSCLE_TARGETS[m]:4.1f}   covered {coverage[m]:6.2f}   diff {coverage[m]-MUSCLE_TARGETS[m]:6.2f}   %dev {pct_dev:6.1f}%"
         )
 
-    print(f"\nMinimized sum of percentage deviations: {total_deviation_sum:.2f}%")
-    print(f"Maximum percentage deviation (worst muscle): {max_deviation:.2f}%")
+    print(f"\nObjective = {DEVIATION_SUM_WEIGHT} * sum_devs({total_deviation_sum:.2f}%) + max_dev({max_deviation:.2f}%) = {objective_value:.2f}%")
 
     print(f"\nNote: THRESHOLD = {THRESHOLD}")
     print("SETS_PER_INSTANCE:")

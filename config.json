@@ -6,7 +6,7 @@
     "LOWER_HOME": 4.0
   },
   "threshold": 0.1,
-  "shortfall_sum_weight": 0.1,
+  "deviation_sum_weight": 0.1,
   "day_requirements": {
     "UPPER_GYM": 12,
     "LOWER_GYM": 12,
