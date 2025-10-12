@@ -7,6 +7,7 @@
   },
   "threshold": 0.2,
   "deviation_sum_weight": 1.0,
+  "exercise_repeat_limit_per_category": 2,
   "supersets_per_day": {
     "UPPER_GYM": 2,
     "LOWER_GYM": 2,

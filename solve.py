@@ -154,11 +154,12 @@ DAYS_PER_CATEGORY = {
 }
 PAIRS_PER_CATEGORY = {cat: PAIRS_PER_DAY[cat] * DAYS_PER_CATEGORY[cat] for cat in PAIRS_PER_DAY}
 DAY_REQUIREMENTS = {cat: PAIRS_PER_CATEGORY[cat] * 2 for cat in PAIRS_PER_CATEGORY}
+MAX_EXERCISE_USAGE = config["exercise_repeat_limit_per_category"]
 
 
 def get_max_usage_for_category(cat: DayCategory) -> int:
     """Get the maximum times an exercise can be used in the given category"""
-    return DAYS_PER_CATEGORY[cat]
+    return min(DAYS_PER_CATEGORY[cat], MAX_EXERCISE_USAGE)
 
 
 # -----------------------
