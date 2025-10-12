@@ -14,7 +14,7 @@ The solver models exercises and muscles, enforces a maximum overlap between supe
 * **Machine constraints**: Exercises specify which machines they use (chest press, leg press, cable, etc.). Pairs are only allowed if they don't share machines, reducing equipment adjustment time during workouts. Machines include: `"CHEST_PRESS"`, `"LEG_PRESS"`, `"LEG_CURL"`, `"LAT_PULLDOWN"`, `"SEATED_ROW"`, `"CABLE"`.
 * Pairing constraint: each category forms pairs (supersets) where gym categories get 6 pairs (for 3 days × 2 pairs/day), home categories get 3 pairs (for 1 day × 3 pairs/day). A pair is allowed only if the *overlap* (dot product of activation vectors) ≤ `THRESHOLD` AND they don't share machines.
 * Day assignment: After pairing, assign pairs to days (3 gym days + 1 home day per upper/lower, totaling 7 days) with 2 pairs/day for gym and 3 pairs/day for home, minimizing exercise repeats within a day. Conflicts are handled via ILP relaxation if needed.
-* Objective: minimize weighted sum of percentage deviations from targets plus maximum percentage deviation (`DEVIATION_SUM_WEIGHT * sum_devs% + max_dev%`), including both overshoot and undershoot percentages to balance overall coverage.
+* Objective: minimize weighted sum of absolute deviations from targets plus maximum absolute deviation (`DEVIATION_SUM_WEIGHT * sum_abs_deviations + max_abs_deviation`), measuring deviations in sets rather than percentages to treat all targets equally.
 
 ---
 
@@ -81,7 +81,7 @@ python solve.py
 * **Counts**: how many times each exercise is used in each category: Upper Gym (12 total), Lower Gym (12 total), Upper Home (6 total), Lower Home (6 total).
 * **Expanded pairs**: list of 6 unordered superset pairs for gym categories, 3 pairs for home categories per upper/lower.
 * **Coverage vs targets**: weekly sets contributed to each muscle vs the target; a positive diff means over target; negative means shortfall.
-* **Objective and total deviation sum**: shows `DEVIATION_SUM_WEIGHT * sum_devs + max_dev` value (lower is better). Followed by the % deviation breakdown. Zero means all targets met exactly.
+* **Objective and total deviation sum**: shows `DEVIATION_SUM_WEIGHT * sum_abs_deviations + max_abs_deviation` value in sets (lower is better). Followed by the % deviation breakdown. Zero sets means all targets met exactly.
 * **Assignment**: Markdown table for each category showing supersets per day, e.g.:
 
   ```

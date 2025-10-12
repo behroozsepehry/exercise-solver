@@ -342,16 +342,16 @@ def solve_muscle_coverage() -> Tuple[
 ]:
     """
     Build and solve the ILP for muscle coverage with mixed-objective minimization.
-    Minimizes weighted sum of percentage deviations plus maximum deviation across muscles.
+    Minimizes weighted sum of absolute deviations (in sets) plus maximum absolute deviation across muscles.
 
     Returns:
         status: Solver status ('Optimal', 'Feasible', etc.)
         counts_dict: Exercise counts per category
         pairs_dict: Expanded superset pairs per category
         coverage: Muscle coverage vs targets
-        total_deviation_sum: Sum of all percentage deviations
-        max_deviation: Maximum percentage deviation (worst muscle)
-        objective_value: Minimized objective value (weighted sum + max dev)
+        total_dev_abs_sum: Sum of all absolute deviations (in sets)
+        max_dev_abs: Maximum absolute deviation (worst muscle, in sets)
+        objective_value: Minimized objective value (weighted sum + max abs dev, in sets)
     """
     prob: pulp.LpProblem = pulp.LpProblem("muscle_coverage_solver", pulp.LpMinimize)
 
@@ -432,12 +432,12 @@ def solve_muscle_coverage() -> Tuple[
             f"total_{cat.name.lower()}_pairs",
         )
 
-    # Percentage deviation constraints - minimize sum of percentage deviations from targets
+    # Absolute deviation constraints - minimize sum of absolute deviations from targets (in sets)
     overshoot_deviations = {}
     undershoot_deviations = {}
 
-    # Variable for maximum deviation
-    max_dev_pct_slack = pulp.LpVariable("max_dev_pct_slack", lowBound=0, cat="Continuous")
+    # Variable for maximum absolute deviation (in sets)
+    max_dev_abs_slack = pulp.LpVariable("max_dev_abs_slack", lowBound=0, cat="Continuous")
 
     for m_idx, m in enumerate(Muscle):
         if MUSCLE_TARGETS[m] > 0:
@@ -447,24 +447,24 @@ def solve_muscle_coverage() -> Tuple[
             )
             target = MUSCLE_TARGETS[m]
 
-            # Slack variables for overshoot and undershoot percentages
-            over_pct_slack = pulp.LpVariable(f"over_pct_{m.name}", lowBound=0, cat="Continuous")
-            under_pct_slack = pulp.LpVariable(f"under_pct_{m.name}", lowBound=0, cat="Continuous")
+            # Slack variables for overshoot and undershoot in absolute sets
+            over_abs_slack = pulp.LpVariable(f"over_abs_{m.name}", lowBound=0, cat="Continuous")
+            under_abs_slack = pulp.LpVariable(f"under_abs_{m.name}", lowBound=0, cat="Continuous")
 
-            overshoot_deviations[m] = over_pct_slack
-            undershoot_deviations[m] = under_pct_slack
+            overshoot_deviations[m] = over_abs_slack
+            undershoot_deviations[m] = under_abs_slack
 
-            # Constraints allowing deviation
-            prob += (coverage_expr <= target + (over_pct_slack / 100) * target, f"over_dev_{m.name}")
-            prob += (coverage_expr >= target - (under_pct_slack / 100) * target, f"under_dev_{m.name}")
+            # Constraints allowing absolute deviation in sets
+            prob += (coverage_expr <= target + over_abs_slack, f"over_dev_{m.name}")
+            prob += (coverage_expr >= target - under_abs_slack, f"under_dev_{m.name}")
 
-            # Constraints for max deviation
-            prob += (max_dev_pct_slack >= over_pct_slack, f"max_over_{m.name}")
-            prob += (max_dev_pct_slack >= under_pct_slack, f"max_under_{m.name}")
+            # Constraints for max absolute deviation
+            prob += (max_dev_abs_slack >= over_abs_slack, f"max_over_{m.name}")
+            prob += (max_dev_abs_slack >= under_abs_slack, f"max_under_{m.name}")
 
-    # Objective: minimize weighted sum of deviations plus max deviation
+    # Objective: minimize weighted sum of absolute deviations plus max absolute deviation
     dev_sum_expr = pulp.lpSum(overshoot_deviations.values()) + pulp.lpSum(undershoot_deviations.values())
-    prob.setObjective(DEVIATION_SUM_WEIGHT * dev_sum_expr + max_dev_pct_slack)
+    prob.setObjective(DEVIATION_SUM_WEIGHT * dev_sum_expr + max_dev_abs_slack)
 
 
 
@@ -505,22 +505,22 @@ def solve_muscle_coverage() -> Tuple[
         )
         coverage[m] = cov
 
-    # Calculate total sum of deviation percentages (this is the minimized objective)
-    total_dev_pct_sum = sum(
+    # Calculate total sum of absolute deviations (this is the minimized objective component)
+    total_dev_abs_sum = sum(
         safe_value(overshoot_deviations[m]) + safe_value(undershoot_deviations[m])
         for m in overshoot_deviations
     )
 
-    # Calculate maximum deviation percentage for any single muscle
-    max_dev_pct = max(
-        (coverage[m] - MUSCLE_TARGETS[m]) / MUSCLE_TARGETS[m] * 100
+    # Calculate maximum absolute deviation for any single muscle (display only)
+    max_dev_abs = max(
+        abs(coverage[m] - MUSCLE_TARGETS[m])
         for m in Muscle if MUSCLE_TARGETS[m] > 0
     ) if any(MUSCLE_TARGETS[m] > 0 for m in Muscle) else 0.0
 
-    # Calculate objective value
-    objective_value = safe_value(max_dev_pct_slack) + DEVIATION_SUM_WEIGHT * total_dev_pct_sum
+    # Calculate objective value (weighted abs sum + max abs deviation)
+    objective_value = safe_value(max_dev_abs_slack) + DEVIATION_SUM_WEIGHT * total_dev_abs_sum
 
-    return status, counts_dict, pairs_dict, coverage, total_dev_pct_sum, max_dev_pct, objective_value
+    return status, counts_dict, pairs_dict, coverage, total_dev_abs_sum, max_dev_abs, objective_value
 
 
 # -----------------------
@@ -567,7 +567,7 @@ else:
             f"  {m.name:20s} target {MUSCLE_TARGETS[m]:4.1f}   covered {coverage[m]:6.2f}   diff {coverage[m]-MUSCLE_TARGETS[m]:6.2f}   %dev {pct_dev:6.1f}%"
         )
 
-    print(f"\nObjective = {DEVIATION_SUM_WEIGHT} * sum_devs({total_deviation_sum:.2f}%) + max_dev({max_deviation:.2f}%) = {objective_value:.2f}%")
+    print(f"\nObjective = {DEVIATION_SUM_WEIGHT} * sum_abs_deviations({total_deviation_sum:.2f} sets) + max_abs_deviation({max_deviation:.2f} sets) = {objective_value:.2f} sets")
 
     print(f"\nNote: THRESHOLD = {THRESHOLD}")
     print("SETS_PER_INSTANCE:")
