@@ -144,33 +144,16 @@ SETS_PER_INSTANCE: Dict[DayCategory, float] = {
 }
 THRESHOLD: float = config["threshold"]
 DEVIATION_SUM_WEIGHT: float = config["deviation_sum_weight"]
-DAY_REQUIREMENTS = {
+PAIRS_PER_DAY = {
     DayCategory[cat]: val
-    for cat, val in config["day_requirements"].items()
+    for cat, val in config["supersets_per_day"].items()
 }
 DAYS_PER_CATEGORY = {
     DayCategory[cat]: val
     for cat, val in config["days_per_category"].items()
 }
-PAIRS_PER_CATEGORY = {cat: DAY_REQUIREMENTS[cat] // 2 for cat in DAY_REQUIREMENTS}
-PAIRS_PER_DAY = {}
-for cat in DAY_REQUIREMENTS:
-    if DAYS_PER_CATEGORY[cat] == 0:
-        PAIRS_PER_DAY[cat] = 0
-    else:
-        PAIRS_PER_DAY[cat] = PAIRS_PER_CATEGORY[cat] // DAYS_PER_CATEGORY[cat]
-
-# Validate divisibility to prevent runtime errors
-for cat in DAY_REQUIREMENTS:
-    if DAYS_PER_CATEGORY[cat] == 0:
-        if DAY_REQUIREMENTS[cat] != 0:
-            raise ValueError(f"For category {cat.name}, days_per_category is 0 but day_requirements is non-zero ({DAY_REQUIREMENTS[cat]}). Set day_requirements to 0 or days_per_category to a positive value.")
-    else:
-        if DAY_REQUIREMENTS[cat] % (2 * DAYS_PER_CATEGORY[cat]) != 0:
-            raise ValueError(
-                f"day_requirements[{cat.name}] ({DAY_REQUIREMENTS[cat]}) not evenly divisible by 2 * days_per_category ({DAYS_PER_CATEGORY[cat]}). "
-                "Ensure total instances per category can be split into pairs and distributed evenly across days."
-            )
+PAIRS_PER_CATEGORY = {cat: PAIRS_PER_DAY[cat] * DAYS_PER_CATEGORY[cat] for cat in PAIRS_PER_DAY}
+DAY_REQUIREMENTS = {cat: PAIRS_PER_CATEGORY[cat] * 2 for cat in PAIRS_PER_CATEGORY}
 
 
 def get_max_usage_for_category(cat: DayCategory) -> int:
@@ -556,7 +539,11 @@ else:
 
     print("\n=== COUNTS ===")
     for cat in counts_dict:
-        print(f"{cat.name.replace('_', ' ')} counts ({DAY_REQUIREMENTS[cat]} total):")
+        supersets_per_day = PAIRS_PER_DAY[cat]
+        days = DAYS_PER_CATEGORY[cat]
+        total_instances = DAY_REQUIREMENTS[cat]
+        total_supersets = PAIRS_PER_CATEGORY[cat]
+        print(f"{cat.name.replace('_', ' ')} counts ({total_instances} instances, {total_supersets} supersets over {days} days at {supersets_per_day}/day):")
         for k, v in sorted(counts_dict[cat].items(), key=lambda x: -x[1]):
             print(f"  {k:40s} : {v}")
         print()
@@ -564,7 +551,7 @@ else:
     print("\n=== EXPANDED PAIRS ===")
     for cat in pairs_dict:
         print(
-            f"{cat.name.replace('_', ' ')} expanded pairs ({PAIRS_PER_CATEGORY[cat]}):"
+            f"{cat.name.replace('_', ' ')} expanded pairs ({PAIRS_PER_CATEGORY[cat]} total supersets):"
         )
         for i, pair in enumerate(pairs_dict[cat], start=1):
             print(f" Pair {i:2d}: {pair[0]}  +  {pair[1]}")

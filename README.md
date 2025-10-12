@@ -1,6 +1,6 @@
 # Exercise Pair Optimizer
 
-A solver that builds a time-efficient 7-day resistance-training plan (Upper Gym 1/2/3, Lower Gym 1/2/3, Upper Home, Lower Home) by selecting 12 gym and 6 home exercise instances per upper/lower category (total 36 instances), grouping them into supersets (6 pairs for gym categories, 3 pairs for home categories), and automatically assigning these supersets to days while minimizing exercise repeats within the same day.
+A solver that builds a time-efficient 7-day resistance-training plan (Upper Gym 1/2/3, Lower Gym 1/2/3, Upper Home, Lower Home) by selecting supersets based on pairs per day (Upper/Lower Gym: 2 supersets/day × 3 days = 6 total supersets = 12 instances; Upper/Lower Home: 3 supersets/day × 1 day = 3 total supersets = 6 instances), and automatically assigning these supersets to days while minimizing exercise repeats within the same day.
 
 The solver models exercises and muscles, enforces a maximum overlap between superset partners, chooses exercises to meet weekly muscle activation targets (minimizing shortfall), and finally assigns pairs to days with minimal conflicts via integer linear programming (ILP), using slack variables to penalize unavoidable exercise repeats within days.
 
@@ -106,7 +106,7 @@ Open `config.json` and edit the following keys:
 
 * `"sets_per_instance"`: Object specifying sets per instance per category (e.g., `"UPPER_GYM": 2.5`), controls weekly contribution per exercise. Example: if you plan 4 sets per exercise and 7 training days per week, adjust values accordingly.
 * `"threshold"`: Maximum muscle activation overlap for superset pairs (default 0.2). Increase to e.g. 0.6–0.7 to allow more pairings.
-* `"day_requirements"`: Object specifying required instances per category: 12 for gym, 6 for home. Adjust to change total volume.
+* `"supersets_per_day"`: Object specifying supersets (pairs) per category and day: 2 for gym days (3 days total = 6 supersets), 3 for home days (1 day total = 3 supersets). Adjust to change total volume (will compute total instances as supersets × 2).
 * `"days_per_category"`: Object specifying training days per category: 3 for gym, 1 for home (total 7 days). Must be > 0 for feasible division in pairing logic.
 * `"muscle_targets"`: Object mapping muscle names → weekly target sets. Edit to reflect your programming targets (see code for current values). Muscles with zero targets are still tracked but don't influence the objective.
 
@@ -154,8 +154,7 @@ Adding or removing an exercise is straightforward — the ILP will adapt.
 
 ### Solver performance
 * If the CBC solver is slow or times out on your machine, try limiting solve time with `pulp.PULP_CBC_CMD(timeLimit=30)` or switch to another solver.
-* If the model is infeasible, either relax `"day_requirements"` values in `config.json` (make them smaller, e.g., reduce gym from 12 to 10) or relax `"threshold"`, or add more exercises.
-* If `"day_requirements"` is set to 0 for a category where `"days_per_category"` is also 0, set one of them to a positive value. The solver requires each category to have either positive requirements with days = 0 or positive days with requirements divisible by 2 * days.
+* If the model is infeasible, either relax `"supersets_per_day"` values in `config.json` (make them smaller, e.g., reduce gym from 2 to 2 with fewer days) or relax `"threshold"`, or add more exercises.
 
 ### Machine constraints
 * **Machine conflicts**: The solver now prevents pairing exercises that use the same equipment. This may make some pairings impossible if you have limited exercise variety.
