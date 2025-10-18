@@ -336,6 +336,24 @@
       ],
       "usage_limit_per_category": 3
     },
+    "Lat Pulldown reverse grip (machine)": {
+      "categories": [
+        "UPPER_GYM"
+      ],
+      "activations": {
+        "LATS": 0.89,
+        "TERES_MAJOR": 0.24,
+        "RHOMBOIDS": 0.19,
+        "BICEPS_LONG": 0.35,
+        "BICEPS_SHORT": 0.25,
+        "BRACHIALIS": 0.18,
+        "TRAP_LOWER": 0.24
+      },
+      "machines": [
+        "LAT_PULLDOWN"
+      ],
+      "usage_limit_per_category": 3
+    },
     "Cable Y-Raise": {
       "categories": [
         "UPPER_GYM"
