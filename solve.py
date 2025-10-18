@@ -169,7 +169,10 @@ MUSCLE_TARGETS: MuscleTargetDict = {
 
 EXERCISES: ExerciseDict = {}
 for name, data in config["exercises"].items():
-    cat_list, act_dict, mach_list, limit = data
+    cat_list = data["categories"]
+    act_dict = data["activations"]
+    mach_list = data["machines"]
+    limit = data["usage_limit_per_category"]
     categories = [DayCategory[cat] for cat in cat_list]
     activations: Dict[Muscle, float] = {Muscle[m]: val for m, val in act_dict.items()}
     machines = [Machine[m] for m in mach_list] if mach_list else []

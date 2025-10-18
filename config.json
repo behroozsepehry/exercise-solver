@@ -73,678 +73,299 @@
     "NECK": 1.5
   },
   "exercises": {
-    "Chest Press": [
-      [
-        "UPPER_GYM"
-      ],
-      {
-        "PEC_STERNAL": 0.88,
-        "PEC_CLAVICULAR": 0.45,
-        "ANT_DELTOID": 0.3,
-        "TRICEPS_LONG": 0.36
-      },
-      [
-        "CHEST_PRESS"
-      ],
-      3
-    ],
-    "Push-ups": [
-      [
-        "UPPER_HOME"
-      ],
-      {
-        "PEC_STERNAL": 0.8,
-        "PEC_CLAVICULAR": 0.4,
-        "ANT_DELTOID": 0.25,
-        "TRICEPS_LONG": 0.32,
-        "RECTUS_ABDOMINIS": 0.2
-      },
-      [],
-      1
-    ],
-    "Close-Grip Push-ups": [
-      [
-        "UPPER_HOME"
-      ],
-      {
-        "TRICEPS_LONG": 0.6,
-        "TRICEPS_MEDIAL": 0.5,
-        "PEC_STERNAL": 0.55,
-        "PEC_CLAVICULAR": 0.3,
-        "ANT_DELTOID": 0.2
-      },
-      [],
-      1
-    ],
-    "Diamond Push-ups": [
-      [
-        "UPPER_HOME"
-      ],
-      {
-        "TRICEPS_MEDIAL": 0.8,
-        "TRICEPS_LATERAL": 0.7,
-        "TRICEPS_LONG": 0.65,
-        "PEC_STERNAL": 0.6,
-        "ANT_DELTOID": 0.25
-      },
-      [],
-      1
-    ],
-    "Scapular Push-ups": [
-      [
-        "UPPER_HOME"
-      ],
-      {
-        "SERRATUS_ANTERIOR": 0.9,
-        "PECTORAL_MINOR": 0.4,
-        "TRAP_MIDDLE": 0.15
-      },
-      [],
-      1
-    ],
-    "Chest Fly (cable)": [
-      [
-        "UPPER_GYM"
-      ],
-      {
-        "PEC_STERNAL": 0.78,
-        "PEC_CLAVICULAR": 0.5,
-        "ANT_DELTOID": 0.18
-      },
-      [
-        "CABLE"
-      ],
-      1
-    ],
-    "Overhead Press (cable)": [
-      [
-        "UPPER_GYM"
-      ],
-      {
-        "ANT_DELTOID": 0.85,
-        "LAT_DELTOID": 0.36,
-        "TRICEPS_LONG": 0.4,
-        "ERECTOR_SPINAE": 0.22,
-        "TRAP_UPPER": 0.15
-      },
-      [
-        "CABLE"
-      ],
-      1
-    ],
-    "Overhead Press (band)": [
-      [
-        "UPPER_HOME"
-      ],
-      {
-        "ANT_DELTOID": 0.7,
-        "LAT_DELTOID": 0.31,
-        "TRICEPS_LONG": 0.33,
-        "ERECTOR_SPINAE": 0.18,
-        "TRAP_UPPER": 0.12
-      },
-      [],
-      1
-    ],
-    "Pike Push-ups (vertical press)": [
-      [
-        "UPPER_HOME"
-      ],
-      {
-        "ANT_DELTOID": 0.72,
-        "TRICEPS_LONG": 0.34,
-        "ERECTOR_SPINAE": 0.18,
-        "RECTUS_ABDOMINIS": 0.18
-      },
-      [],
-      1
-    ],
-    "Lateral Raise (cable)": [
-      [
-        "UPPER_GYM"
-      ],
-      {
-        "LAT_DELTOID": 0.92,
-        "ANT_DELTOID": 0.12,
-        "TRAP_UPPER": 0.1
-      },
-      [
-        "CABLE"
-      ],
-      1
-    ],
-    "Lateral Raise (band)": [
-      [
-        "UPPER_HOME"
-      ],
-      {
-        "LAT_DELTOID": 0.76,
-        "ANT_DELTOID": 0.1,
-        "TRAP_UPPER": 0.08
-      },
-      [],
-      1
-    ],
-    "Triceps Pushdown (cable)": [
-      [
-        "UPPER_GYM"
-      ],
-      {
-        "TRICEPS_LATERAL": 0.85,
-        "TRICEPS_MEDIAL": 0.6,
-        "TRICEPS_LONG": 0.15
-      },
-      [
-        "CABLE"
-      ],
-      1
-    ],
-    "Tricep Kickback (cable)": [
-      [
-        "UPPER_GYM"
-      ],
-      {
-        "TRICEPS_LATERAL": 0.48,
-        "TRICEPS_LONG": 0.4
-      },
-      [
-        "CABLE"
-      ],
-      1
-    ],
-    "Tricep Kickback (band)": [
-      [
-        "UPPER_HOME"
-      ],
-      {
-        "TRICEPS_LATERAL": 0.4,
-        "TRICEPS_LONG": 0.33
-      },
-      [],
-      1
-    ],
-    "Overhead Triceps Extensions (cable)": [
-      [
-        "UPPER_GYM"
-      ],
-      {
-        "TRICEPS_LONG": 0.92,
-        "TRICEPS_MEDIAL": 0.28
-      },
-      [
-        "CABLE"
-      ],
-      1
-    ],
-    "Overhead Triceps Extensions (band)": [
-      [
-        "UPPER_HOME"
-      ],
-      {
-        "TRICEPS_LONG": 0.76,
-        "TRICEPS_MEDIAL": 0.23
-      },
-      [],
-      1
-    ],
-    "Row (machine)": [
-      [
-        "UPPER_GYM"
-      ],
-      {
-        "RHOMBOIDS": 0.65,
-        "TRAP_MIDDLE": 0.45,
-        "LATS": 0.55,
-        "BICEPS_LONG": 0.2,
-        "BICEPS_SHORT": 0.18,
-        "POST_DELTOID": 0.22
-      },
-      [
-        "SEATED_ROW"
-      ],
-      3
-    ],
-    "Face Pull (cable)": [
-      [
-        "UPPER_GYM"
-      ],
-      {
-        "POST_DELTOID": 0.82,
-        "RHOMBOIDS": 0.4,
-        "TRAP_MIDDLE": 0.3,
-        "INFRASPINATUS": 0.18,
-        "TERES_MINOR": 0.12
-      },
-      [
-        "CABLE"
-      ],
-      1
-    ],
-    "Lat Pulldown (machine)": [
-      [
-        "UPPER_GYM"
-      ],
-      {
-        "LATS": 0.93,
-        "TERES_MAJOR": 0.25,
-        "RHOMBOIDS": 0.2,
-        "BICEPS_LONG": 0.28,
-        "TRAP_LOWER": 0.25
-      },
-      [
-        "LAT_PULLDOWN"
-      ],
-      3
-    ],
-    "Cable Y-Raise": [
-      [
-        "UPPER_GYM"
-      ],
-      {
-        "TRAP_LOWER": 0.95,
-        "TRAP_MIDDLE": 0.35,
-        "POST_DELTOID": 0.3,
-        "INFRASPINATUS": 0.2
-      },
-      [
-        "CABLE"
-      ],
-      1
-    ],
-    "Band Y-Raise": [
-      [
-        "UPPER_HOME"
-      ],
-      {
-        "TRAP_LOWER": 0.76,
-        "TRAP_MIDDLE": 0.28,
-        "POST_DELTOID": 0.24,
-        "INFRASPINATUS": 0.16
-      },
-      [],
-      1
-    ],
-    "Biceps Curl (cable)": [
-      [
-        "UPPER_GYM"
-      ],
-      {
-        "BICEPS_LONG": 0.6,
-        "BICEPS_SHORT": 0.32,
-        "FOREARM_FLEXORS": 0.3
-      },
-      [
-        "CABLE"
-      ],
-      1
-    ],
-    "Biceps Curl (band)": [
-      [
-        "UPPER_HOME"
-      ],
-      {
-        "BICEPS_LONG": 0.5,
-        "BICEPS_SHORT": 0.26,
-        "FOREARM_FLEXORS": 0.25
-      },
-      [],
-      1
-    ],
-    "Hammer Curl (cable)": [
-      [
-        "UPPER_GYM"
-      ],
-      {
-        "BICEPS_LONG": 0.42,
-        "BRACHIORADIALIS": 0.8,
-        "BRACHIALIS": 0.28
-      },
-      [
-        "CABLE"
-      ],
-      1
-    ],
-    "Hammer Curl (band)": [
-      [
-        "UPPER_HOME"
-      ],
-      {
-        "BICEPS_LONG": 0.34,
-        "BRACHIORADIALIS": 0.66,
-        "BRACHIALIS": 0.23
-      },
-      [],
-      1
-    ],
-    "Reverse Curl (cable)": [
-      [
-        "UPPER_GYM"
-      ],
-      {
-        "FOREARM_EXTENSORS": 0.95,
-        "BRACHIORADIALIS": 0.3,
-        "BICEPS_SHORT": 0.18
-      },
-      [
-        "CABLE"
-      ],
-      1
-    ],
-    "Reverse Curl (band)": [
-      [
-        "UPPER_HOME"
-      ],
-      {
-        "FOREARM_EXTENSORS": 0.78,
-        "BRACHIORADIALIS": 0.26,
-        "BICEPS_SHORT": 0.15
-      },
-      [],
-      1
-    ],
-    "Straight-Arm Pulldown (cable)": [
-      [
-        "UPPER_GYM"
-      ],
-      {
-        "LATS": 0.9,
-        "TERES_MAJOR": 0.3,
-        "ERECTOR_SPINAE": 0.1,
-        "RHOMBOIDS": 0.12
-      },
-      [
-        "CABLE"
-      ],
-      1
-    ],
-    "Banded Row": [
-      [
-        "UPPER_HOME"
-      ],
-      {
-        "RHOMBOIDS": 0.6,
-        "LATS": 0.45,
-        "BICEPS_LONG": 0.18,
-        "POST_DELTOID": 0.12
-      },
-      [],
-      1
-    ],
-    "Glute Bridge + Band Pull-Apart": [
-      [
-        "LOWER_GYM",
-        "LOWER_HOME"
-      ],
-      {
-        "GLUTE_MAX": 0.92,
-        "GLUTE_MED": 0.28,
-        "HAM_BICEPS_FEMORIS": 0.3,
-        "POST_DELTOID": 0.3,
-        "ERECTOR_SPINAE": 0.28
-      },
-      [],
-      1
-    ],
-    "Leg Press": [
-      [
-        "LOWER_GYM"
-      ],
-      {
-        "VASTUS_LATERALIS": 0.92,
-        "RECTUS_FEMORIS": 0.72,
-        "VASTUS_MEDIALIS": 0.8,
-        "GLUTE_MAX": 0.45,
-        "HAM_BICEPS_FEMORIS": 0.1,
-        "ERECTOR_SPINAE": 0.1
-      },
-      [
-        "LEG_PRESS"
-      ],
-      3
-    ],
-    "Leg Press (sumo/wide)": [
-      [
-        "LOWER_GYM"
-      ],
-      {
-        "ADDUCTOR_MAGNUS": 0.65,
-        "GLUTE_MAX": 0.7,
-        "VASTUS_LATERALIS": 0.45,
-        "VASTUS_MEDIALIS": 0.38
-      },
-      [
-        "LEG_PRESS"
-      ],
-      3
-    ],
-    "Seated Leg Curl": [
-      [
-        "LOWER_GYM"
-      ],
-      {
-        "HAM_BICEPS_FEMORIS": 0.95,
-        "HAM_SEMITENDINOSUS": 0.6,
-        "HAM_SEMIMEMBRANOSUS": 0.6
-      },
-      [
-        "LEG_CURL"
-      ],
-      3
-    ],
-    "Cable Pull-Through": [
-      [
-        "LOWER_GYM",
-        "LOWER_HOME"
-      ],
-      {
-        "GLUTE_MAX": 0.92,
-        "HAM_BICEPS_FEMORIS": 0.3,
-        "ERECTOR_SPINAE": 0.28
-      },
-      [
-        "CABLE"
-      ],
-      1
-    ],
-    "Mini-Band Lateral Walk": [
-      [
-        "LOWER_GYM",
-        "LOWER_HOME"
-      ],
-      {
-        "GLUTE_MED": 0.8,
-        "TENSOR_FASCIAE_LATAE": 0.4,
-        "GLUTE_MAX": 0.5
-      },
-      [],
-      1
-    ],
-    "Calf Raise": [
-      [
-        "LOWER_GYM"
-      ],
-      {
-        "GASTROC_MED": 0.48,
-        "GASTROC_LAT": 0.48,
-        "SOLEUS": 0.7
-      },
-      [
-        "LEG_PRESS"
-      ],
-      3
-    ],
-    "Good Morning (cable)": [
-      [
-        "LOWER_GYM"
-      ],
-      {
-        "ERECTOR_SPINAE": 0.9,
-        "GLUTE_MAX": 0.35,
-        "HAM_BICEPS_FEMORIS": 0.3
-      },
-      [
-        "CABLE"
-      ],
-      1
-    ],
-    "Banded Monster Walk": [
-      [
-        "LOWER_GYM",
-        "LOWER_HOME"
-      ],
-      {
-        "GLUTE_MED": 0.75,
-        "GLUTE_MAX": 0.55,
-        "TENSOR_FASCIAE_LATAE": 0.25
-      },
-      [],
-      1
-    ],
-    "Band Supine Hip Abduction": [
-      [
-        "LOWER_GYM",
-        "LOWER_HOME"
-      ],
-      {
-        "GLUTE_MED": 0.92,
-        "GLUTE_MIN": 0.8,
-        "GLUTE_MAX": 0.35,
-        "RECTUS_ABDOMINIS": 0.12
-      },
-      [],
-      1
-    ],
-    "Banded front squat": [
-      [
-        "LOWER_HOME"
-      ],
-      {
-        "VASTUS_LATERALIS": 0.7,
-        "RECTUS_FEMORIS": 0.6,
-        "GLUTE_MAX": 0.45,
-        "HAM_BICEPS_FEMORIS": 0.2,
-        "ERECTOR_SPINAE": 0.2
-      },
-      [],
-      1
-    ],
-    "Banded front squat (sumo/wide)": [
-      [
-        "LOWER_HOME"
-      ],
-      {
-        "ADDUCTOR_LONGUS": 0.5,
-        "GLUTE_MAX": 0.5,
-        "VASTUS_LATERALIS": 0.35,
-        "HAM_BICEPS_FEMORIS": 0.2,
-        "ERECTOR_SPINAE": 0.2
-      },
-      [],
-      1
-    ],
-    "Lying Band Leg Curl": [
-      [
-        "LOWER_HOME"
-      ],
-      {
-        "HAM_BICEPS_FEMORIS": 0.78,
-        "HAM_SEMITENDINOSUS": 0.45
-      },
-      [],
-      1
-    ],
-    "Banded Wall Sit + Pull-Apart": [
-      [
-        "LOWER_HOME"
-      ],
-      {
-        "VASTUS_LATERALIS": 0.8,
-        "VASTUS_MEDIALIS": 0.6,
-        "GLUTE_MAX": 0.25,
-        "RECTUS_ABDOMINIS": 0.12,
-        "POST_DELTOID": 0.3,
-        "RHOMBOIDS": 0.1
-      },
-      [],
-      1
-    ],
-    "Pallof Press (cable/band)": [
-      [
-        "LOWER_GYM",
-        "LOWER_HOME"
-      ],
-      {
-        "RECTUS_ABDOMINIS": 0.7,
-        "EXTERNAL_OBLIQUE": 0.35,
-        "INTERNAL_OBLIQUE": 0.3,
-        "TRANSVERSUS_ABDOMINIS": 0.2
-      },
-      [
-        "CABLE"
-      ],
-      1
-    ],
-    "Plank": [
-      [
-        "LOWER_HOME"
-      ],
-      {
-        "RECTUS_ABDOMINIS": 0.95,
-        "TRANSVERSUS_ABDOMINIS": 0.75,
-        "EXTERNAL_OBLIQUE": 0.4,
-        "ERECTOR_SPINAE": 0.2
-      },
-      [],
-      1
-    ],
-    "Shrug (band)": [
-      [
-        "UPPER_HOME"
-      ],
-      {
-        "TRAP_UPPER": 0.9,
-        "TRAP_MIDDLE": 0.25,
-        "RHOMBOIDS": 0.2
-      },
-      [],
-      1
-    ],
-    "Banded Neck Extension": [
-      [
-        "UPPER_HOME"
-      ],
-      {
-        "NECK": 0.85,
-        "TRAP_UPPER": 0.15
-      },
-      [],
-      1
-    ],
-    "Banded Neck Flexion": [
-      [
-        "UPPER_HOME"
-      ],
-      {
-        "NECK": 0.85
-      },
-      [],
-      1
-    ],
-    "Side Plank High Pull (cable/band)": [
-      [
-        "LOWER_GYM",
-        "LOWER_HOME"
-      ],
-      {
-        "EXTERNAL_OBLIQUE": 0.92,
-        "LATS": 0.3,
-        "RHOMBOIDS": 0.3,
-        "ANT_DELTOID": 0.18
-      },
-      [
-        "CABLE"
-      ],
-      1
-    ]
+    "Chest Press": {
+      "categories": ["UPPER_GYM"],
+      "activations": {"PEC_STERNAL": 0.88, "PEC_CLAVICULAR": 0.45, "ANT_DELTOID": 0.3, "TRICEPS_LONG": 0.36},
+      "machines": ["CHEST_PRESS"],
+      "usage_limit_per_category": 3
+    },
+    "Push-ups": {
+      "categories": ["UPPER_HOME"],
+      "activations": {"PEC_STERNAL": 0.8, "PEC_CLAVICULAR": 0.4, "ANT_DELTOID": 0.25, "TRICEPS_LONG": 0.32, "RECTUS_ABDOMINIS": 0.2},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Close-Grip Push-ups": {
+      "categories": ["UPPER_HOME"],
+      "activations": {"TRICEPS_LONG": 0.6, "TRICEPS_MEDIAL": 0.5, "PEC_STERNAL": 0.55, "PEC_CLAVICULAR": 0.3, "ANT_DELTOID": 0.2},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Diamond Push-ups": {
+      "categories": ["UPPER_HOME"],
+      "activations": {"TRICEPS_MEDIAL": 0.8, "TRICEPS_LATERAL": 0.7, "TRICEPS_LONG": 0.65, "PEC_STERNAL": 0.6, "ANT_DELTOID": 0.25},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Scapular Push-ups": {
+      "categories": ["UPPER_HOME"],
+      "activations": {"SERRATUS_ANTERIOR": 0.9, "PECTORAL_MINOR": 0.4, "TRAP_MIDDLE": 0.15},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Chest Fly (cable)": {
+      "categories": ["UPPER_GYM"],
+      "activations": {"PEC_STERNAL": 0.78, "PEC_CLAVICULAR": 0.5, "ANT_DELTOID": 0.18},
+      "machines": ["CABLE"],
+      "usage_limit_per_category": 1
+    },
+    "Overhead Press (cable)": {
+      "categories": ["UPPER_GYM"],
+      "activations": {"ANT_DELTOID": 0.85, "LAT_DELTOID": 0.36, "TRICEPS_LONG": 0.4, "ERECTOR_SPINAE": 0.22, "TRAP_UPPER": 0.15},
+      "machines": ["CABLE"],
+      "usage_limit_per_category": 1
+    },
+    "Overhead Press (band)": {
+      "categories": ["UPPER_HOME"],
+      "activations": {"ANT_DELTOID": 0.7, "LAT_DELTOID": 0.31, "TRICEPS_LONG": 0.33, "ERECTOR_SPINAE": 0.18, "TRAP_UPPER": 0.12},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Pike Push-ups (vertical press)": {
+      "categories": ["UPPER_HOME"],
+      "activations": {"ANT_DELTOID": 0.72, "TRICEPS_LONG": 0.34, "ERECTOR_SPINAE": 0.18, "RECTUS_ABDOMINIS": 0.18},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Lateral Raise (cable)": {
+      "categories": ["UPPER_GYM"],
+      "activations": {"LAT_DELTOID": 0.92, "ANT_DELTOID": 0.12, "TRAP_UPPER": 0.1},
+      "machines": ["CABLE"],
+      "usage_limit_per_category": 1
+    },
+    "Lateral Raise (band)": {
+      "categories": ["UPPER_HOME"],
+      "activations": {"LAT_DELTOID": 0.76, "ANT_DELTOID": 0.1, "TRAP_UPPER": 0.08},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Triceps Pushdown (cable)": {
+      "categories": ["UPPER_GYM"],
+      "activations": {"TRICEPS_LATERAL": 0.85, "TRICEPS_MEDIAL": 0.6, "TRICEPS_LONG": 0.15},
+      "machines": ["CABLE"],
+      "usage_limit_per_category": 1
+    },
+    "Tricep Kickback (cable)": {
+      "categories": ["UPPER_GYM"],
+      "activations": {"TRICEPS_LATERAL": 0.48, "TRICEPS_LONG": 0.4},
+      "machines": ["CABLE"],
+      "usage_limit_per_category": 1
+    },
+    "Tricep Kickback (band)": {
+      "categories": ["UPPER_HOME"],
+      "activations": {"TRICEPS_LATERAL": 0.4, "TRICEPS_LONG": 0.33},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Overhead Triceps Extensions (cable)": {
+      "categories": ["UPPER_GYM"],
+      "activations": {"TRICEPS_LONG": 0.92, "TRICEPS_MEDIAL": 0.28},
+      "machines": ["CABLE"],
+      "usage_limit_per_category": 1
+    },
+    "Overhead Triceps Extensions (band)": {
+      "categories": ["UPPER_HOME"],
+      "activations": {"TRICEPS_LONG": 0.76, "TRICEPS_MEDIAL": 0.23},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Row (machine)": {
+      "categories": ["UPPER_GYM"],
+      "activations": {"RHOMBOIDS": 0.65, "TRAP_MIDDLE": 0.45, "LATS": 0.55, "BICEPS_LONG": 0.2, "BICEPS_SHORT": 0.18, "POST_DELTOID": 0.22},
+      "machines": ["SEATED_ROW"],
+      "usage_limit_per_category": 3
+    },
+    "Face Pull (cable)": {
+      "categories": ["UPPER_GYM"],
+      "activations": {"POST_DELTOID": 0.82, "RHOMBOIDS": 0.4, "TRAP_MIDDLE": 0.3, "INFRASPINATUS": 0.18, "TERES_MINOR": 0.12},
+      "machines": ["CABLE"],
+      "usage_limit_per_category": 1
+    },
+    "Lat Pulldown (machine)": {
+      "categories": ["UPPER_GYM"],
+      "activations": {"LATS": 0.93, "TERES_MAJOR": 0.25, "RHOMBOIDS": 0.2, "BICEPS_LONG": 0.28, "TRAP_LOWER": 0.25},
+      "machines": ["LAT_PULLDOWN"],
+      "usage_limit_per_category": 3
+    },
+    "Cable Y-Raise": {
+      "categories": ["UPPER_GYM"],
+      "activations": {"TRAP_LOWER": 0.95, "TRAP_MIDDLE": 0.35, "POST_DELTOID": 0.3, "INFRASPINATUS": 0.2},
+      "machines": ["CABLE"],
+      "usage_limit_per_category": 1
+    },
+    "Band Y-Raise": {
+      "categories": ["UPPER_HOME"],
+      "activations": {"TRAP_LOWER": 0.76, "TRAP_MIDDLE": 0.28, "POST_DELTOID": 0.24, "INFRASPINATUS": 0.16},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Biceps Curl (cable)": {
+      "categories": ["UPPER_GYM"],
+      "activations": {"BICEPS_LONG": 0.6, "BICEPS_SHORT": 0.32, "FOREARM_FLEXORS": 0.3},
+      "machines": ["CABLE"],
+      "usage_limit_per_category": 1
+    },
+    "Biceps Curl (band)": {
+      "categories": ["UPPER_HOME"],
+      "activations": {"BICEPS_LONG": 0.5, "BICEPS_SHORT": 0.26, "FOREARM_FLEXORS": 0.25},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Hammer Curl (cable)": {
+      "categories": ["UPPER_GYM"],
+      "activations": {"BICEPS_LONG": 0.42, "BRACHIORADIALIS": 0.8, "BRACHIALIS": 0.28},
+      "machines": ["CABLE"],
+      "usage_limit_per_category": 1
+    },
+    "Hammer Curl (band)": {
+      "categories": ["UPPER_HOME"],
+      "activations": {"BICEPS_LONG": 0.34, "BRACHIORADIALIS": 0.66, "BRACHIALIS": 0.23},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Reverse Curl (cable)": {
+      "categories": ["UPPER_GYM"],
+      "activations": {"FOREARM_EXTENSORS": 0.95, "BRACHIORADIALIS": 0.3, "BICEPS_SHORT": 0.18},
+      "machines": ["CABLE"],
+      "usage_limit_per_category": 1
+    },
+    "Reverse Curl (band)": {
+      "categories": ["UPPER_HOME"],
+      "activations": {"FOREARM_EXTENSORS": 0.78, "BRACHIORADIALIS": 0.26, "BICEPS_SHORT": 0.15},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Straight-Arm Pulldown (cable)": {
+      "categories": ["UPPER_GYM"],
+      "activations": {"LATS": 0.9, "TERES_MAJOR": 0.3, "ERECTOR_SPINAE": 0.1, "RHOMBOIDS": 0.12},
+      "machines": ["CABLE"],
+      "usage_limit_per_category": 1
+    },
+    "Banded Row": {
+      "categories": ["UPPER_HOME"],
+      "activations": {"RHOMBOIDS": 0.6, "LATS": 0.45, "BICEPS_LONG": 0.18, "POST_DELTOID": 0.12},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Glute Bridge + Band Pull-Apart": {
+      "categories": ["LOWER_GYM", "LOWER_HOME"],
+      "activations": {"GLUTE_MAX": 0.92, "GLUTE_MED": 0.28, "HAM_BICEPS_FEMORIS": 0.3, "POST_DELTOID": 0.3, "ERECTOR_SPINAE": 0.28},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Leg Press": {
+      "categories": ["LOWER_GYM"],
+      "activations": {"VASTUS_LATERALIS": 0.92, "RECTUS_FEMORIS": 0.72, "VASTUS_MEDIALIS": 0.8, "GLUTE_MAX": 0.45, "HAM_BICEPS_FEMORIS": 0.1, "ERECTOR_SPINAE": 0.1},
+      "machines": ["LEG_PRESS"],
+      "usage_limit_per_category": 3
+    },
+    "Leg Press (sumo/wide)": {
+      "categories": ["LOWER_GYM"],
+      "activations": {"ADDUCTOR_MAGNUS": 0.65, "GLUTE_MAX": 0.7, "VASTUS_LATERALIS": 0.45, "VASTUS_MEDIALIS": 0.38},
+      "machines": ["LEG_PRESS"],
+      "usage_limit_per_category": 3
+    },
+    "Seated Leg Curl": {
+      "categories": ["LOWER_GYM"],
+      "activations": {"HAM_BICEPS_FEMORIS": 0.95, "HAM_SEMITENDINOSUS": 0.6, "HAM_SEMIMEMBRANOSUS": 0.6},
+      "machines": ["LEG_CURL"],
+      "usage_limit_per_category": 3
+    },
+    "Cable Pull-Through": {
+      "categories": ["LOWER_GYM", "LOWER_HOME"],
+      "activations": {"GLUTE_MAX": 0.92, "HAM_BICEPS_FEMORIS": 0.3, "ERECTOR_SPINAE": 0.28},
+      "machines": ["CABLE"],
+      "usage_limit_per_category": 1
+    },
+    "Mini-Band Lateral Walk": {
+      "categories": ["LOWER_GYM", "LOWER_HOME"],
+      "activations": {"GLUTE_MED": 0.8, "TENSOR_FASCIAE_LATAE": 0.4, "GLUTE_MAX": 0.5},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Calf Raise": {
+      "categories": ["LOWER_GYM"],
+      "activations": {"GASTROC_MED": 0.48, "GASTROC_LAT": 0.48, "SOLEUS": 0.7},
+      "machines": ["LEG_PRESS"],
+      "usage_limit_per_category": 3
+    },
+    "Good Morning (cable)": {
+      "categories": ["LOWER_GYM"],
+      "activations": {"ERECTOR_SPINAE": 0.9, "GLUTE_MAX": 0.35, "HAM_BICEPS_FEMORIS": 0.3},
+      "machines": ["CABLE"],
+      "usage_limit_per_category": 1
+    },
+    "Banded Monster Walk": {
+      "categories": ["LOWER_GYM", "LOWER_HOME"],
+      "activations": {"GLUTE_MED": 0.75, "GLUTE_MAX": 0.55, "TENSOR_FASCIAE_LATAE": 0.25},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Band Supine Hip Abduction": {
+      "categories": ["LOWER_GYM", "LOWER_HOME"],
+      "activations": {"GLUTE_MED": 0.92, "GLUTE_MIN": 0.8, "GLUTE_MAX": 0.35, "RECTUS_ABDOMINIS": 0.12},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Banded front squat": {
+      "categories": ["LOWER_HOME"],
+      "activations": {"VASTUS_LATERALIS": 0.7, "RECTUS_FEMORIS": 0.6, "GLUTE_MAX": 0.45, "HAM_BICEPS_FEMORIS": 0.2, "ERECTOR_SPINAE": 0.2},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Banded front squat (sumo/wide)": {
+      "categories": ["LOWER_HOME"],
+      "activations": {"ADDUCTOR_LONGUS": 0.5, "GLUTE_MAX": 0.5, "VASTUS_LATERALIS": 0.35, "HAM_BICEPS_FEMORIS": 0.2, "ERECTOR_SPINAE": 0.2},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Lying Band Leg Curl": {
+      "categories": ["LOWER_HOME"],
+      "activations": {"HAM_BICEPS_FEMORIS": 0.78, "HAM_SEMITENDINOSUS": 0.45},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Banded Wall Sit + Pull-Apart": {
+      "categories": ["LOWER_HOME"],
+      "activations": {"VASTUS_LATERALIS": 0.8, "VASTUS_MEDIALIS": 0.6, "GLUTE_MAX": 0.25, "RECTUS_ABDOMINIS": 0.12, "POST_DELTOID": 0.3, "RHOMBOIDS": 0.1},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Pallof Press (cable/band)": {
+      "categories": ["LOWER_GYM", "LOWER_HOME"],
+      "activations": {"RECTUS_ABDOMINIS": 0.7, "EXTERNAL_OBLIQUE": 0.35, "INTERNAL_OBLIQUE": 0.3, "TRANSVERSUS_ABDOMINIS": 0.2},
+      "machines": ["CABLE"],
+      "usage_limit_per_category": 1
+    },
+    "Plank": {
+      "categories": ["LOWER_HOME"],
+      "activations": {"RECTUS_ABDOMINIS": 0.95, "TRANSVERSUS_ABDOMINIS": 0.75, "EXTERNAL_OBLIQUE": 0.4, "ERECTOR_SPINAE": 0.2},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Shrug (band)": {
+      "categories": ["UPPER_HOME"],
+      "activations": {"TRAP_UPPER": 0.9, "TRAP_MIDDLE": 0.25, "RHOMBOIDS": 0.2},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Banded Neck Extension": {
+      "categories": ["UPPER_HOME"],
+      "activations": {"NECK": 0.85, "TRAP_UPPER": 0.15},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Banded Neck Flexion": {
+      "categories": ["UPPER_HOME"],
+      "activations": {"NECK": 0.85},
+      "machines": [],
+      "usage_limit_per_category": 1
+    },
+    "Side Plank High Pull (cable/band)": {
+      "categories": ["LOWER_GYM", "LOWER_HOME"],
+      "activations": {"EXTERNAL_OBLIQUE": 0.92, "LATS": 0.3, "RHOMBOIDS": 0.3, "ANT_DELTOID": 0.18},
+      "machines": ["CABLE"],
+      "usage_limit_per_category": 1
+    }
   }
 }

@@ -118,18 +118,20 @@ Exercises are defined in `config.json`'s `"exercises"` object with this structur
 
 ```json
 "exercises": {
-  "Exercise Name": [
-    ["UPPER_GYM"],  // eligible categories
-    {"PEC_STERNAL": 0.88, "ANT_DELTOID": 0.30, "TRICEPS_LONG": 0.36},  // activations
-    ["CHEST_PRESS"]  // machines used
-  ],
+  "Exercise Name": {
+    "categories": ["UPPER_GYM"],
+    "activations": {"PEC_STERNAL": 0.88, "ANT_DELTOID": 0.30, "TRICEPS_LONG": 0.36},
+    "machines": ["CHEST_PRESS"],
+    "usage_limit_per_category": 3
+  },
   ...
 }
 ```
 
 * Categories: Array of eligible category strings. Eligibility is specified per-exercise (not automatically based on equipment).
-* Activation values: Object with floats in `[0,1]` for valid muscle names. Only activations ≥ `0.1` are considered to keep the model efficient.
-* **Machine specification**: Array of machine strings. Use empty array `[]` for bodyweight/free-weight exercises. Machines include: `"CHEST_PRESS"`, `"LEG_PRESS"`, `"LEG_CURL"`, `"LAT_PULLDOWN"`, `"SEATED_ROW"`, `"CABLE"`.
+* Activations: Object with floats in `[0,1]` for valid muscle names. Only activations ≥ `0.1` are considered to keep the model efficient.
+* Machines: Array of machine strings. Use empty array `[]` for bodyweight/free-weight exercises. Machines include: `"CHEST_PRESS"`, `"LEG_PRESS"`, `"LEG_CURL"`, `"LAT_PULLDOWN"`, `"SEATED_ROW"`, `"CABLE"`.
+* Usage limit per category: Integer limit on how many times this exercise can be used within each category (3 for machine-specific exercises like Row, Lat Pulldown, Chest Press, Leg Press, Leg Curl; 1 for others).
 * If muscle targets are zero (e.g., `"PECTORAL_MINOR": 0.0`), the muscle is still calculated but doesn't affect the objective (use for informational purposes).
 
 Adding or removing an exercise is straightforward — the ILP will adapt.
