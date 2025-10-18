@@ -9,12 +9,12 @@ import json
 # -----------------------
 class Muscle(Enum):
     # Pectoral complex
-    PEC_CLAVICULAR = auto()     # upper / clavicular head of pec major
-    PEC_STERNAL = auto()        # sternal (mid/lower) head of pec major
+    PEC_CLAVICULAR = auto()  # upper / clavicular head of pec major
+    PEC_STERNAL = auto()  # sternal (mid/lower) head of pec major
 
     # Scapular protractors / stabilizers
     SERRATUS_ANTERIOR = auto()
-    PECTORAL_MINOR = auto()     # rarely used directly but included for completeness
+    PECTORAL_MINOR = auto()  # rarely used directly but included for completeness
 
     # Trapezius / upper-back & scapular retractors
     TRAP_UPPER = auto()
@@ -33,7 +33,7 @@ class Muscle(Enum):
     LATS = auto()
     TERES_MAJOR = auto()
     ANT_DELTOID = auto()
-    LAT_DELTOID = auto()        # middle deltoid
+    LAT_DELTOID = auto()  # middle deltoid
     POST_DELTOID = auto()
 
     # Elbow flexors / forearm
@@ -134,52 +134,46 @@ CoverageDict = Dict[Muscle, float]
 # Load config
 # -----------------------
 # Load config
-with open('config.json', 'r') as f:
+with open("config.json", "r") as f:
     config = json.load(f)
 
 # Parse tunables
 SETS_PER_INSTANCE: Dict[DayCategory, float] = {
-    DayCategory[cat]: val
-    for cat, val in config["sets_per_instance"].items()
+    DayCategory[cat]: val for cat, val in config["sets_per_instance"].items()
 }
 THRESHOLD: float = config["threshold"]
 DEVIATION_SUM_WEIGHT: float = config["deviation_sum_weight"]
 PAIRS_PER_DAY = {
-    DayCategory[cat]: val
-    for cat, val in config["supersets_per_day"].items()
+    DayCategory[cat]: val for cat, val in config["supersets_per_day"].items()
 }
 DAYS_PER_CATEGORY = {
-    DayCategory[cat]: val
-    for cat, val in config["days_per_category"].items()
+    DayCategory[cat]: val for cat, val in config["days_per_category"].items()
 }
-PAIRS_PER_CATEGORY = {cat: PAIRS_PER_DAY[cat] * DAYS_PER_CATEGORY[cat] for cat in PAIRS_PER_DAY}
+PAIRS_PER_CATEGORY = {
+    cat: PAIRS_PER_DAY[cat] * DAYS_PER_CATEGORY[cat] for cat in PAIRS_PER_DAY
+}
 DAY_REQUIREMENTS = {cat: PAIRS_PER_CATEGORY[cat] * 2 for cat in PAIRS_PER_CATEGORY}
+
+
 def get_max_usage_for_category(exercise_name: str, cat: DayCategory) -> int:
     """Get the maximum times an exercise can be used in the given category"""
     return min(DAYS_PER_CATEGORY[cat], EXERCISES[exercise_name][3])
-
 
 
 # -----------------------
 # Targets
 # -----------------------
 MUSCLE_TARGETS: MuscleTargetDict = {
-    Muscle[muscle]: target
-    for muscle, target in config["muscle_targets"].items()
+    Muscle[muscle]: target for muscle, target in config["muscle_targets"].items()
 }
 
 EXERCISES: ExerciseDict = {}
 for name, data in config["exercises"].items():
     cat_list, act_dict, mach_list, limit = data
     categories = [DayCategory[cat] for cat in cat_list]
-    activations: Dict[Muscle, float] = {
-        Muscle[m]: val
-        for m, val in act_dict.items()
-    }
+    activations: Dict[Muscle, float] = {Muscle[m]: val for m, val in act_dict.items()}
     machines = [Machine[m] for m in mach_list] if mach_list else []
     EXERCISES[name] = (categories, activations, machines, limit)
-
-
 
 
 EXERCISE_NAMES: List[ExerciseName] = list(EXERCISES.keys())
@@ -366,7 +360,10 @@ def solve_muscle_coverage() -> Tuple[
             e: pulp.LpVariable(
                 f"c_{cat.name.lower()}_{e}",
                 lowBound=0,
-                upBound=min(DAY_REQUIREMENTS[cat], get_max_usage_for_category(EXERCISE_NAMES[e], cat)),
+                upBound=min(
+                    DAY_REQUIREMENTS[cat],
+                    get_max_usage_for_category(EXERCISE_NAMES[e], cat),
+                ),
                 cat="Integer",
             )
             for e in range(E)
@@ -395,9 +392,7 @@ def solve_muscle_coverage() -> Tuple[
                     p[cat][(i, j)] = pulp.LpVariable(
                         f"p_{cat.name.lower()}_{i}_{j}",
                         lowBound=0,
-                        upBound=min(
-                            PAIRS_PER_CATEGORY[cat], 3
-                        ),
+                        upBound=min(PAIRS_PER_CATEGORY[cat], 3),
                         cat="Integer",
                     )
 
@@ -437,19 +432,26 @@ def solve_muscle_coverage() -> Tuple[
     undershoot_deviations = {}
 
     # Variable for maximum absolute deviation (in sets)
-    max_dev_abs_slack = pulp.LpVariable("max_dev_abs_slack", lowBound=0, cat="Continuous")
+    max_dev_abs_slack = pulp.LpVariable(
+        "max_dev_abs_slack", lowBound=0, cat="Continuous"
+    )
 
     for m_idx, m in enumerate(Muscle):
         if MUSCLE_TARGETS[m] > 0:
             coverage_expr = pulp.lpSum(
                 SETS_PER_INSTANCE[cat] * c[cat][e] * VEC[e][m_idx]
-                for cat in categories for e in range(E)
+                for cat in categories
+                for e in range(E)
             )
             target = MUSCLE_TARGETS[m]
 
             # Slack variables for overshoot and undershoot in absolute sets
-            over_abs_slack = pulp.LpVariable(f"over_abs_{m.name}", lowBound=0, cat="Continuous")
-            under_abs_slack = pulp.LpVariable(f"under_abs_{m.name}", lowBound=0, cat="Continuous")
+            over_abs_slack = pulp.LpVariable(
+                f"over_abs_{m.name}", lowBound=0, cat="Continuous"
+            )
+            under_abs_slack = pulp.LpVariable(
+                f"under_abs_{m.name}", lowBound=0, cat="Continuous"
+            )
 
             overshoot_deviations[m] = over_abs_slack
             undershoot_deviations[m] = under_abs_slack
@@ -463,10 +465,10 @@ def solve_muscle_coverage() -> Tuple[
             prob += (max_dev_abs_slack >= under_abs_slack, f"max_under_{m.name}")
 
     # Objective: minimize weighted sum of absolute deviations plus max absolute deviation
-    dev_sum_expr = pulp.lpSum(overshoot_deviations.values()) + pulp.lpSum(undershoot_deviations.values())
+    dev_sum_expr = pulp.lpSum(overshoot_deviations.values()) + pulp.lpSum(
+        undershoot_deviations.values()
+    )
     prob.setObjective(DEVIATION_SUM_WEIGHT * dev_sum_expr + max_dev_abs_slack)
-
-
 
     # Solve
     solver = pulp.PULP_CBC_CMD(msg=False)
@@ -512,15 +514,30 @@ def solve_muscle_coverage() -> Tuple[
     )
 
     # Calculate maximum absolute deviation for any single muscle (display only)
-    max_dev_abs = max(
-        abs(coverage[m] - MUSCLE_TARGETS[m])
-        for m in Muscle if MUSCLE_TARGETS[m] > 0
-    ) if any(MUSCLE_TARGETS[m] > 0 for m in Muscle) else 0.0
+    max_dev_abs = (
+        max(
+            abs(coverage[m] - MUSCLE_TARGETS[m])
+            for m in Muscle
+            if MUSCLE_TARGETS[m] > 0
+        )
+        if any(MUSCLE_TARGETS[m] > 0 for m in Muscle)
+        else 0.0
+    )
 
     # Calculate objective value (weighted abs sum + max abs deviation)
-    objective_value = safe_value(max_dev_abs_slack) + DEVIATION_SUM_WEIGHT * total_dev_abs_sum
+    objective_value = (
+        safe_value(max_dev_abs_slack) + DEVIATION_SUM_WEIGHT * total_dev_abs_sum
+    )
 
-    return status, counts_dict, pairs_dict, coverage, total_dev_abs_sum, max_dev_abs, objective_value
+    return (
+        status,
+        counts_dict,
+        pairs_dict,
+        coverage,
+        total_dev_abs_sum,
+        max_dev_abs,
+        objective_value,
+    )
 
 
 # -----------------------
@@ -535,7 +552,15 @@ if status not in ("Optimal", "Feasible"):
     print("No feasible solution found.")
 else:
     # Unpack the successful results
-    status, counts_dict, pairs_dict, coverage, total_deviation_sum, max_deviation, objective_value = result
+    (
+        status,
+        counts_dict,
+        pairs_dict,
+        coverage,
+        total_deviation_sum,
+        max_deviation,
+        objective_value,
+    ) = result
 
     print("\n=== COUNTS ===")
     for cat in counts_dict:
@@ -543,7 +568,9 @@ else:
         days = DAYS_PER_CATEGORY[cat]
         total_instances = DAY_REQUIREMENTS[cat]
         total_supersets = PAIRS_PER_CATEGORY[cat]
-        print(f"{cat.name.replace('_', ' ')} counts ({total_instances} instances, {total_supersets} supersets over {days} days at {supersets_per_day}/day):")
+        print(
+            f"{cat.name.replace('_', ' ')} counts ({total_instances} instances, {total_supersets} supersets over {days} days at {supersets_per_day}/day):"
+        )
         for k, v in sorted(counts_dict[cat].items(), key=lambda x: -x[1]):
             print(f"  {k:40s} : {v}")
         print()
@@ -567,7 +594,9 @@ else:
             f"  {m.name:20s} target {MUSCLE_TARGETS[m]:4.1f}   covered {coverage[m]:6.2f}   diff {coverage[m]-MUSCLE_TARGETS[m]:6.2f}   %dev {pct_dev:6.1f}%"
         )
 
-    print(f"\nObjective = {DEVIATION_SUM_WEIGHT} * sum_abs_deviations({total_deviation_sum:.2f} sets) + max_abs_deviation({max_deviation:.2f} sets) = {objective_value:.2f} sets")
+    print(
+        f"\nObjective = {DEVIATION_SUM_WEIGHT} * sum_abs_deviations({total_deviation_sum:.2f} sets) + max_abs_deviation({max_deviation:.2f} sets) = {objective_value:.2f} sets"
+    )
 
     print(f"\nNote: THRESHOLD = {THRESHOLD}")
     print("SETS_PER_INSTANCE:")
