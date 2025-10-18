@@ -5,9 +5,9 @@
     "UPPER_HOME": 3.5,
     "LOWER_HOME": 3.5
   },
-  "threshold": 0.2,
+  "threshold": 0.05,
   "deviation_sum_weight": 0.1,
-  "exercise_repeat_limit_per_category": 4,
+  "exercise_repeat_limit_per_category": 3,
   "supersets_per_day": {
     "UPPER_GYM": 2,
     "LOWER_GYM": 2,
@@ -15,10 +15,10 @@
     "LOWER_HOME": 3
   },
   "days_per_category": {
-    "UPPER_GYM": 0,
-    "LOWER_GYM": 0,
-    "UPPER_HOME": 4,
-    "LOWER_HOME": 4
+    "UPPER_GYM": 3,
+    "LOWER_GYM": 3,
+    "UPPER_HOME": 1,
+    "LOWER_HOME": 1
   },
   "muscle_targets": {
     "PEC_CLAVICULAR": 5.0,
@@ -344,27 +344,6 @@
       },
       ["CABLE"]
     ],
-    "Banded Straight-Arm Pulldowns": [
-      ["UPPER_HOME"],
-      {
-        "LATS": 0.74,
-        "TERES_MAJOR": 0.25,
-        "ERECTOR_SPINAE": 0.08,
-        "RHOMBOIDS": 0.10
-      },
-      []
-    ],
-    "Banded Bent-Arm Pulldowns": [
-      ["UPPER_HOME"],
-      {
-        "LATS": 0.77,
-        "TERES_MAJOR": 0.21,
-        "RHOMBOIDS": 0.17,
-        "BICEPS_LONG": 0.23,
-        "TRAP_LOWER": 0.21
-      },
-      []
-    ],
     "Banded Row": [
       ["UPPER_HOME"],
       {
@@ -544,7 +523,7 @@
       []
     ],
     "Banded Neck Extension": [
-      ["UPPER_GYM", "UPPER_HOME"],
+      ["UPPER_HOME"],
       {
         "NECK": 0.85,
         "TRAP_UPPER": 0.15
@@ -552,7 +531,7 @@
       []
     ],
     "Banded Neck Flexion": [
-      ["UPPER_GYM", "UPPER_HOME"],
+      ["UPPER_HOME"],
       {
         "NECK": 0.85
       },
