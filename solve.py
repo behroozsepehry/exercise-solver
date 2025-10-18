@@ -119,7 +119,7 @@ MUSCLE_INDEX = {m: i for i, m in enumerate(Muscle)}
 ExerciseName = str
 MuscleActivation = Dict[Muscle, float]
 MachineList = List[Machine]
-ExerciseData = Tuple[List[DayCategory], MuscleActivation, MachineList]
+ExerciseData = Tuple[List[DayCategory], MuscleActivation, MachineList, int]
 ExerciseDict = Dict[ExerciseName, ExerciseData]
 MuscleTargetDict = Dict[Muscle, float]
 ExerciseVector = List[float]
@@ -154,12 +154,10 @@ DAYS_PER_CATEGORY = {
 }
 PAIRS_PER_CATEGORY = {cat: PAIRS_PER_DAY[cat] * DAYS_PER_CATEGORY[cat] for cat in PAIRS_PER_DAY}
 DAY_REQUIREMENTS = {cat: PAIRS_PER_CATEGORY[cat] * 2 for cat in PAIRS_PER_CATEGORY}
-MAX_EXERCISE_USAGE = config["exercise_repeat_limit_per_category"]
-
-
-def get_max_usage_for_category(cat: DayCategory) -> int:
+def get_max_usage_for_category(exercise_name: str, cat: DayCategory) -> int:
     """Get the maximum times an exercise can be used in the given category"""
-    return min(DAYS_PER_CATEGORY[cat], MAX_EXERCISE_USAGE)
+    return min(DAYS_PER_CATEGORY[cat], EXERCISES[exercise_name][3])
+
 
 
 # -----------------------
@@ -171,14 +169,16 @@ MUSCLE_TARGETS: MuscleTargetDict = {
 }
 
 EXERCISES: ExerciseDict = {}
-for name, (cat_list, act_dict, mach_list) in config["exercises"].items():
+for name, data in config["exercises"].items():
+    cat_list, act_dict, mach_list, limit = data
     categories = [DayCategory[cat] for cat in cat_list]
     activations: Dict[Muscle, float] = {
         Muscle[m]: val
         for m, val in act_dict.items()
     }
     machines = [Machine[m] for m in mach_list] if mach_list else []
-    EXERCISES[name] = (categories, activations, machines)
+    EXERCISES[name] = (categories, activations, machines, limit)
+
 
 
 
@@ -200,7 +200,7 @@ def safe_value(var: pulp.LpVariable, default: float = 0.0) -> float:
 
 def exercise_vector(name: ExerciseName) -> ExerciseVector:
     vec = [0.0] * M
-    categories, acts, machines = EXERCISES[name]
+    categories, acts, machines, _ = EXERCISES[name]
     for m, val in acts.items():
         if val >= 0.1:
             vec[MUSCLE_INDEX[m]] = float(val)
@@ -209,7 +209,7 @@ def exercise_vector(name: ExerciseName) -> ExerciseVector:
 
 def get_exercise_machines(exercise_name: ExerciseName) -> MachineList:
     """Return list of machines used by an exercise"""
-    categories, acts, machines = EXERCISES[exercise_name]
+    categories, acts, machines, _ = EXERCISES[exercise_name]
     return machines
 
 
@@ -362,12 +362,11 @@ def solve_muscle_coverage() -> Tuple[
     # Exercise count variables per category
     c: Dict[DayCategory, LpVariableDict] = {}
     for cat in categories:
-        max_usage = get_max_usage_for_category(cat)
         c[cat] = {
             e: pulp.LpVariable(
                 f"c_{cat.name.lower()}_{e}",
                 lowBound=0,
-                upBound=min(DAY_REQUIREMENTS[cat], max_usage),
+                upBound=min(DAY_REQUIREMENTS[cat], get_max_usage_for_category(EXERCISE_NAMES[e], cat)),
                 cat="Integer",
             )
             for e in range(E)
@@ -397,7 +396,7 @@ def solve_muscle_coverage() -> Tuple[
                         f"p_{cat.name.lower()}_{i}_{j}",
                         lowBound=0,
                         upBound=min(
-                            PAIRS_PER_CATEGORY[cat], get_max_usage_for_category(cat)
+                            PAIRS_PER_CATEGORY[cat], 3
                         ),
                         cat="Integer",
                     )
