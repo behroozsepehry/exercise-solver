@@ -11,7 +11,7 @@ The solver models exercises and muscles, enforces a maximum overlap between supe
 * Exercises are represented with continuous activation values (0.1–0.95) for each muscle group.
 * Each chosen exercise instance contributes sets based on `sets_per_instance[category] * activation` (from `config.json`) to a muscle's weekly volume.
 * Exercises are classified by category: `UPPER_GYM`, `LOWER_GYM`, `UPPER_HOME`, `LOWER_HOME` based on configuration. Eligibility is specified per exercise in the config, allowing for separate versions (e.g., cable for gym, band for home) where needed.
-* **Equipment constraints**: Exercises specify which equipment they use (chest press, leg press, cable, etc.). Pairs are only allowed if they don't share equipment, reducing equipment adjustment time during workouts. equipment include: `"CHEST_PRESS"`, `"LEG_PRESS"`, `"LEG_CURL"`, `"LAT_PULLDOWN"`, `"SEATED_ROW"`, `"CABLE"`.
+* **Equipment constraints**: Exercises specify which equipment they use (chest press, leg press, cable, bands, etc.). Pairs are only allowed if they don't share equipment, reducing equipment adjustment time during workouts. Equipment include: `"CHEST_PRESS"`, `"LEG_PRESS"`, `"LEG_CURL"`, `"LAT_PULLDOWN"`, `"SEATED_ROW"`, `"CABLE"`, `"BAND_LOW"`, `"BAND_MED"`, `"BAND_HIGH"`.
 * Pairing constraint: each category forms pairs (supersets) where gym categories get 6 pairs (for 3 days × 2 pairs/day), home categories get 3 pairs (for 1 day × 3 pairs/day). A pair is allowed only if the *overlap* (dot product of activation vectors) ≤ `THRESHOLD` AND they don't share equipment.
 * Day assignment: After pairing, assign pairs to days (3 gym days + 1 home day per upper/lower, totaling 7 days) with 2 pairs/day for gym and 3 pairs/day for home, minimizing exercise repeats within a day. Conflicts are handled via ILP relaxation if needed.
 * Objective: minimize weighted sum of absolute deviations from targets plus maximum absolute deviation (`DEVIATION_SUM_WEIGHT * sum_abs_deviations + max_abs_deviation`), measuring deviations in sets rather than percentages to treat all targets equally.
@@ -108,6 +108,7 @@ Open `config.json` and edit the following keys:
 * `"threshold"`: Maximum muscle activation overlap for superset pairs (default 0.2). Increase to e.g. 0.6–0.7 to allow more pairings.
 * `"supersets_per_day"`: Object specifying supersets (pairs) per category and day: 2 for gym days (3 days total = 6 supersets), 3 for home days (1 day total = 3 supersets). Adjust to change total volume (will compute total instances as supersets × 2).
 * `"days_per_category"`: Object specifying training days per category: 3 for gym, 1 for home (total 7 days). Must be > 0 for feasible division in pairing logic.
+* `"deviation_sum_weight"`: Coefficient for the sum of absolute deviations in the objective function (default 0.1). Balances emphasis on total shortfall vs. maximum single-muscle shortfall.
 * `"muscle_targets"`: Object mapping muscle names → weekly target sets. Edit to reflect your programming targets (see code for current values). Muscles with zero targets are still tracked but don't influence the objective.
 
 ---
@@ -130,7 +131,7 @@ Exercises are defined in `config.json`'s `"exercises"` object with this structur
 
 * Categories: Array of eligible category strings. Eligibility is specified per-exercise (not automatically based on equipment).
 * Activations: Object with floats in `[0,1]` for valid muscle names. Only activations ≥ `0.1` are considered to keep the model efficient.
-* equipments: Array of Equipment strings. Use empty array `[]` for bodyweight/free-weight exercises. equipments include: `"CHEST_PRESS"`, `"LEG_PRESS"`, `"LEG_CURL"`, `"LAT_PULLDOWN"`, `\"SEATED_ROW"`", `\"CABLE"`, `\"BAND_LOW"`", `\"BAND_MED"`", `\"BAND_HIGH"\`.
+* `"equipments"`: Array of Equipment strings. Use empty array `[]` for bodyweight/free-weight exercises. equipments include: `"CHEST_PRESS"`, `"LEG_PRESS"`, `"LEG_CURL"`, `"LAT_PULLDOWN"`, `"SEATED_ROW"`, `"CABLE"`, `"BAND_LOW"`, `"BAND_MED"`, `"BAND_HIGH"`.
 * Usage limit per category: Integer limit on how many times this exercise can be used within each category (3 for Equipment-specific exercises like Row, Lat Pulldown, Chest Press, Leg Press, Leg Curl; 1 for others).
 * If muscle targets are zero (e.g., `"PECTORAL_MINOR": 0.0`), the muscle is still calculated but doesn't affect the objective (use for informational purposes).
 
@@ -155,7 +156,7 @@ Adding or removing an exercise is straightforward — the ILP will adapt.
 * **Alternative execution**: You can also run `python solve.py` after activating the venv with `.\.venv\Scripts\activate`
 
 ### Solver performance
-* If the CBC solver is slow or times out on your Equipment, try limiting solve time with `pulp.PULP_CBC_CMD(timeLimit=30)` or switch to another solver.
+* If the CBC solver is slow or times out on your machine, try limiting solve time with `pulp.PULP_CBC_CMD(timeLimit=30)` or switch to another solver.
 * If the model is infeasible, either relax `"supersets_per_day"` values in `config.json` (make them smaller, e.g., reduce gym from 2 to 2 with fewer days) or relax `"threshold"`, or add more exercises.
 
 ### Equipment constraints
