@@ -566,7 +566,6 @@
     },
     "Mini-Band Lateral Walk": {
       "categories": [
-        "LOWER_GYM",
         "LOWER_HOME"
       ],
       "activations": {
@@ -607,7 +606,6 @@
     },
     "Banded Monster Walk": {
       "categories": [
-        "LOWER_GYM",
         "LOWER_HOME"
       ],
       "activations": {
@@ -620,7 +618,6 @@
     },
     "Band Supine Hip Abduction": {
       "categories": [
-        "LOWER_GYM",
         "LOWER_HOME"
       ],
       "activations": {
