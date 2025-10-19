@@ -11,8 +11,8 @@ The solver models exercises and muscles, enforces a maximum overlap between supe
 * Exercises are represented with continuous activation values (0.1–0.95) for each muscle group.
 * Each chosen exercise instance contributes sets based on `sets_per_instance[category] * activation` (from `config.json`) to a muscle's weekly volume.
 * Exercises are classified by category: `UPPER_GYM`, `LOWER_GYM`, `UPPER_HOME`, `LOWER_HOME` based on configuration. Eligibility is specified per exercise in the config, allowing for separate versions (e.g., cable for gym, band for home) where needed.
-* **Machine constraints**: Exercises specify which machines they use (chest press, leg press, cable, etc.). Pairs are only allowed if they don't share machines, reducing equipment adjustment time during workouts. Machines include: `"CHEST_PRESS"`, `"LEG_PRESS"`, `"LEG_CURL"`, `"LAT_PULLDOWN"`, `"SEATED_ROW"`, `"CABLE"`.
-* Pairing constraint: each category forms pairs (supersets) where gym categories get 6 pairs (for 3 days × 2 pairs/day), home categories get 3 pairs (for 1 day × 3 pairs/day). A pair is allowed only if the *overlap* (dot product of activation vectors) ≤ `THRESHOLD` AND they don't share machines.
+* **Equipment constraints**: Exercises specify which equipment they use (chest press, leg press, cable, etc.). Pairs are only allowed if they don't share equipment, reducing equipment adjustment time during workouts. equipment include: `"CHEST_PRESS"`, `"LEG_PRESS"`, `"LEG_CURL"`, `"LAT_PULLDOWN"`, `"SEATED_ROW"`, `"CABLE"`.
+* Pairing constraint: each category forms pairs (supersets) where gym categories get 6 pairs (for 3 days × 2 pairs/day), home categories get 3 pairs (for 1 day × 3 pairs/day). A pair is allowed only if the *overlap* (dot product of activation vectors) ≤ `THRESHOLD` AND they don't share equipment.
 * Day assignment: After pairing, assign pairs to days (3 gym days + 1 home day per upper/lower, totaling 7 days) with 2 pairs/day for gym and 3 pairs/day for home, minimizing exercise repeats within a day. Conflicts are handled via ILP relaxation if needed.
 * Objective: minimize weighted sum of absolute deviations from targets plus maximum absolute deviation (`DEVIATION_SUM_WEIGHT * sum_abs_deviations + max_abs_deviation`), measuring deviations in sets rather than percentages to treat all targets equally.
 
@@ -23,8 +23,8 @@ The solver models exercises and muscles, enforces a maximum overlap between supe
 * `solve.py`: combined ILP solver with **integrated day assignment** using PuLP and CBC.
 * `config.json`: JSON configuration file containing all tunable parameters, muscle targets, and exercise definitions.
 * `assign_pairs_to_days()` function: Additional ILP to assign pairs to days, handling conflicts with slacks for feasibility.
-* **Machine constraint system**: Prevents pairing exercises that use the same equipment (chest press, leg press, cable machines, etc.) to reduce workout adjustment time.
-* Exercise pool and muscle definitions loaded from `config.json`. The exercise pool is compact and uses compound, time-efficient movements (machines, bands, and bodyweight).
+* **Equipment constraint system**: Prevents pairing exercises that use the same equipment (chest press, leg press, cable equipment, etc.) to reduce workout adjustment time.
+* Exercise pool and muscle definitions loaded from `config.json`. The exercise pool is compact and uses compound, time-efficient movements (equipment, bands, and bodyweight).
 
 ---
 
@@ -121,7 +121,7 @@ Exercises are defined in `config.json`'s `"exercises"` object with this structur
   "Exercise Name": {
     "categories": ["UPPER_GYM"],
     "activations": {"PEC_STERNAL": 0.88, "ANT_DELTOID": 0.30, "TRICEPS_LONG": 0.36},
-    "machines": ["CHEST_PRESS"],
+    "equipments": ["CHEST_PRESS"],
     "usage_limit_per_category": 3
   },
   ...
@@ -130,8 +130,8 @@ Exercises are defined in `config.json`'s `"exercises"` object with this structur
 
 * Categories: Array of eligible category strings. Eligibility is specified per-exercise (not automatically based on equipment).
 * Activations: Object with floats in `[0,1]` for valid muscle names. Only activations ≥ `0.1` are considered to keep the model efficient.
-* Machines: Array of machine strings. Use empty array `[]` for bodyweight/free-weight exercises. Machines include: `"CHEST_PRESS"`, `"LEG_PRESS"`, `"LEG_CURL"`, `"LAT_PULLDOWN"`, `"SEATED_ROW"`, `"CABLE"`.
-* Usage limit per category: Integer limit on how many times this exercise can be used within each category (3 for machine-specific exercises like Row, Lat Pulldown, Chest Press, Leg Press, Leg Curl; 1 for others).
+* equipments: Array of Equipment strings. Use empty array `[]` for bodyweight/free-weight exercises. equipments include: `"CHEST_PRESS"`, `"LEG_PRESS"`, `"LEG_CURL"`, `"LAT_PULLDOWN"`, `\"SEATED_ROW"`", `\"CABLE"`, `\"BAND_LOW"`", `\"BAND_MED"`", `\"BAND_HIGH"\`.
+* Usage limit per category: Integer limit on how many times this exercise can be used within each category (3 for Equipment-specific exercises like Row, Lat Pulldown, Chest Press, Leg Press, Leg Curl; 1 for others).
 * If muscle targets are zero (e.g., `"PECTORAL_MINOR": 0.0`), the muscle is still calculated but doesn't affect the objective (use for informational purposes).
 
 Adding or removing an exercise is straightforward — the ILP will adapt.
@@ -155,14 +155,14 @@ Adding or removing an exercise is straightforward — the ILP will adapt.
 * **Alternative execution**: You can also run `python solve.py` after activating the venv with `.\.venv\Scripts\activate`
 
 ### Solver performance
-* If the CBC solver is slow or times out on your machine, try limiting solve time with `pulp.PULP_CBC_CMD(timeLimit=30)` or switch to another solver.
+* If the CBC solver is slow or times out on your Equipment, try limiting solve time with `pulp.PULP_CBC_CMD(timeLimit=30)` or switch to another solver.
 * If the model is infeasible, either relax `"supersets_per_day"` values in `config.json` (make them smaller, e.g., reduce gym from 2 to 2 with fewer days) or relax `"threshold"`, or add more exercises.
 
-### Machine constraints
-* **Machine conflicts**: The solver now prevents pairing exercises that use the same equipment. This may make some pairings impossible if you have limited exercise variety.
-* **Adjusting constraints**: If you get poor results due to machine constraints, consider:
-  - Adding more exercises to your pool that use different machines
-  - Temporarily commenting out machine specifications for some exercises
+### Equipment constraints
+* **Equipment conflicts**: The solver now prevents pairing exercises that use the same equipment. This may make some pairings impossible if you have limited exercise variety.
+* **Adjusting constraints**: If you get poor results due to Equipment constraints, consider:
+  - Adding more exercises to your pool that use different equipment
+  - Temporarily commenting out Equipment specifications for some exercises
   - Relaxing `THRESHOLD` to allow more pairing flexibility
 
 ### Exercise data

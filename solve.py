@@ -95,13 +95,16 @@ class Muscle(Enum):
     # QUADS_GENERIC = auto()
 
 
-class Machine(Enum):
+class Equipment(Enum):
     LEG_PRESS = auto()
     CHEST_PRESS = auto()
     LEG_CURL = auto()
     LAT_PULLDOWN = auto()
     SEATED_ROW = auto()
     CABLE = auto()
+    BAND_LOW = auto()
+    BAND_MED = auto()
+    BAND_HIGH = auto()
 
 
 class DayCategory(Enum):
@@ -118,8 +121,8 @@ MUSCLE_INDEX = {m: i for i, m in enumerate(Muscle)}
 # -----------------------
 ExerciseName = str
 MuscleActivation = Dict[Muscle, float]
-MachineList = List[Machine]
-ExerciseData = Tuple[List[DayCategory], MuscleActivation, MachineList, int]
+EquipmentList = List[Equipment]
+ExerciseData = Tuple[List[DayCategory], MuscleActivation, EquipmentList, int]
 ExerciseDict = Dict[ExerciseName, ExerciseData]
 MuscleTargetDict = Dict[Muscle, float]
 ExerciseVector = List[float]
@@ -171,12 +174,12 @@ EXERCISES: ExerciseDict = {}
 for name, data in config["exercises"].items():
     cat_list = data["categories"]
     act_dict = data["activations"]
-    mach_list = data["machines"]
+    equips_list = data["equipments"]
     limit = data["usage_limit_per_category"]
     categories = [DayCategory[cat] for cat in cat_list]
     activations: Dict[Muscle, float] = {Muscle[m]: val for m, val in act_dict.items()}
-    machines = [Machine[m] for m in mach_list] if mach_list else []
-    EXERCISES[name] = (categories, activations, machines, limit)
+    equipment = [Equipment[m] for m in equips_list] if equips_list else []
+    EXERCISES[name] = (categories, activations, equipment, limit)
 
 
 EXERCISE_NAMES: List[ExerciseName] = list(EXERCISES.keys())
@@ -197,24 +200,24 @@ def safe_value(var: pulp.LpVariable, default: float = 0.0) -> float:
 
 def exercise_vector(name: ExerciseName) -> ExerciseVector:
     vec = [0.0] * M
-    categories, acts, machines, _ = EXERCISES[name]
+    categories, acts, equipment, _ = EXERCISES[name]
     for m, val in acts.items():
         if val >= 0.1:
             vec[MUSCLE_INDEX[m]] = float(val)
     return vec
 
 
-def get_exercise_machines(exercise_name: ExerciseName) -> MachineList:
-    """Return list of machines used by an exercise"""
-    categories, acts, machines, _ = EXERCISES[exercise_name]
-    return machines
+def get_exercise_equipment(exercise_name: ExerciseName) -> EquipmentList:
+    """Return list of equipment used by an exercise"""
+    categories, acts, equipment, _ = EXERCISES[exercise_name]
+    return equipment
 
 
-def has_machine_conflict(ex1: ExerciseName, ex2: ExerciseName) -> bool:
-    """Check if two exercises share any machines"""
-    machines1 = get_exercise_machines(ex1)
-    machines2 = get_exercise_machines(ex2)
-    return bool(set(machines1) & set(machines2))
+def has_equipment_conflict(ex1: ExerciseName, ex2: ExerciseName) -> bool:
+    """Check if two exercises share any equipment"""
+    equipment1 = get_exercise_equipment(ex1)
+    equipment2 = get_exercise_equipment(ex2)
+    return bool(set(equipment1) & set(equipment2))
 
 
 VEC: ExerciseMatrix = [exercise_vector(n) for n in EXERCISE_NAMES]
@@ -380,15 +383,15 @@ def solve_muscle_coverage() -> Tuple[
                 # Check muscle overlap
                 muscle_overlap_ok = W[i][j] <= THRESHOLD + 1e-9
 
-                # Check machine conflicts
+                # Check equipment conflicts
                 ex1_name = EXERCISE_NAMES[i]
                 ex2_name = EXERCISE_NAMES[j]
-                machine_conflict = has_machine_conflict(ex1_name, ex2_name)
+                equipment_conflict = has_equipment_conflict(ex1_name, ex2_name)
 
                 # Only allow pairing if both conditions are met
                 if (
                     muscle_overlap_ok
-                    and not machine_conflict
+                    and not equipment_conflict
                     and allowed_in_category(EXERCISE_NAMES[i], cat)
                     and allowed_in_category(EXERCISE_NAMES[j], cat)
                 ):

@@ -83,7 +83,7 @@
         "ANT_DELTOID": 0.3,
         "TRICEPS_LONG": 0.36
       },
-      "machines": [
+      "equipments": [
         "CHEST_PRESS"
       ],
       "usage_limit_per_category": 3
@@ -99,7 +99,7 @@
         "TRICEPS_LONG": 0.32,
         "RECTUS_ABDOMINIS": 0.2
       },
-      "machines": [],
+      "equipments": [],
       "usage_limit_per_category": 1
     },
     "Close-Grip Push-ups": {
@@ -113,7 +113,7 @@
         "PEC_CLAVICULAR": 0.3,
         "ANT_DELTOID": 0.2
       },
-      "machines": [],
+      "equipments": [],
       "usage_limit_per_category": 1
     },
     "Diamond Push-ups": {
@@ -127,7 +127,7 @@
         "PEC_STERNAL": 0.6,
         "ANT_DELTOID": 0.25
       },
-      "machines": [],
+      "equipments": [],
       "usage_limit_per_category": 1
     },
     "Scapular Push-ups": {
@@ -139,7 +139,7 @@
         "PECTORAL_MINOR": 0.4,
         "TRAP_MIDDLE": 0.15
       },
-      "machines": [],
+      "equipments": [],
       "usage_limit_per_category": 1
     },
     "Chest Fly (cable)": {
@@ -151,7 +151,7 @@
         "PEC_CLAVICULAR": 0.5,
         "ANT_DELTOID": 0.18
       },
-      "machines": [
+      "equipments": [
         "CABLE"
       ],
       "usage_limit_per_category": 1
@@ -167,7 +167,7 @@
         "ERECTOR_SPINAE": 0.22,
         "TRAP_UPPER": 0.15
       },
-      "machines": [
+      "equipments": [
         "CABLE"
       ],
       "usage_limit_per_category": 1
@@ -183,7 +183,7 @@
         "ERECTOR_SPINAE": 0.18,
         "TRAP_UPPER": 0.12
       },
-      "machines": [],
+      "equipments": ["BAND_LOW"],
       "usage_limit_per_category": 1
     },
     "Pike Push-ups (vertical press)": {
@@ -196,7 +196,7 @@
         "ERECTOR_SPINAE": 0.18,
         "RECTUS_ABDOMINIS": 0.18
       },
-      "machines": [],
+      "equipments": [],
       "usage_limit_per_category": 1
     },
     "Lateral Raise (cable)": {
@@ -208,7 +208,7 @@
         "ANT_DELTOID": 0.12,
         "TRAP_UPPER": 0.1
       },
-      "machines": [
+      "equipments": [
         "CABLE"
       ],
       "usage_limit_per_category": 1
@@ -222,7 +222,7 @@
         "ANT_DELTOID": 0.1,
         "TRAP_UPPER": 0.08
       },
-      "machines": [],
+      "equipments": ["BAND_LOW"],
       "usage_limit_per_category": 1
     },
     "Triceps Pushdown (cable)": {
@@ -234,7 +234,7 @@
         "TRICEPS_MEDIAL": 0.6,
         "TRICEPS_LONG": 0.15
       },
-      "machines": [
+      "equipments": [
         "CABLE"
       ],
       "usage_limit_per_category": 1
@@ -247,20 +247,20 @@
         "TRICEPS_LATERAL": 0.48,
         "TRICEPS_LONG": 0.4
       },
-      "machines": [
+      "equipments": [
         "CABLE"
       ],
       "usage_limit_per_category": 1
     },
     "Tricep Kickback (band)": {
       "categories": [
-        "UPPER_HOME"
+        "UPPER_GYM"
       ],
       "activations": {
-        "TRICEPS_LATERAL": 0.4,
-        "TRICEPS_LONG": 0.33
+        "TRICEPS_LATERAL": 0.48,
+        "TRICEPS_LONG": 0.4
       },
-      "machines": [],
+      "equipments": ["BAND_MED"],
       "usage_limit_per_category": 1
     },
     "Overhead Triceps Extensions (cable)": {
@@ -271,7 +271,7 @@
         "TRICEPS_LONG": 0.92,
         "TRICEPS_MEDIAL": 0.28
       },
-      "machines": [
+      "equipments": [
         "CABLE"
       ],
       "usage_limit_per_category": 1
@@ -284,7 +284,7 @@
         "TRICEPS_LONG": 0.76,
         "TRICEPS_MEDIAL": 0.23
       },
-      "machines": [],
+      "equipments": ["BAND_LOW"],
       "usage_limit_per_category": 1
     },
     "Row (machine)": {
@@ -299,7 +299,7 @@
         "BICEPS_SHORT": 0.18,
         "POST_DELTOID": 0.22
       },
-      "machines": [
+      "equipments": [
         "SEATED_ROW"
       ],
       "usage_limit_per_category": 3
@@ -315,7 +315,7 @@
         "INFRASPINATUS": 0.18,
         "TERES_MINOR": 0.12
       },
-      "machines": [
+      "equipments": [
         "CABLE"
       ],
       "usage_limit_per_category": 1
@@ -331,7 +331,7 @@
         "BICEPS_LONG": 0.28,
         "TRAP_LOWER": 0.25
       },
-      "machines": [
+      "equipments": [
         "LAT_PULLDOWN"
       ],
       "usage_limit_per_category": 3
@@ -349,7 +349,7 @@
         "BRACHIALIS": 0.18,
         "TRAP_LOWER": 0.24
       },
-      "machines": [
+      "equipments": [
         "LAT_PULLDOWN"
       ],
       "usage_limit_per_category": 3
@@ -364,7 +364,7 @@
         "POST_DELTOID": 0.3,
         "INFRASPINATUS": 0.2
       },
-      "machines": [
+      "equipments": [
         "CABLE"
       ],
       "usage_limit_per_category": 1
@@ -379,7 +379,7 @@
         "POST_DELTOID": 0.24,
         "INFRASPINATUS": 0.16
       },
-      "machines": [],
+      "equipments": ["BAND_LOW"],
       "usage_limit_per_category": 1
     },
     "Biceps Curl (cable)": {
@@ -391,7 +391,7 @@
         "BICEPS_SHORT": 0.32,
         "FOREARM_FLEXORS": 0.3
       },
-      "machines": [
+      "equipments": [
         "CABLE"
       ],
       "usage_limit_per_category": 1
@@ -405,7 +405,7 @@
         "BICEPS_SHORT": 0.26,
         "FOREARM_FLEXORS": 0.25
       },
-      "machines": [],
+      "equipments": ["BAND_MED"],
       "usage_limit_per_category": 1
     },
     "Hammer Curl (cable)": {
@@ -417,7 +417,7 @@
         "BRACHIORADIALIS": 0.8,
         "BRACHIALIS": 0.28
       },
-      "machines": [
+      "equipments": [
         "CABLE"
       ],
       "usage_limit_per_category": 1
@@ -431,7 +431,7 @@
         "BRACHIORADIALIS": 0.66,
         "BRACHIALIS": 0.23
       },
-      "machines": [],
+      "equipments": ["BAND_MED"],
       "usage_limit_per_category": 1
     },
     "Reverse Curl (cable)": {
@@ -443,7 +443,7 @@
         "BRACHIORADIALIS": 0.3,
         "BICEPS_SHORT": 0.18
       },
-      "machines": [
+      "equipments": [
         "CABLE"
       ],
       "usage_limit_per_category": 1
@@ -457,7 +457,7 @@
         "BRACHIORADIALIS": 0.26,
         "BICEPS_SHORT": 0.15
       },
-      "machines": [],
+      "equipments": ["BAND_MED"],
       "usage_limit_per_category": 1
     },
     "Straight-Arm Pulldown (cable)": {
@@ -470,7 +470,7 @@
         "ERECTOR_SPINAE": 0.1,
         "RHOMBOIDS": 0.12
       },
-      "machines": [
+      "equipments": [
         "CABLE"
       ],
       "usage_limit_per_category": 1
@@ -485,7 +485,7 @@
         "BICEPS_LONG": 0.18,
         "POST_DELTOID": 0.12
       },
-      "machines": [],
+      "equipments": ["BAND_HIGH"],
       "usage_limit_per_category": 1
     },
     "Glute Bridge + Band Pull-Apart": {
@@ -500,7 +500,7 @@
         "POST_DELTOID": 0.3,
         "ERECTOR_SPINAE": 0.28
       },
-      "machines": [],
+      "equipments": ["BAND_MED"],
       "usage_limit_per_category": 1
     },
     "Leg Press": {
@@ -515,7 +515,7 @@
         "HAM_BICEPS_FEMORIS": 0.1,
         "ERECTOR_SPINAE": 0.1
       },
-      "machines": [
+      "equipments": [
         "LEG_PRESS"
       ],
       "usage_limit_per_category": 3
@@ -530,7 +530,7 @@
         "VASTUS_LATERALIS": 0.45,
         "VASTUS_MEDIALIS": 0.38
       },
-      "machines": [
+      "equipments": [
         "LEG_PRESS"
       ],
       "usage_limit_per_category": 3
@@ -544,7 +544,7 @@
         "HAM_SEMITENDINOSUS": 0.6,
         "HAM_SEMIMEMBRANOSUS": 0.6
       },
-      "machines": [
+      "equipments": [
         "LEG_CURL"
       ],
       "usage_limit_per_category": 3
@@ -559,7 +559,7 @@
         "HAM_BICEPS_FEMORIS": 0.3,
         "ERECTOR_SPINAE": 0.28
       },
-      "machines": [
+      "equipments": [
         "CABLE"
       ],
       "usage_limit_per_category": 1
@@ -574,7 +574,7 @@
         "TENSOR_FASCIAE_LATAE": 0.4,
         "GLUTE_MAX": 0.5
       },
-      "machines": [],
+      "equipments": [],
       "usage_limit_per_category": 1
     },
     "Calf Raise": {
@@ -586,7 +586,7 @@
         "GASTROC_LAT": 0.48,
         "SOLEUS": 0.7
       },
-      "machines": [
+      "equipments": [
         "LEG_PRESS"
       ],
       "usage_limit_per_category": 3
@@ -600,7 +600,7 @@
         "GLUTE_MAX": 0.35,
         "HAM_BICEPS_FEMORIS": 0.3
       },
-      "machines": [
+      "equipments": [
         "CABLE"
       ],
       "usage_limit_per_category": 1
@@ -615,7 +615,7 @@
         "GLUTE_MAX": 0.55,
         "TENSOR_FASCIAE_LATAE": 0.25
       },
-      "machines": [],
+      "equipments": [],
       "usage_limit_per_category": 1
     },
     "Band Supine Hip Abduction": {
@@ -629,7 +629,7 @@
         "GLUTE_MAX": 0.35,
         "RECTUS_ABDOMINIS": 0.12
       },
-      "machines": [],
+      "equipments": [],
       "usage_limit_per_category": 1
     },
     "Banded front squat": {
@@ -643,7 +643,7 @@
         "HAM_BICEPS_FEMORIS": 0.2,
         "ERECTOR_SPINAE": 0.2
       },
-      "machines": [],
+      "equipments": ["BAND_HIGH"],
       "usage_limit_per_category": 1
     },
     "Banded front squat (sumo/wide)": {
@@ -657,7 +657,7 @@
         "HAM_BICEPS_FEMORIS": 0.2,
         "ERECTOR_SPINAE": 0.2
       },
-      "machines": [],
+      "equipments": ["BAND_HIGH"],
       "usage_limit_per_category": 1
     },
     "Lying Band Leg Curl": {
@@ -668,7 +668,7 @@
         "HAM_BICEPS_FEMORIS": 0.78,
         "HAM_SEMITENDINOSUS": 0.45
       },
-      "machines": [],
+      "equipments": [],
       "usage_limit_per_category": 1
     },
     "Banded Wall Sit + Pull-Apart": {
@@ -683,12 +683,26 @@
         "POST_DELTOID": 0.3,
         "RHOMBOIDS": 0.1
       },
-      "machines": [],
+      "equipments": ["BAND_MED"],
       "usage_limit_per_category": 1
     },
-    "Pallof Press (cable/band)": {
+    "Pallof Press (cable)": {
       "categories": [
-        "LOWER_GYM",
+        "LOWER_GYM"
+      ],
+      "activations": {
+        "RECTUS_ABDOMINIS": 0.7,
+        "EXTERNAL_OBLIQUE": 0.35,
+        "INTERNAL_OBLIQUE": 0.3,
+        "TRANSVERSUS_ABDOMINIS": 0.2
+      },
+      "equipments": [
+        "CABLE"
+      ],
+      "usage_limit_per_category": 1
+    },
+    "Pallof Press (band)": {
+      "categories": [
         "LOWER_HOME"
       ],
       "activations": {
@@ -697,8 +711,8 @@
         "INTERNAL_OBLIQUE": 0.3,
         "TRANSVERSUS_ABDOMINIS": 0.2
       },
-      "machines": [
-        "CABLE"
+      "equipments": [
+        "BAND_MED"
       ],
       "usage_limit_per_category": 1
     },
@@ -712,7 +726,7 @@
         "EXTERNAL_OBLIQUE": 0.4,
         "ERECTOR_SPINAE": 0.2
       },
-      "machines": [],
+      "equipments": [],
       "usage_limit_per_category": 1
     },
     "Shrug (band)": {
@@ -724,7 +738,7 @@
         "TRAP_MIDDLE": 0.25,
         "RHOMBOIDS": 0.2
       },
-      "machines": [],
+      "equipments": ["BAND_HIGH"],
       "usage_limit_per_category": 1
     },
     "Banded Neck Extension": {
@@ -735,7 +749,7 @@
         "NECK": 0.85,
         "TRAP_UPPER": 0.15
       },
-      "machines": [],
+      "equipments": ["BAND_LOW"],
       "usage_limit_per_category": 1
     },
     "Banded Neck Flexion": {
@@ -745,12 +759,26 @@
       "activations": {
         "NECK": 0.85
       },
-      "machines": [],
+      "equipments": ["BAND_LOW"],
       "usage_limit_per_category": 1
     },
-    "Side Plank High Pull (cable/band)": {
+    "Side Plank High Pull (cable)": {
       "categories": [
-        "LOWER_GYM",
+        "LOWER_GYM"
+      ],
+      "activations": {
+        "EXTERNAL_OBLIQUE": 0.92,
+        "LATS": 0.3,
+        "RHOMBOIDS": 0.3,
+        "ANT_DELTOID": 0.18
+      },
+      "equipments": [
+        "CABLE"
+      ],
+      "usage_limit_per_category": 1
+    },
+    "Side Plank High Pull (band)": {
+      "categories": [
         "LOWER_HOME"
       ],
       "activations": {
@@ -759,8 +787,8 @@
         "RHOMBOIDS": 0.3,
         "ANT_DELTOID": 0.18
       },
-      "machines": [
-        "CABLE"
+      "equipments": [
+        "BAND_LOW"
       ],
       "usage_limit_per_category": 1
     }
