@@ -6,6 +6,7 @@
     "LOWER_HOME": 3.5
   },
   "threshold": 0.05,
+  "pair_overlap_threshold": 0.05,
   "deviation_sum_weight": 0.1,
   "supersets_per_day": {
     "UPPER_GYM": 2,

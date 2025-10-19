@@ -145,6 +145,7 @@ SETS_PER_INSTANCE: Dict[DayCategory, float] = {
     DayCategory[cat]: val for cat, val in config["sets_per_instance"].items()
 }
 THRESHOLD: float = config["threshold"]
+CONFLICT_OVERLAP_THRESHOLD: float = config["pair_overlap_threshold"]
 DEVIATION_SUM_WEIGHT: float = config["deviation_sum_weight"]
 PAIRS_PER_DAY = {
     DayCategory[cat]: val for cat, val in config["supersets_per_day"].items()
@@ -258,10 +259,23 @@ def assign_pairs_to_days(
 
     # Precompute conflicts
     pair_sets = [set(pair) for pair in pairs_list]
+    pair_sum_vecs: List[ExerciseVector] = []
+    for p in range(P):
+        ex1, ex2 = pairs_list[p]
+        v1 = exercise_vector(ex1)
+        v2 = exercise_vector(ex2)
+        pair_sum_vecs.append([a + b for a, b in zip(v1, v2)])
+
     conflicts = {p: [] for p in range(P)}
     for p1 in range(P):
         for p2 in range(p1 + 1, P):
+            has_conflict = False
             if pair_sets[p1] & pair_sets[p2]:
+                has_conflict = True
+            dot_prod = dot(pair_sum_vecs[p1], pair_sum_vecs[p2])
+            if dot_prod > CONFLICT_OVERLAP_THRESHOLD:
+                has_conflict = True
+            if has_conflict:
                 conflicts[p1].append(p2)
                 conflicts[p2].append(p1)
 
@@ -321,10 +335,10 @@ def assign_pairs_to_days(
     total_violations = sum(pulp.value(v) for v in slack_conflicts.values())
     if total_violations > 0:
         print(
-            f"Assignment allows {total_violations} shared exercises; use with caution."
+            f"{category_name} assignment allows {total_violations} shared exercises; use with caution."
         )
     else:
-        print("Perfect conflict-free assignment.")
+        print(f"{category_name} assignment is perfectly conflict-free.")
 
     return assignments
 

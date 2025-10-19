@@ -3,9 +3,9 @@
 ### UPPER GYM Days:
 | Workout Type | Superset 1 | Superset 2 |
 |---|---|---|
-| UPPER GYM 1 | Lateral Raise (cable)<br>Lat Pulldown reverse grip (machine) | Triceps Pushdown (cable)<br>Lat Pulldown (machine) |
-| UPPER GYM 2 | Chest Press<br>Face Pull (cable) | Overhead Press (cable)<br>Row (machine) |
-| UPPER GYM 3 | Chest Press<br>Straight-Arm Pulldown (cable) | Chest Fly (cable)<br>Lat Pulldown reverse grip (machine) |
+| UPPER GYM 1 | Chest Press<br>Face Pull (cable) | Overhead Press (cable)<br>Row (machine) |
+| UPPER GYM 2 | Chest Press<br>Straight-Arm Pulldown (cable) | Lateral Raise (cable)<br>Lat Pulldown reverse grip (machine) |
+| UPPER GYM 3 | Chest Fly (cable)<br>Lat Pulldown reverse grip (machine) | Triceps Pushdown (cable)<br>Lat Pulldown (machine) |
 
 ### LOWER GYM Days:
 | Workout Type | Superset 1 | Superset 2 |
