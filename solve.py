@@ -398,9 +398,6 @@ def solve_muscle_coverage() -> Tuple[
                         cat="Integer",
                     )
 
-    # Dummy objective for feasibility check
-    dummy_obj = pulp.LpVariable("dummy", lowBound=0, cat="Continuous")
-
     # counts constraints per category
     for cat in categories:
         prob += (
