@@ -145,7 +145,6 @@ SETS_PER_INSTANCE: Dict[DayCategory, float] = {
     DayCategory[cat]: val for cat, val in config["sets_per_instance"].items()
 }
 THRESHOLD: float = config["threshold"]
-CONFLICT_OVERLAP_THRESHOLD: float = config["pair_overlap_threshold"]
 DEVIATION_SUM_WEIGHT: float = config["deviation_sum_weight"]
 PAIRS_PER_DAY = {
     DayCategory[cat]: val for cat, val in config["supersets_per_day"].items()
@@ -257,8 +256,7 @@ def assign_pairs_to_days(
             f"Number of pairs {P} does not match num_days * pairs_per_day = {num_days * pairs_per_day}"
         )
 
-    # Precompute conflicts
-    pair_sets = [set(pair) for pair in pairs_list]
+    # Precompute pair sum vectors
     pair_sum_vecs: List[ExerciseVector] = []
     for p in range(P):
         ex1, ex2 = pairs_list[p]
@@ -266,18 +264,11 @@ def assign_pairs_to_days(
         v2 = exercise_vector(ex2)
         pair_sum_vecs.append([a + b for a, b in zip(v1, v2)])
 
-    conflicts = {p: [] for p in range(P)}
+    # Compute overlaps
+    D = [[0.0] * P for _ in range(P)]
     for p1 in range(P):
         for p2 in range(p1 + 1, P):
-            has_conflict = False
-            if pair_sets[p1] & pair_sets[p2]:
-                has_conflict = True
-            dot_prod = dot(pair_sum_vecs[p1], pair_sum_vecs[p2])
-            if dot_prod > CONFLICT_OVERLAP_THRESHOLD:
-                has_conflict = True
-            if has_conflict:
-                conflicts[p1].append(p2)
-                conflicts[p2].append(p1)
+            D[p1][p2] = dot(pair_sum_vecs[p1], pair_sum_vecs[p2])
 
     # ILP
     assign_prob = pulp.LpProblem(f"{category_name.lower()}_assignment", pulp.LpMinimize)
@@ -285,7 +276,6 @@ def assign_pairs_to_days(
         [pulp.LpVariable(f"x_{p}_{d}", cat="Binary") for d in range(num_days)]
         for p in range(P)
     ]
-    slack_conflicts = {}
 
     for p in range(P):
         assign_prob += (
@@ -299,21 +289,18 @@ def assign_pairs_to_days(
             f"day_capacity_{d}",
         )
 
-    # Relaxed conflicts
-    for p1 in range(P):
-        for p2 in range(p1 + 1, P):
-            if p2 in conflicts[p1]:
-                for d in range(num_days):
-                    slack_var = pulp.LpVariable(
-                        f"slack_conf_{p1}_{p2}_{d}", lowBound=0, cat="Continuous"
-                    )
-                    slack_conflicts[(p1, p2, d)] = slack_var
-                    assign_prob += (
-                        x[p1][d] + x[p2][d] <= 1 + slack_var,
-                        f"conflict_{p1}_{p2}_{d}",
-                    )
+    # Auxiliary for overlaps
+    obj_terms = []
+    for d in range(num_days):
+        for p1 in range(P):
+            for p2 in range(p1 + 1, P):
+                z = pulp.LpVariable(f"z_{d}_{p1}_{p2}", cat="Binary")
+                assign_prob += z <= x[p1][d]
+                assign_prob += z <= x[p2][d]
+                assign_prob += z >= x[p1][d] + x[p2][d] - 1
+                obj_terms.append(D[p1][p2] * z)
 
-    assign_prob.setObjective(pulp.lpSum(slack_conflicts.values()))
+    assign_prob.setObjective(pulp.lpSum(obj_terms))
 
     # Solve
     solver = pulp.PULP_CBC_CMD(msg=False)
@@ -332,13 +319,8 @@ def assign_pairs_to_days(
                 assignments[f"Day {d}"].append(pairs_list[p])
                 break
 
-    total_violations = sum(pulp.value(v) for v in slack_conflicts.values())
-    if total_violations > 0:
-        print(
-            f"{category_name} assignment allows {total_violations} shared exercises; use with caution."
-        )
-    else:
-        print(f"{category_name} assignment is perfectly conflict-free.")
+    total_overlap = pulp.value(assign_prob.objective)
+    print(f"{category_name} assignment minimizes total muscular overlaps between pairs on same days (total overlap: {total_overlap:.2f}).")
 
     return assignments
 
