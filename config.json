@@ -140,7 +140,7 @@
         "TRAP_MIDDLE": 0.15
       },
       "equipments": [],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 0
     },
     "Chest Fly (cable)": {
       "categories": [
@@ -488,7 +488,7 @@
       "equipments": ["BAND_HIGH"],
       "usage_limit_per_category": 1
     },
-    "Glute Bridge + Band Pull-Apart": {
+    "Glute Bridge": {
       "categories": [
         "LOWER_GYM",
         "LOWER_HOME"
@@ -496,11 +496,9 @@
       "activations": {
         "GLUTE_MAX": 0.92,
         "GLUTE_MED": 0.28,
-        "HAM_BICEPS_FEMORIS": 0.3,
-        "POST_DELTOID": 0.3,
-        "ERECTOR_SPINAE": 0.28
+        "HAM_BICEPS_FEMORIS": 0.3
       },
-      "equipments": ["BAND_MED"],
+      "equipments": [],
       "usage_limit_per_category": 1
     },
     "Leg Press": {
@@ -535,6 +533,25 @@
       ],
       "usage_limit_per_category": 3
     },
+    "Glute-Focused Leg Press": {
+      "categories": [
+        "LOWER_GYM"
+      ],
+      "activations": {
+        "GLUTE_MAX": 0.90,
+        "GLUTE_MED": 0.35,
+        "VASTUS_LATERALIS": 0.45,
+        "RECTUS_FEMORIS": 0.35,
+        "VASTUS_MEDIALIS": 0.40,
+        "ADDUCTOR_MAGNUS": 0.40,
+        "HAM_BICEPS_FEMORIS": 0.15,
+        "ERECTOR_SPINAE": 0.12
+      },
+      "equipments": [
+        "LEG_PRESS"
+      ],
+      "usage_limit_per_category": 3
+    },
     "Seated Leg Curl": {
       "categories": [
         "LOWER_GYM"
@@ -551,8 +568,7 @@
     },
     "Cable Pull-Through": {
       "categories": [
-        "LOWER_GYM",
-        "LOWER_HOME"
+        "LOWER_GYM"
       ],
       "activations": {
         "GLUTE_MAX": 0.92,
@@ -562,7 +578,7 @@
       "equipments": [
         "CABLE"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 0
     },
     "Mini-Band Lateral Walk": {
       "categories": [
