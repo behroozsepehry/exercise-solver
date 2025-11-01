@@ -183,7 +183,9 @@
         "ERECTOR_SPINAE": 0.18,
         "TRAP_UPPER": 0.12
       },
-      "equipments": ["BAND_LOW"],
+      "equipments": [
+        "BAND_LOW"
+      ],
       "usage_limit_per_category": 1
     },
     "Pike Push-ups (vertical press)": {
@@ -222,7 +224,9 @@
         "ANT_DELTOID": 0.1,
         "TRAP_UPPER": 0.08
       },
-      "equipments": ["BAND_LOW"],
+      "equipments": [
+        "BAND_LOW"
+      ],
       "usage_limit_per_category": 1
     },
     "Triceps Pushdown (cable)": {
@@ -260,7 +264,9 @@
         "TRICEPS_LATERAL": 0.48,
         "TRICEPS_LONG": 0.4
       },
-      "equipments": ["BAND_MED"],
+      "equipments": [
+        "BAND_MED"
+      ],
       "usage_limit_per_category": 1
     },
     "Overhead Triceps Extensions (cable)": {
@@ -284,7 +290,9 @@
         "TRICEPS_LONG": 0.76,
         "TRICEPS_MEDIAL": 0.23
       },
-      "equipments": ["BAND_LOW"],
+      "equipments": [
+        "BAND_LOW"
+      ],
       "usage_limit_per_category": 1
     },
     "Row (machine)": {
@@ -379,7 +387,9 @@
         "POST_DELTOID": 0.24,
         "INFRASPINATUS": 0.16
       },
-      "equipments": ["BAND_LOW"],
+      "equipments": [
+        "BAND_LOW"
+      ],
       "usage_limit_per_category": 1
     },
     "Biceps Curl (cable)": {
@@ -405,7 +415,9 @@
         "BICEPS_SHORT": 0.26,
         "FOREARM_FLEXORS": 0.25
       },
-      "equipments": ["BAND_MED"],
+      "equipments": [
+        "BAND_MED"
+      ],
       "usage_limit_per_category": 1
     },
     "Hammer Curl (cable)": {
@@ -431,7 +443,9 @@
         "BRACHIORADIALIS": 0.66,
         "BRACHIALIS": 0.23
       },
-      "equipments": ["BAND_MED"],
+      "equipments": [
+        "BAND_MED"
+      ],
       "usage_limit_per_category": 1
     },
     "Reverse Curl (cable)": {
@@ -457,7 +471,9 @@
         "BRACHIORADIALIS": 0.26,
         "BICEPS_SHORT": 0.15
       },
-      "equipments": ["BAND_MED"],
+      "equipments": [
+        "BAND_MED"
+      ],
       "usage_limit_per_category": 1
     },
     "Straight-Arm Pulldown (cable)": {
@@ -485,7 +501,9 @@
         "BICEPS_LONG": 0.18,
         "POST_DELTOID": 0.12
       },
-      "equipments": ["BAND_HIGH"],
+      "equipments": [
+        "BAND_HIGH"
+      ],
       "usage_limit_per_category": 1
     },
     "Glute Bridge": {
@@ -656,7 +674,9 @@
         "HAM_BICEPS_FEMORIS": 0.2,
         "ERECTOR_SPINAE": 0.2
       },
-      "equipments": ["BAND_HIGH"],
+      "equipments": [
+        "BAND_HIGH"
+      ],
       "usage_limit_per_category": 1
     },
     "Banded front squat (sumo/wide)": {
@@ -670,7 +690,9 @@
         "HAM_BICEPS_FEMORIS": 0.2,
         "ERECTOR_SPINAE": 0.2
       },
-      "equipments": ["BAND_HIGH"],
+      "equipments": [
+        "BAND_HIGH"
+      ],
       "usage_limit_per_category": 1
     },
     "Lying Band Leg Curl": {
@@ -696,7 +718,9 @@
         "POST_DELTOID": 0.3,
         "RHOMBOIDS": 0.1
       },
-      "equipments": ["BAND_MED"],
+      "equipments": [
+        "BAND_MED"
+      ],
       "usage_limit_per_category": 1
     },
     "Pallof Press (cable)": {
@@ -751,7 +775,9 @@
         "TRAP_MIDDLE": 0.25,
         "RHOMBOIDS": 0.2
       },
-      "equipments": ["BAND_HIGH"],
+      "equipments": [
+        "BAND_HIGH"
+      ],
       "usage_limit_per_category": 1
     },
     "Banded Neck Extension": {
@@ -762,7 +788,9 @@
         "NECK": 0.85,
         "TRAP_UPPER": 0.15
       },
-      "equipments": ["BAND_LOW"],
+      "equipments": [
+        "BAND_LOW"
+      ],
       "usage_limit_per_category": 1
     },
     "Banded Neck Flexion": {
@@ -772,7 +800,9 @@
       "activations": {
         "NECK": 0.85
       },
-      "equipments": ["BAND_LOW"],
+      "equipments": [
+        "BAND_LOW"
+      ],
       "usage_limit_per_category": 1
     },
     "Side Plank High Pull (cable)": {
