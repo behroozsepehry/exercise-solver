@@ -6,9 +6,24 @@ The solver models exercises and muscles, enforces a maximum overlap between supe
 
 ---
 
+## Table of Contents
+
+- [Repository Structure](#repository-structure)
+- [Core Concepts](#core-concepts)
+- [Technical Details](#technical-details)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Output Explanation](#output-explanation)
+- [Troubleshooting](#troubleshooting)
+- [License](#license)
+
+---
+
 ## Repository Structure
 
-- `solve.py` - Main ILP solver script containing the two-stage optimization process
+- `solve.py` - Main ILP solver script containing the two-stage optimization process (pairing + day assignment)
 - `config.json` - JSON configuration file with all tunable parameters, muscle targets, and exercise definitions
 - `README.md` - Project documentation and usage guide
 - `LICENSE` - Project license file
@@ -17,25 +32,20 @@ The solver models exercises and muscles, enforces a maximum overlap between supe
 
 ---
 
-## Key ideas
+## Core Concepts
 
 * Exercises are represented with continuous activation values (0.1–0.95) for each muscle group.
 * Each chosen exercise instance contributes sets based on `sets_per_instance[category] * activation` (from `config.json`) to a muscle's weekly volume.
 * Exercises are classified by category: `UPPER_GYM`, `LOWER_GYM`, `UPPER_HOME`, `LOWER_HOME` based on configuration. Eligibility is specified per exercise in the config, allowing for separate versions (e.g., cable for gym, band for home) where needed.
 * **Equipment constraints**: Exercises specify which equipment they use (chest press, leg press, cable, bands, etc.). Pairs are only allowed if they don't share equipment, reducing equipment adjustment time during workouts. Equipment include: `"CHEST_PRESS"`, `"LEG_PRESS"`, `"LEG_CURL"`, `"LAT_PULLDOWN"`, `"SEATED_ROW"`, `"CABLE"`, `"BAND_LOW"`, `"BAND_MED"`, `"BAND_HIGH"`.
-* Pairing constraint: each category forms pairs (supersets) based on supersets_per_day × days_per_category values (from config.json). A pair is allowed only if the *overlap* (dot product of activation vectors) ≤ `THRESHOLD` AND they don't share equipment.
-* Day assignment: After pairing, assign pairs to days with pairs per day based on supersets_per_day, minimizing muscular overlaps between supersets on the same day.
-* Objective: minimize weighted sum of absolute deviations from targets plus maximum absolute deviation (`DEVIATION_SUM_WEIGHT * sum_abs_deviations + max_abs_deviation`), measuring deviations in sets rather than percentages to treat all targets equally.
 
 ---
 
-## What's included
+## Technical Details
 
-* `solve.py`: two-stage ILP solver: first for exercise pairing and muscle coverage optimization, second for day assignment using PuLP and CBC.
-* `config.json`: JSON configuration file containing all tunable parameters, muscle targets, and exercise definitions.
-* `assign_pairs_to_days()` function: ILP to assign pairs to days, minimizing muscular overlaps.
-* **Equipment constraint system**: Prevents pairing exercises that use the same equipment (chest press, leg press, cable equipment, etc.) to reduce workout adjustment time.
-* Exercise pool and muscle definitions loaded from `config.json`. The exercise pool is compact and uses compound, time-efficient movements (equipment, bands, and bodyweight).
+* Pairing constraint: each category forms pairs (supersets) based on supersets_per_day × days_per_category values (from config.json). A pair is allowed only if the *overlap* (dot product of activation vectors) ≤ `THRESHOLD` AND they don't share equipment.
+* Day assignment: After pairing, assign pairs to days with pairs per day based on supersets_per_day, minimizing muscular overlaps between supersets on the same day.
+* Objective: minimize weighted sum of absolute deviations from targets plus maximum absolute deviation (`DEVIATION_SUM_WEIGHT * sum_abs_deviations + max_abs_deviation`), measuring deviations in sets rather than percentages to treat all targets equally.
 
 ---
 
@@ -46,7 +56,7 @@ The solver models exercises and muscles, enforces a maximum overlap between supe
 
 ---
 
-## Setup (One-time)
+## Installation
 
 1. **Create virtual environment:**
 ```bash
@@ -61,7 +71,7 @@ python -m venv .venv
 
 ---
 
-## Quick start
+## Usage
 
 1. Edit `config.json` if you want to change targets or the exercise pool (see sections below).
 2. Run the solver (following project virtual environment rules):
@@ -69,13 +79,11 @@ python -m venv .venv
 .\.venv\Scripts\python.exe solve.py
 ```
 
+**Note:** This project requires using the virtual environment directly with `.\.venv\Scripts\python.exe` for all Python commands to avoid dependency conflicts. Do not use global Python installations.
+
 ---
 
-## Note on Virtual Environment Usage
-
-This project requires using the virtual environment directly with `.\.venv\Scripts\python.exe` for all Python commands to avoid dependency conflicts. Do not use global Python installations.
-
-### Output explained
+## Output Explanation
 
 * **Counts**: how many times each exercise is used in each category (total instances based on config.json).
 * **Expanded pairs**: list of superset pairs for each category (number based on config.json).
@@ -99,7 +107,9 @@ This project requires using the virtual environment directly with `.\.venv\Scrip
 
 ---
 
-## Important configuration variables
+## Configuration
+
+### Configuration Variables
 
 Open `config.json` and edit the following keys:
 
@@ -110,9 +120,7 @@ Open `config.json` and edit the following keys:
 * `"deviation_sum_weight"`: Coefficient for the sum of absolute deviations in the objective function (from config.json). Balances emphasis on total shortfall vs. maximum single-muscle shortfall.
 * `"muscle_targets"`: Object mapping muscle names → weekly target sets. Edit to reflect your programming targets (from config.json). Muscles with zero targets are still tracked but don't influence the objective.
 
----
-
-## How to modify the exercise pool
+### Modifying the Exercise Pool
 
 Exercises are defined in `config.json`'s `"exercises"` object with this structure:
 
@@ -138,9 +146,7 @@ Exercises are defined in `config.json`'s `"exercises"` object with this structur
 
 Adding or removing an exercise is straightforward — the ILP will adapt.
 
----
-
-## Tips to reduce shortfall or change program behavior
+### Optimization Tips
 
 * Adjust `sets_per_instance` values (e.g., increase `"UPPER_GYM": 2.5` to 3.0) to raise total weekly capacity per chosen exercise in specific categories.
 * Relax `THRESHOLD` to allow more pairings (more flexibility) — try `0.6` or `0.7`.
@@ -149,7 +155,7 @@ Adding or removing an exercise is straightforward — the ILP will adapt.
 
 ---
 
-## Troubleshooting & notes
+## Troubleshooting
 
 ### Running the solver
 * **Virtual environment issues (Windows)**: Always use `.\.venv\Scripts\python.exe` for all Python commands to avoid dependency conflicts and execution policy errors.
@@ -169,3 +175,9 @@ Adding or removing an exercise is straightforward — the ILP will adapt.
 ### Exercise data
 * Activations are estimates. If you disagree with a given exercise's activation values, edit them in `config.json`.
 * For assignment issues, check if `"threshold"` is too restrictive (try increasing to 0.4–0.5) or exercises have high overlap; the solver penalizes conflicts but may not find perfect schedules in all cases.
+
+---
+
+## License
+
+This project is licensed under the terms specified in the [LICENSE](LICENSE) file.
