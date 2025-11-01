@@ -71,7 +71,8 @@
     "INTERNAL_OBLIQUE": 2.0,
     "TRANSVERSUS_ABDOMINIS": 1.0,
     "ERECTOR_SPINAE": 6.0,
-    "NECK": 1.5
+    "NECK_EXTENSORS": 1.0,
+    "NECK_FLEXORS": 0.5
   },
   "exercises": {
     "Chest Press": {
@@ -822,7 +823,7 @@
         "UPPER_HOME"
       ],
       "activations": {
-        "NECK": 0.85,
+        "NECK_EXTENSORS": 0.85,
         "TRAP_UPPER": 0.15
       },
       "equipments": [
@@ -835,7 +836,7 @@
         "UPPER_HOME"
       ],
       "activations": {
-        "NECK": 0.85
+        "NECK_FLEXORS": 0.85
       },
       "equipments": [
         "BAND_LOW"

@@ -86,8 +86,9 @@ class Muscle(Enum):
     TRANSVERSUS_ABDOMINIS = auto()
     ERECTOR_SPINAE = auto()
 
-    # Neck (kept as general)
-    NECK = auto()
+    # Neck (split into extensors and flexors)
+    NECK_EXTENSORS = auto()
+    NECK_FLEXORS = auto()
 
 
 class Equipment(Enum):
