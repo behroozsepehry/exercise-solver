@@ -81,7 +81,8 @@
         "PEC_STERNAL": 0.88,
         "PEC_CLAVICULAR": 0.45,
         "ANT_DELTOID": 0.3,
-        "TRICEPS_LONG": 0.36
+        "TRICEPS_LATERAL": 0.3,
+        "TRICEPS_MEDIAL": 0.2
       },
       "equipments": [
         "CHEST_PRESS"
@@ -96,8 +97,9 @@
         "PEC_STERNAL": 0.8,
         "PEC_CLAVICULAR": 0.4,
         "ANT_DELTOID": 0.25,
-        "TRICEPS_LONG": 0.32,
-        "RECTUS_ABDOMINIS": 0.2
+        "RECTUS_ABDOMINIS": 0.2,
+        "TRICEPS_LATERAL": 0.3,
+        "TRICEPS_MEDIAL": 0.2
       },
       "equipments": [],
       "usage_limit_per_category": 1
@@ -111,7 +113,8 @@
         "TRICEPS_MEDIAL": 0.5,
         "PEC_STERNAL": 0.55,
         "PEC_CLAVICULAR": 0.3,
-        "ANT_DELTOID": 0.2
+        "ANT_DELTOID": 0.2,
+        "TRICEPS_LATERAL": 0.6
       },
       "equipments": [],
       "usage_limit_per_category": 1
@@ -165,7 +168,11 @@
         "LAT_DELTOID": 0.36,
         "TRICEPS_LONG": 0.4,
         "ERECTOR_SPINAE": 0.22,
-        "TRAP_UPPER": 0.15
+        "TRAP_UPPER": 0.4,
+        "TRICEPS_LATERAL": 0.4,
+        "TRICEPS_MEDIAL": 0.3,
+        "SERRATUS_ANTERIOR": 0.4,
+        "TRAP_LOWER": 0.3
       },
       "equipments": [
         "CABLE"
@@ -181,7 +188,11 @@
         "LAT_DELTOID": 0.31,
         "TRICEPS_LONG": 0.33,
         "ERECTOR_SPINAE": 0.18,
-        "TRAP_UPPER": 0.12
+        "TRAP_UPPER": 0.3,
+        "TRICEPS_LATERAL": 0.3,
+        "TRICEPS_MEDIAL": 0.25,
+        "SERRATUS_ANTERIOR": 0.3,
+        "TRAP_LOWER": 0.25
       },
       "equipments": [
         "BAND_LOW"
@@ -196,7 +207,12 @@
         "ANT_DELTOID": 0.72,
         "TRICEPS_LONG": 0.34,
         "ERECTOR_SPINAE": 0.18,
-        "RECTUS_ABDOMINIS": 0.18
+        "RECTUS_ABDOMINIS": 0.18,
+        "TRICEPS_LATERAL": 0.34,
+        "TRICEPS_MEDIAL": 0.3,
+        "TRAP_UPPER": 0.3,
+        "TRAP_LOWER": 0.25,
+        "SERRATUS_ANTERIOR": 0.3
       },
       "equipments": [],
       "usage_limit_per_category": 1
@@ -208,7 +224,7 @@
       "activations": {
         "LAT_DELTOID": 0.92,
         "ANT_DELTOID": 0.12,
-        "TRAP_UPPER": 0.1
+        "TRAP_UPPER": 0.35
       },
       "equipments": [
         "CABLE"
@@ -222,7 +238,7 @@
       "activations": {
         "LAT_DELTOID": 0.76,
         "ANT_DELTOID": 0.1,
-        "TRAP_UPPER": 0.08
+        "TRAP_UPPER": 0.25
       },
       "equipments": [
         "BAND_LOW"
@@ -249,7 +265,8 @@
       ],
       "activations": {
         "TRICEPS_LATERAL": 0.48,
-        "TRICEPS_LONG": 0.4
+        "TRICEPS_LONG": 0.4,
+        "TRICEPS_MEDIAL": 0.4
       },
       "equipments": [
         "CABLE"
@@ -262,7 +279,8 @@
       ],
       "activations": {
         "TRICEPS_LATERAL": 0.48,
-        "TRICEPS_LONG": 0.4
+        "TRICEPS_LONG": 0.4,
+        "TRICEPS_MEDIAL": 0.35
       },
       "equipments": [
         "BAND_MED"
@@ -305,7 +323,8 @@
         "LATS": 0.55,
         "BICEPS_LONG": 0.2,
         "BICEPS_SHORT": 0.18,
-        "POST_DELTOID": 0.22
+        "POST_DELTOID": 0.22,
+        "BRACHIALIS": 0.25
       },
       "equipments": [
         "SEATED_ROW"
@@ -337,7 +356,8 @@
         "TERES_MAJOR": 0.25,
         "RHOMBOIDS": 0.2,
         "BICEPS_LONG": 0.28,
-        "TRAP_LOWER": 0.25
+        "TRAP_LOWER": 0.25,
+        "BRACHIALIS": 0.3
       },
       "equipments": [
         "LAT_PULLDOWN"
@@ -399,7 +419,8 @@
       "activations": {
         "BICEPS_LONG": 0.6,
         "BICEPS_SHORT": 0.32,
-        "FOREARM_FLEXORS": 0.3
+        "FOREARM_FLEXORS": 0.3,
+        "BRACHIALIS": 0.4
       },
       "equipments": [
         "CABLE"
@@ -413,7 +434,8 @@
       "activations": {
         "BICEPS_LONG": 0.5,
         "BICEPS_SHORT": 0.26,
-        "FOREARM_FLEXORS": 0.25
+        "FOREARM_FLEXORS": 0.25,
+        "BRACHIALIS": 0.3
       },
       "equipments": [
         "BAND_MED"
@@ -484,7 +506,8 @@
         "LATS": 0.9,
         "TERES_MAJOR": 0.3,
         "ERECTOR_SPINAE": 0.1,
-        "RHOMBOIDS": 0.12
+        "RHOMBOIDS": 0.12,
+        "TRICEPS_LONG": 0.35
       },
       "equipments": [
         "CABLE"
@@ -499,7 +522,9 @@
         "RHOMBOIDS": 0.6,
         "LATS": 0.45,
         "BICEPS_LONG": 0.18,
-        "POST_DELTOID": 0.12
+        "POST_DELTOID": 0.12,
+        "TRAP_MIDDLE": 0.4,
+        "BRACHIALIS": 0.2
       },
       "equipments": [
         "BAND_HIGH"
@@ -514,7 +539,9 @@
       "activations": {
         "GLUTE_MAX": 0.92,
         "GLUTE_MED": 0.28,
-        "HAM_BICEPS_FEMORIS": 0.3
+        "HAM_BICEPS_FEMORIS": 0.3,
+        "HAM_SEMITENDINOSUS": 0.2,
+        "HAM_SEMIMEMBRANOSUS": 0.2
       },
       "equipments": [],
       "usage_limit_per_category": 1
@@ -529,7 +556,8 @@
         "VASTUS_MEDIALIS": 0.8,
         "GLUTE_MAX": 0.45,
         "HAM_BICEPS_FEMORIS": 0.1,
-        "ERECTOR_SPINAE": 0.1
+        "ERECTOR_SPINAE": 0.1,
+        "ADDUCTOR_MAGNUS": 0.3
       },
       "equipments": [
         "LEG_PRESS"
@@ -556,12 +584,12 @@
         "LOWER_GYM"
       ],
       "activations": {
-        "GLUTE_MAX": 0.90,
+        "GLUTE_MAX": 0.9,
         "GLUTE_MED": 0.35,
         "VASTUS_LATERALIS": 0.45,
         "RECTUS_FEMORIS": 0.35,
-        "VASTUS_MEDIALIS": 0.40,
-        "ADDUCTOR_MAGNUS": 0.40,
+        "VASTUS_MEDIALIS": 0.4,
+        "ADDUCTOR_MAGNUS": 0.4,
         "HAM_BICEPS_FEMORIS": 0.15,
         "ERECTOR_SPINAE": 0.12
       },
@@ -591,7 +619,9 @@
       "activations": {
         "GLUTE_MAX": 0.92,
         "HAM_BICEPS_FEMORIS": 0.3,
-        "ERECTOR_SPINAE": 0.28
+        "ERECTOR_SPINAE": 0.28,
+        "HAM_SEMITENDINOSUS": 0.3,
+        "HAM_SEMIMEMBRANOSUS": 0.3
       },
       "equipments": [
         "CABLE"
@@ -615,9 +645,9 @@
         "LOWER_GYM"
       ],
       "activations": {
-        "GASTROC_MED": 0.48,
-        "GASTROC_LAT": 0.48,
-        "SOLEUS": 0.7
+        "GASTROC_MED": 0.9,
+        "GASTROC_LAT": 0.9,
+        "SOLEUS": 0.4
       },
       "equipments": [
         "LEG_PRESS"
@@ -631,7 +661,9 @@
       "activations": {
         "ERECTOR_SPINAE": 0.9,
         "GLUTE_MAX": 0.35,
-        "HAM_BICEPS_FEMORIS": 0.3
+        "HAM_BICEPS_FEMORIS": 0.3,
+        "HAM_SEMITENDINOSUS": 0.3,
+        "HAM_SEMIMEMBRANOSUS": 0.3
       },
       "equipments": [
         "CABLE"
@@ -672,7 +704,8 @@
         "RECTUS_FEMORIS": 0.6,
         "GLUTE_MAX": 0.45,
         "HAM_BICEPS_FEMORIS": 0.2,
-        "ERECTOR_SPINAE": 0.2
+        "ERECTOR_SPINAE": 0.2,
+        "VASTUS_MEDIALIS": 0.65
       },
       "equipments": [
         "BAND_HIGH"
@@ -701,7 +734,8 @@
       ],
       "activations": {
         "HAM_BICEPS_FEMORIS": 0.78,
-        "HAM_SEMITENDINOSUS": 0.45
+        "HAM_SEMITENDINOSUS": 0.45,
+        "HAM_SEMIMEMBRANOSUS": 0.45
       },
       "equipments": [],
       "usage_limit_per_category": 1
@@ -716,7 +750,8 @@
         "GLUTE_MAX": 0.25,
         "RECTUS_ABDOMINIS": 0.12,
         "POST_DELTOID": 0.3,
-        "RHOMBOIDS": 0.1
+        "RHOMBOIDS": 0.4,
+        "TRAP_MIDDLE": 0.35
       },
       "equipments": [
         "BAND_MED"
@@ -728,10 +763,10 @@
         "LOWER_GYM"
       ],
       "activations": {
-        "RECTUS_ABDOMINIS": 0.7,
-        "EXTERNAL_OBLIQUE": 0.35,
-        "INTERNAL_OBLIQUE": 0.3,
-        "TRANSVERSUS_ABDOMINIS": 0.2
+        "EXTERNAL_OBLIQUE": 0.8,
+        "INTERNAL_OBLIQUE": 0.8,
+        "RECTUS_ABDOMINIS": 0.2,
+        "TRANSVERSUS_ABDOMINIS": 0.4
       },
       "equipments": [
         "CABLE"
@@ -743,10 +778,10 @@
         "LOWER_HOME"
       ],
       "activations": {
-        "RECTUS_ABDOMINIS": 0.7,
-        "EXTERNAL_OBLIQUE": 0.35,
-        "INTERNAL_OBLIQUE": 0.3,
-        "TRANSVERSUS_ABDOMINIS": 0.2
+        "EXTERNAL_OBLIQUE": 0.7,
+        "INTERNAL_OBLIQUE": 0.7,
+        "RECTUS_ABDOMINIS": 0.15,
+        "TRANSVERSUS_ABDOMINIS": 0.3
       },
       "equipments": [
         "BAND_MED"
@@ -773,7 +808,8 @@
       "activations": {
         "TRAP_UPPER": 0.9,
         "TRAP_MIDDLE": 0.25,
-        "RHOMBOIDS": 0.2
+        "RHOMBOIDS": 0.2,
+        "LEVATOR_SCAPULAE": 0.7
       },
       "equipments": [
         "BAND_HIGH"
