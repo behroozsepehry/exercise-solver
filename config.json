@@ -2,17 +2,17 @@
   "sets_per_instance": {
     "UPPER_GYM": 2.5,
     "LOWER_GYM": 2.5,
-    "UPPER_HOME": 3.5,
-    "LOWER_HOME": 3.5
+    "UPPER_HOME": 2.0,
+    "LOWER_HOME": 3.0
   },
-  "threshold": 0.001,
+  "threshold": 0.15,
   "deviation_sum_weight": 0.1,
-  "undershoot_weight_multiplier": 2.0,
+  "undershoot_weight_multiplier": 3.0,
   "supersets_per_day": {
     "UPPER_GYM": 2,
     "LOWER_GYM": 2,
-    "UPPER_HOME": 3,
-    "LOWER_HOME": 3
+    "UPPER_HOME": 5,
+    "LOWER_HOME": 4
   },
   "days_per_category": {
     "UPPER_GYM": 3,
@@ -219,20 +219,6 @@
       "equipments": [],
       "usage_limit_per_category": 1
     },
-    "Lateral Raise (cable)": {
-      "categories": [
-        "UPPER_GYM"
-      ],
-      "activations": {
-        "LAT_DELTOID": 0.92,
-        "ANT_DELTOID": 0.12,
-        "TRAP_UPPER": 0.35
-      },
-      "equipments": [
-        "CABLE"
-      ],
-      "usage_limit_per_category": 1
-    },
     "Lateral Raise (band)": {
       "categories": [
         "UPPER_HOME"
@@ -277,7 +263,7 @@
     },
     "Tricep Kickback (band)": {
       "categories": [
-        "UPPER_GYM"
+        "UPPER_HOME"
       ],
       "activations": {
         "TRICEPS_LATERAL": 0.48,
@@ -315,39 +301,34 @@
       ],
       "usage_limit_per_category": 1
     },
-    "Row (machine)": {
+    "Biceps Curl (band)": {
       "categories": [
-        "UPPER_GYM"
+        "UPPER_HOME"
       ],
       "activations": {
-        "RHOMBOIDS": 0.65,
-        "TRAP_MIDDLE": 0.45,
-        "LATS": 0.55,
-        "BICEPS_LONG": 0.2,
-        "BICEPS_SHORT": 0.18,
-        "POST_DELTOID": 0.22,
-        "BRACHIALIS": 0.25
+        "BICEPS_LONG": 0.5,
+        "BICEPS_SHORT": 0.26,
+        "FOREARM_FLEXORS": 0.25,
+        "BRACHIALIS": 0.3
       },
       "equipments": [
-        "SEATED_ROW"
+        "BAND_MED"
       ],
-      "usage_limit_per_category": 3
+      "usage_limit_per_category": 1
     },
-    "Face Pull (cable)": {
+    "Hammer Curl (band)": {
       "categories": [
-        "UPPER_GYM"
+        "UPPER_HOME"
       ],
       "activations": {
-        "POST_DELTOID": 0.82,
-        "RHOMBOIDS": 0.4,
-        "TRAP_MIDDLE": 0.3,
-        "INFRASPINATUS": 0.18,
-        "TERES_MINOR": 0.12
+        "BICEPS_LONG": 0.34,
+        "BRACHIORADIALIS": 0.66,
+        "BRACHIALIS": 0.23
       },
       "equipments": [
-        "CABLE"
+        "BAND_MED"
       ],
-      "usage_limit_per_category": 3
+      "usage_limit_per_category": 1
     },
     "Lat Pulldown (machine)": {
       "categories": [
