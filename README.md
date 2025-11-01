@@ -1,8 +1,8 @@
 # Exercise Pair Optimizer
 
-A solver that builds a time-efficient 7-day resistance-training plan (Upper Gym 1/2/3, Lower Gym 1/2/3, Upper Home, Lower Home) by selecting supersets based on pairs per day (Upper/Lower Gym: 2 supersets/day × 3 days = 6 total supersets = 12 instances; Upper/Lower Home: 3 supersets/day × 1 day = 3 total supersets = 6 instances), and automatically assigning these supersets to days while minimizing exercise repeats within the same day.
+A solver that builds a time-efficient 7-day resistance-training plan by selecting supersets based on pairs per day from config.json, and automatically assigning these supersets to days while minimizing muscular overlaps between supersets on the same day.
 
-The solver models exercises and muscles, enforces a maximum overlap between superset partners, chooses exercises to meet weekly muscle activation targets (minimizing shortfall), and finally assigns pairs to days with minimal conflicts via integer linear programming (ILP), using slack variables to penalize unavoidable exercise repeats within days.
+The solver models exercises and muscles, enforces a maximum overlap between superset partners, chooses exercises to meet weekly muscle activation targets (minimizing deviations), and assigns pairs to days with minimal muscular overlaps via a two-stage integer linear programming (ILP) process.
 
 ---
 
@@ -12,17 +12,17 @@ The solver models exercises and muscles, enforces a maximum overlap between supe
 * Each chosen exercise instance contributes sets based on `sets_per_instance[category] * activation` (from `config.json`) to a muscle's weekly volume.
 * Exercises are classified by category: `UPPER_GYM`, `LOWER_GYM`, `UPPER_HOME`, `LOWER_HOME` based on configuration. Eligibility is specified per exercise in the config, allowing for separate versions (e.g., cable for gym, band for home) where needed.
 * **Equipment constraints**: Exercises specify which equipment they use (chest press, leg press, cable, bands, etc.). Pairs are only allowed if they don't share equipment, reducing equipment adjustment time during workouts. Equipment include: `"CHEST_PRESS"`, `"LEG_PRESS"`, `"LEG_CURL"`, `"LAT_PULLDOWN"`, `"SEATED_ROW"`, `"CABLE"`, `"BAND_LOW"`, `"BAND_MED"`, `"BAND_HIGH"`.
-* Pairing constraint: each category forms pairs (supersets) where gym categories get 6 pairs (for 3 days × 2 pairs/day), home categories get 3 pairs (for 1 day × 3 pairs/day). A pair is allowed only if the *overlap* (dot product of activation vectors) ≤ `THRESHOLD` AND they don't share equipment.
-* Day assignment: After pairing, assign pairs to days (3 gym days + 1 home day per upper/lower, totaling 7 days) with 2 pairs/day for gym and 3 pairs/day for home, minimizing exercise repeats within a day. Conflicts are handled via ILP relaxation if needed.
+* Pairing constraint: each category forms pairs (supersets) based on supersets_per_day × days_per_category values (from config.json). A pair is allowed only if the *overlap* (dot product of activation vectors) ≤ `THRESHOLD` AND they don't share equipment.
+* Day assignment: After pairing, assign pairs to days with pairs per day based on supersets_per_day, minimizing muscular overlaps between supersets on the same day.
 * Objective: minimize weighted sum of absolute deviations from targets plus maximum absolute deviation (`DEVIATION_SUM_WEIGHT * sum_abs_deviations + max_abs_deviation`), measuring deviations in sets rather than percentages to treat all targets equally.
 
 ---
 
 ## What's included
 
-* `solve.py`: combined ILP solver with **integrated day assignment** using PuLP and CBC.
+* `solve.py`: two-stage ILP solver: first for exercise pairing and muscle coverage optimization, second for day assignment using PuLP and CBC.
 * `config.json`: JSON configuration file containing all tunable parameters, muscle targets, and exercise definitions.
-* `assign_pairs_to_days()` function: Additional ILP to assign pairs to days, handling conflicts with slacks for feasibility.
+* `assign_pairs_to_days()` function: ILP to assign pairs to days, minimizing muscular overlaps.
 * **Equipment constraint system**: Prevents pairing exercises that use the same equipment (chest press, leg press, cable equipment, etc.) to reduce workout adjustment time.
 * Exercise pool and muscle definitions loaded from `config.json`. The exercise pool is compact and uses compound, time-efficient movements (equipment, bands, and bodyweight).
 
@@ -53,33 +53,21 @@ python -m venv .venv
 ## Quick start
 
 1. Edit `config.json` if you want to change targets or the exercise pool (see sections below).
-2. Run the solver:
+2. Run the solver (following project virtual environment rules):
 ```bash
 .\.venv\Scripts\python.exe solve.py
 ```
 
 ---
 
-## Alternative: Using virtual environment activation (Optional)
+## Note on Virtual Environment Usage
 
-If you prefer to activate the virtual environment:
-
-1. **Activate the virtual environment:**
-```bash
-.\.venv\Scripts\activate
-```
-
-2. **Run the solver:**
-```bash
-python solve.py
-```
-
-**Note:** In this project, we typically skip the activation step and directly use `.\.venv\Scripts\python.exe` for both installing dependencies and running the script to avoid potential issues with virtual environment activation.
+This project requires using the virtual environment directly with `.\.venv\Scripts\python.exe` for all Python commands to avoid dependency conflicts. Do not use global Python installations.
 
 ### Output explained
 
-* **Counts**: how many times each exercise is used in each category: Upper Gym (12 total), Lower Gym (12 total), Upper Home (6 total), Lower Home (6 total).
-* **Expanded pairs**: list of 6 unordered superset pairs for gym categories, 3 pairs for home categories per upper/lower.
+* **Counts**: how many times each exercise is used in each category (total instances based on config.json).
+* **Expanded pairs**: list of superset pairs for each category (number based on config.json).
 * **Coverage vs targets**: weekly sets contributed to each muscle vs the target; a positive diff means over target; negative means shortfall.
 * **Objective and total deviation sum**: shows `DEVIATION_SUM_WEIGHT * sum_abs_deviations + max_abs_deviation` value in sets (lower is better). Followed by the % deviation breakdown. Zero sets means all targets met exactly.
 * **Assignment**: Markdown table for each category showing supersets per day, e.g.:
@@ -96,7 +84,7 @@ python solve.py
 
   ```
 
-  With 2 supersets per gym day, 3 for home day, minimizing exercise repeats (with penalties if unavoidable).
+  With supersets per day based on config.json, minimizing muscular overlaps between supersets on the same day. The assignment ILP minimizes total muscular overlaps between pairs on same days, with the total overlap value shown in the output.
 
 ---
 
@@ -104,12 +92,12 @@ python solve.py
 
 Open `config.json` and edit the following keys:
 
-* `"sets_per_instance"`: Object specifying sets per instance per category (e.g., `"UPPER_GYM": 2.5`), controls weekly contribution per exercise. Example: if you plan 4 sets per exercise and 7 training days per week, adjust values accordingly.
-* `"threshold"`: Maximum muscle activation overlap for superset pairs (default 0.2). Increase to e.g. 0.6–0.7 to allow more pairings.
-* `"supersets_per_day"`: Object specifying supersets (pairs) per category and day: 2 for gym days (3 days total = 6 supersets), 3 for home days (1 day total = 3 supersets). Adjust to change total volume (will compute total instances as supersets × 2).
-* `"days_per_category"`: Object specifying training days per category: 3 for gym, 1 for home (total 7 days). Must be > 0 for feasible division in pairing logic.
-* `"deviation_sum_weight"`: Coefficient for the sum of absolute deviations in the objective function (default 0.1). Balances emphasis on total shortfall vs. maximum single-muscle shortfall.
-* `"muscle_targets"`: Object mapping muscle names → weekly target sets. Edit to reflect your programming targets (see code for current values). Muscles with zero targets are still tracked but don't influence the objective.
+* `"sets_per_instance"`: Object specifying sets per instance per category (from config.json), controls weekly contribution per exercise. Example: if you plan 4 sets per exercise and 7 training days per week, adjust values accordingly.
+* `"threshold"`: Maximum muscle activation overlap for superset pairs (from config.json). Increase to e.g. 0.6–0.7 to allow more pairings.
+* `"supersets_per_day"`: Object specifying supersets (pairs) per category and day (from config.json). Adjust to change total volume (will compute total instances as supersets × 2).
+* `"days_per_category"`: Object specifying training days per category (from config.json). Must be > 0 for feasible division in pairing logic.
+* `"deviation_sum_weight"`: Coefficient for the sum of absolute deviations in the objective function (from config.json). Balances emphasis on total shortfall vs. maximum single-muscle shortfall.
+* `"muscle_targets"`: Object mapping muscle names → weekly target sets. Edit to reflect your programming targets (from config.json). Muscles with zero targets are still tracked but don't influence the objective.
 
 ---
 
@@ -128,6 +116,8 @@ Exercises are defined in `config.json`'s `"exercises"` object with this structur
   ...
 }
 ```
+
+(This is an example structure; actual exercises and values are defined in config.json)
 
 * Categories: Array of eligible category strings. Eligibility is specified per-exercise (not automatically based on equipment).
 * Activations: Object with floats in `[0,1]` for valid muscle names. Only activations ≥ `0.1` are considered to keep the model efficient.
@@ -151,9 +141,8 @@ Adding or removing an exercise is straightforward — the ILP will adapt.
 ## Troubleshooting & notes
 
 ### Running the solver
-* **Virtual environment issues (Windows)**: If you get "execution policy" errors, try running directly: `.\.venv\Scripts\python.exe solve.py`
+* **Virtual environment issues (Windows)**: Always use `.\.venv\Scripts\python.exe` for all Python commands to avoid dependency conflicts and execution policy errors.
 * **Dependency issues**: Always use the virtual environment to avoid conflicts with system Python packages
-* **Alternative execution**: You can also run `python solve.py` after activating the venv with `.\.venv\Scripts\activate`
 
 ### Solver performance
 * If the CBC solver is slow or times out on your machine, try limiting solve time with `pulp.PULP_CBC_CMD(timeLimit=30)` or switch to another solver.
