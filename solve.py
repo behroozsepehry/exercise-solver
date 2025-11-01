@@ -89,11 +89,6 @@ class Muscle(Enum):
     # Neck (kept as general)
     NECK = auto()
 
-    # Generic / fallback (if you still want aggregated groups)
-    # NOTE: keep these only if your solver expects them; otherwise remove.
-    # FOREARMS_GENERIC = auto()
-    # QUADS_GENERIC = auto()
-
 
 class Equipment(Enum):
     LEG_PRESS = auto()
@@ -320,7 +315,9 @@ def assign_pairs_to_days(
                 break
 
     total_overlap = pulp.value(assign_prob.objective)
-    print(f"{category_name} assignment minimizes total muscular overlaps between pairs on same days (total overlap: {total_overlap:.2f}).")
+    print(
+        f"{category_name} assignment minimizes total muscular overlaps between pairs on same days (total overlap: {total_overlap:.2f})."
+    )
 
     return assignments
 
