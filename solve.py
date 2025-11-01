@@ -101,6 +101,7 @@ class Equipment(Enum):
     BAND_LOW = auto()
     BAND_MED = auto()
     BAND_HIGH = auto()
+    DUMBBELL = auto()
 
 
 class DayCategory(Enum):

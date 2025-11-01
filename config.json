@@ -533,10 +533,23 @@
       ],
       "usage_limit_per_category": 1
     },
-    "Glute Bridge": {
+    "Glute Bridge (bodyweight)": {
       "categories": [
-        "LOWER_GYM",
         "LOWER_HOME"
+      ],
+      "activations": {
+        "GLUTE_MAX": 0.736,
+        "GLUTE_MED": 0.224,
+        "HAM_BICEPS_FEMORIS": 0.24,
+        "HAM_SEMITENDINOSUS": 0.16,
+        "HAM_SEMIMEMBRANOSUS": 0.16
+      },
+      "equipments": [],
+      "usage_limit_per_category": 1
+    },
+    "Glute Bridge (dumbbell)": {
+      "categories": [
+        "LOWER_GYM"
       ],
       "activations": {
         "GLUTE_MAX": 0.92,
@@ -545,7 +558,9 @@
         "HAM_SEMITENDINOSUS": 0.2,
         "HAM_SEMIMEMBRANOSUS": 0.2
       },
-      "equipments": [],
+      "equipments": [
+        "DUMBBELL"
+      ],
       "usage_limit_per_category": 1
     },
     "Leg Press": {

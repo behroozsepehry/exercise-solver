@@ -37,7 +37,7 @@ The solver models exercises and muscles, enforces a maximum overlap between supe
 * Exercises are represented with continuous activation values (0.1–0.95) for each muscle group.
 * Each chosen exercise instance contributes sets based on `sets_per_instance[category] * activation` (from `config.json`) to a muscle's weekly volume.
 * Exercises are classified by category: `UPPER_GYM`, `LOWER_GYM`, `UPPER_HOME`, `LOWER_HOME` based on configuration. Eligibility is specified per exercise in the config, allowing for separate versions (e.g., cable for gym, band for home) where needed.
-* **Equipment constraints**: Exercises specify which equipment they use (chest press, leg press, cable, bands, etc.). Pairs are only allowed if they don't share equipment, reducing equipment adjustment time during workouts. Equipment include: `"CHEST_PRESS"`, `"LEG_PRESS"`, `"LEG_CURL"`, `"LAT_PULLDOWN"`, `"SEATED_ROW"`, `"CABLE"`, `"BAND_LOW"`, `"BAND_MED"`, `"BAND_HIGH"`.
+* **Equipment constraints**: Exercises specify which equipment they use (chest press, leg press, cable, bands, dumbbells, etc.). Pairs are only allowed if they don't share equipment, reducing equipment adjustment time during workouts. Equipment include: `"CHEST_PRESS"`, `"LEG_PRESS"`, `"LEG_CURL"`, `"LAT_PULLDOWN"`, `"SEATED_ROW"`, `"CABLE"`, `"BAND_LOW"`, `"BAND_MED"`, `"BAND_HIGH"`, `"DUMBBELL"`.
 
 ---
 
