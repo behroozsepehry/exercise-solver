@@ -6,6 +6,17 @@ The solver models exercises and muscles, enforces a maximum overlap between supe
 
 ---
 
+## Repository Structure
+
+- `solve.py` - Main ILP solver script containing the two-stage optimization process
+- `config.json` - JSON configuration file with all tunable parameters, muscle targets, and exercise definitions
+- `README.md` - Project documentation and usage guide
+- `LICENSE` - Project license file
+- `workout_plan.md` - Generated workout plan output in Markdown format
+- `list_files.ps1` - PowerShell utility script for listing directory contents
+
+---
+
 ## Key ideas
 
 * Exercises are represented with continuous activation values (0.1–0.95) for each muscle group.
