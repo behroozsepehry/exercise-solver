@@ -346,7 +346,7 @@
       "equipments": [
         "CABLE"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 3
     },
     "Lat Pulldown (machine)": {
       "categories": [
@@ -396,7 +396,7 @@
       "equipments": [
         "CABLE"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 3
     },
     "Band Y-Raise": {
       "categories": [
@@ -711,7 +711,7 @@
       "equipments": [
         "BAND_HIGH"
       ],
-      "usage_limit_per_category": 0
+      "usage_limit_per_category": 1
     },
     "Banded front squat (sumo/wide)": {
       "categories": [
@@ -727,7 +727,7 @@
       "equipments": [
         "BAND_HIGH"
       ],
-      "usage_limit_per_category": 0
+      "usage_limit_per_category": 1
     },
     "Lying Band Leg Curl": {
       "categories": [
