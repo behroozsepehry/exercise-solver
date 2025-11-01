@@ -141,6 +141,7 @@ SETS_PER_INSTANCE: Dict[DayCategory, float] = {
 }
 THRESHOLD: float = config["threshold"]
 DEVIATION_SUM_WEIGHT: float = config["deviation_sum_weight"]
+UNDERSHOOT_WEIGHT_MULTIPLIER: float = config["undershoot_weight_multiplier"]
 PAIRS_PER_DAY = {
     DayCategory[cat]: val for cat, val in config["supersets_per_day"].items()
 }
@@ -333,19 +334,24 @@ def solve_muscle_coverage() -> Tuple[
     float,
     float,
     float,
+    float,
+    float,
 ]:
     """
     Build and solve the ILP for muscle coverage with mixed-objective minimization.
-    Minimizes weighted sum of absolute deviations (in sets) plus maximum absolute deviation across muscles.
+    Minimizes weighted sum of absolute deviations (in sets) plus weighted maximum overshoot/undershoot deviations across muscles.
+    Undershoot deviations are weighted more heavily than overshoot deviations.
 
     Returns:
         status: Solver status ('Optimal', 'Feasible', etc.)
         counts_dict: Exercise counts per category
         pairs_dict: Expanded superset pairs per category
         coverage: Muscle coverage vs targets
-        total_dev_abs_sum: Sum of all absolute deviations (in sets)
-        max_dev_abs: Maximum absolute deviation (worst muscle, in sets)
-        objective_value: Minimized objective value (weighted sum + max abs dev, in sets)
+        sum_overshoot_deviations: Sum of overshoot deviations across all muscles (in sets)
+        sum_undershoot_deviations: Sum of undershoot deviations across all muscles (in sets)
+        max_overshoot: Maximum overshoot deviation across muscles (in sets)
+        max_undershoot: Maximum undershoot deviation across muscles (in sets)
+        objective_value: Minimized objective value (weighted sum + weighted max overshoot/undershoot, in sets)
     """
     prob: pulp.LpProblem = pulp.LpProblem("muscle_coverage_solver", pulp.LpMinimize)
 
@@ -427,9 +433,12 @@ def solve_muscle_coverage() -> Tuple[
     overshoot_deviations = {}
     undershoot_deviations = {}
 
-    # Variable for maximum absolute deviation (in sets)
-    max_dev_abs_slack = pulp.LpVariable(
-        "max_dev_abs_slack", lowBound=0, cat="Continuous"
+    # Variables for maximum overshoot and undershoot deviations (in sets)
+    max_overshoot_slack = pulp.LpVariable(
+        "max_overshoot_slack", lowBound=0, cat="Continuous"
+    )
+    max_undershoot_slack = pulp.LpVariable(
+        "max_undershoot_slack", lowBound=0, cat="Continuous"
     )
 
     for m_idx, m in enumerate(Muscle):
@@ -456,15 +465,15 @@ def solve_muscle_coverage() -> Tuple[
             prob += (coverage_expr <= target + over_abs_slack, f"over_dev_{m.name}")
             prob += (coverage_expr >= target - under_abs_slack, f"under_dev_{m.name}")
 
-            # Constraints for max absolute deviation
-            prob += (max_dev_abs_slack >= over_abs_slack, f"max_over_{m.name}")
-            prob += (max_dev_abs_slack >= under_abs_slack, f"max_under_{m.name}")
+            # Constraints for max overshoot and undershoot deviations
+            prob += (max_overshoot_slack >= over_abs_slack, f"max_over_{m.name}")
+            prob += (max_undershoot_slack >= under_abs_slack, f"max_under_{m.name}")
 
-    # Objective: minimize weighted sum of absolute deviations plus max absolute deviation
-    dev_sum_expr = pulp.lpSum(overshoot_deviations.values()) + pulp.lpSum(
+    # Objective: minimize weighted sum of absolute deviations plus weighted max overshoot/undershoot deviations
+    dev_sum_expr = pulp.lpSum(overshoot_deviations.values()) + UNDERSHOOT_WEIGHT_MULTIPLIER * pulp.lpSum(
         undershoot_deviations.values()
     )
-    prob.setObjective(DEVIATION_SUM_WEIGHT * dev_sum_expr + max_dev_abs_slack)
+    prob.setObjective(DEVIATION_SUM_WEIGHT * dev_sum_expr + max_overshoot_slack + UNDERSHOOT_WEIGHT_MULTIPLIER * max_undershoot_slack)
 
     # Solve
     solver = pulp.PULP_CBC_CMD(msg=False)
@@ -476,7 +485,7 @@ def solve_muscle_coverage() -> Tuple[
         # Return empty dicts for infeasible case (but type says no Optional, assume always succeeds for now)
         empty_counts = {cat: {} for cat in categories}
         empty_pairs = {cat: [] for cat in categories}
-        return status, empty_counts, empty_pairs, {}, 0.0, 0.0, 0.0
+        return status, empty_counts, empty_pairs, {}, 0.0, 0.0, 0.0, 0.0, 0.0
 
     # Build results per category
     counts_dict: Dict[DayCategory, ExerciseCounts] = {}
@@ -503,26 +512,22 @@ def solve_muscle_coverage() -> Tuple[
         )
         coverage[m] = cov
 
-    # Calculate total sum of absolute deviations (this is the minimized objective component)
-    total_dev_abs_sum = sum(
-        safe_value(overshoot_deviations[m]) + safe_value(undershoot_deviations[m])
-        for m in overshoot_deviations
+    # Calculate separate sums and maxima for overshoot and undershoot deviations
+    sum_overshoot_deviations = sum(
+        safe_value(overshoot_deviations[m]) for m in overshoot_deviations
+    )
+    sum_undershoot_deviations = sum(
+        safe_value(undershoot_deviations[m]) for m in undershoot_deviations
     )
 
-    # Calculate maximum absolute deviation for any single muscle (display only)
-    max_dev_abs = (
-        max(
-            abs(coverage[m] - MUSCLE_TARGETS[m])
-            for m in Muscle
-            if MUSCLE_TARGETS[m] > 0
-        )
-        if any(MUSCLE_TARGETS[m] > 0 for m in Muscle)
-        else 0.0
-    )
+    # Calculate maximum overshoot and undershoot deviations
+    max_overshoot = safe_value(max_overshoot_slack)
+    max_undershoot = safe_value(max_undershoot_slack)
 
-    # Calculate objective value (weighted abs sum + max abs deviation)
+    # Calculate objective value (weighted abs sum + weighted max overshoot/undershoot deviations)
     objective_value = (
-        safe_value(max_dev_abs_slack) + DEVIATION_SUM_WEIGHT * total_dev_abs_sum
+        max_overshoot + UNDERSHOOT_WEIGHT_MULTIPLIER * max_undershoot +
+        DEVIATION_SUM_WEIGHT * (sum_overshoot_deviations + UNDERSHOOT_WEIGHT_MULTIPLIER * sum_undershoot_deviations)
     )
 
     return (
@@ -530,8 +535,10 @@ def solve_muscle_coverage() -> Tuple[
         counts_dict,
         pairs_dict,
         coverage,
-        total_dev_abs_sum,
-        max_dev_abs,
+        sum_overshoot_deviations,
+        sum_undershoot_deviations,
+        max_overshoot,
+        max_undershoot,
         objective_value,
     )
 
@@ -553,8 +560,10 @@ else:
         counts_dict,
         pairs_dict,
         coverage,
-        total_deviation_sum,
-        max_deviation,
+        sum_overshoot_deviations,
+        sum_undershoot_deviations,
+        max_overshoot,
+        max_undershoot,
         objective_value,
     ) = result
 
@@ -591,7 +600,7 @@ else:
         )
 
     print(
-        f"\nObjective = {DEVIATION_SUM_WEIGHT} * sum_abs_deviations({total_deviation_sum:.2f} sets) + max_abs_deviation({max_deviation:.2f} sets) = {objective_value:.2f} sets"
+        f"\nObjective = {DEVIATION_SUM_WEIGHT} * (sum_overshoot({sum_overshoot_deviations:.2f}) + {UNDERSHOOT_WEIGHT_MULTIPLIER} * sum_undershoot({sum_undershoot_deviations:.2f})) + max_overshoot({max_overshoot:.2f}) + {UNDERSHOOT_WEIGHT_MULTIPLIER} * max_undershoot({max_undershoot:.2f}) = {objective_value:.2f} sets"
     )
 
     print(f"\nNote: THRESHOLD = {THRESHOLD}")

@@ -7,6 +7,7 @@
   },
   "threshold": 0.001,
   "deviation_sum_weight": 0.1,
+  "undershoot_weight_multiplier": 2.0,
   "supersets_per_day": {
     "UPPER_GYM": 2,
     "LOWER_GYM": 2,
@@ -410,7 +411,7 @@
       "equipments": [
         "BAND_LOW"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 0
     },
     "Biceps Curl (cable)": {
       "categories": [

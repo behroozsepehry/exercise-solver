@@ -45,7 +45,7 @@ The solver models exercises and muscles, enforces a maximum overlap between supe
 
 * Pairing constraint: each category forms pairs (supersets) based on supersets_per_day × days_per_category values (from config.json). A pair is allowed only if the *overlap* (dot product of activation vectors) ≤ `THRESHOLD` AND they don't share equipment.
 * Day assignment: After pairing, assign pairs to days with pairs per day based on supersets_per_day, minimizing muscular overlaps between supersets on the same day.
-* Objective: minimize weighted sum of absolute deviations from targets plus maximum absolute deviation (`DEVIATION_SUM_WEIGHT * sum_abs_deviations + max_abs_deviation`), measuring deviations in sets rather than percentages to treat all targets equally.
+* Objective: minimize weighted sum of absolute deviations from targets plus weighted maximum overshoot/undershoot deviations (`DEVIATION_SUM_WEIGHT * (sum_overshoot_deviations + UNDERSHOOT_WEIGHT_MULTIPLIER * sum_undershoot_deviations) + max_overshoot_deviation + UNDERSHOOT_WEIGHT_MULTIPLIER * max_undershoot_deviation`), measuring deviations in sets rather than percentages to treat all targets equally. Undershoot deviations are weighted more heavily to prioritize avoiding muscle activation shortfalls.
 
 ---
 
@@ -88,7 +88,7 @@ python -m venv .venv
 * **Counts**: how many times each exercise is used in each category (total instances based on config.json).
 * **Expanded pairs**: list of superset pairs for each category (number based on config.json).
 * **Coverage vs targets**: weekly sets contributed to each muscle vs the target; a positive diff means over target; negative means shortfall.
-* **Objective and total deviation sum**: shows `DEVIATION_SUM_WEIGHT * sum_abs_deviations + max_abs_deviation` value in sets (lower is better). Followed by the % deviation breakdown. Zero sets means all targets met exactly.
+* **Objective and total deviation sum**: shows the minimized objective value with asymmetric weighting for undershoot vs overshoot deviations (lower is better). Followed by the % deviation breakdown. Zero sets means all targets met exactly.
 * **Assignment**: Markdown table for each category showing supersets per day, e.g.:
 
   ```
@@ -118,6 +118,7 @@ Open `config.json` and edit the following keys:
 * `"supersets_per_day"`: Object specifying supersets (pairs) per category and day (from config.json). Adjust to change total volume (will compute total instances as supersets × 2).
 * `"days_per_category"`: Object specifying training days per category (from config.json). Must be > 0 for feasible division in pairing logic.
 * `"deviation_sum_weight"`: Coefficient for the sum of absolute deviations in the objective function (from config.json). Balances emphasis on total shortfall vs. maximum single-muscle shortfall.
+* `"undershoot_weight_multiplier"`: Multiplier for undershoot deviations in the objective function (from config.json). Undershoot deviations (both sum and maximum) are weighted more heavily than overshoot deviations to prioritize avoiding muscle activation shortfalls. Default is 2.0.
 * `"muscle_targets"`: Object mapping muscle names → weekly target sets. Edit to reflect your programming targets (from config.json). Muscles with zero targets are still tracked but don't influence the objective.
 
 ### Modifying the Exercise Pool
