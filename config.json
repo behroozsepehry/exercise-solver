@@ -5,7 +5,7 @@
     "UPPER_HOME": 2.0,
     "LOWER_HOME": 3.0
   },
-  "threshold": 0.15,
+  "threshold": 0.2,
   "deviation_sum_weight": 0.1,
   "undershoot_weight_multiplier": 3.0,
   "supersets_per_day": {
@@ -363,7 +363,7 @@
       "equipments": [
         "LAT_PULLDOWN"
       ],
-      "usage_limit_per_category": 3
+      "usage_limit_per_category": 0
     },
     "Cable Y-Raise": {
       "categories": [
@@ -879,6 +879,92 @@
       },
       "equipments": [
         "BAND_MED"
+      ],
+      "usage_limit_per_category": 1
+    },
+    "Standing High-to-Low Cable Woodchopper": {
+      "categories": [
+        "LOWER_GYM"
+      ],
+      "activations": {
+        "EXTERNAL_OBLIQUE": 0.95,
+        "INTERNAL_OBLIQUE": 0.95,
+        "TRANSVERSUS_ABDOMINIS": 0.70,
+        "RECTUS_ABDOMINIS": 0.30,
+        "GLUTE_MAX": 0.50,
+        "GLUTE_MED": 0.50,
+        "ERECTOR_SPINAE": 0.30,
+        "LATS": 0.95,
+        "PEC_STERNAL": 0.50,
+        "ANT_DELTOID": 0.25
+      },
+      "equipments": [
+        "CABLE"
+      ],
+      "usage_limit_per_category": 1
+    },
+    "Standing High-to-Low Banded Woodchopper": {
+      "categories": [
+        "LOWER_HOME"
+      ],
+      "activations": {
+        "EXTERNAL_OBLIQUE": 0.81,
+        "INTERNAL_OBLIQUE": 0.81,
+        "TRANSVERSUS_ABDOMINIS": 0.60,
+        "RECTUS_ABDOMINIS": 0.26,
+        "GLUTE_MAX": 0.43,
+        "GLUTE_MED": 0.43,
+        "ERECTOR_SPINAE": 0.26,
+        "LATS": 0.81,
+        "PEC_STERNAL": 0.43,
+        "ANT_DELTOID": 0.21
+      },
+      "equipments": [
+        "BAND_HIGH"
+      ],
+      "usage_limit_per_category": 1
+    },
+    "Standing Low-to-High Cable Woodchopper": {
+      "categories": [
+        "LOWER_GYM"
+      ],
+      "activations": {
+        "EXTERNAL_OBLIQUE": 0.95,
+        "INTERNAL_OBLIQUE": 0.95,
+        "TRANSVERSUS_ABDOMINIS": 0.70,
+        "RECTUS_ABDOMINIS": 0.40,
+        "GLUTE_MAX": 0.50,
+        "GLUTE_MED": 0.50,
+        "ERECTOR_SPINAE": 0.50,
+        "LATS": 0.20,
+        "PEC_CLAVICULAR": 0.50,
+        "ANT_DELTOID": 0.95,
+        "RECTUS_FEMORIS": 0.20
+      },
+      "equipments": [
+        "CABLE"
+      ],
+      "usage_limit_per_category": 1
+    },
+    "Standing Low-to-High Banded Woodchopper": {
+      "categories": [
+        "LOWER_HOME"
+      ],
+      "activations": {
+        "EXTERNAL_OBLIQUE": 0.81,
+        "INTERNAL_OBLIQUE": 0.81,
+        "TRANSVERSUS_ABDOMINIS": 0.60,
+        "RECTUS_ABDOMINIS": 0.34,
+        "GLUTE_MAX": 0.43,
+        "GLUTE_MED": 0.43,
+        "ERECTOR_SPINAE": 0.43,
+        "LATS": 0.17,
+        "PEC_CLAVICULAR": 0.43,
+        "ANT_DELTOID": 0.81,
+        "RECTUS_FEMORIS": 0.17
+      },
+      "equipments": [
+        "BAND_LOW"
       ],
       "usage_limit_per_category": 1
     },
