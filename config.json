@@ -365,6 +365,41 @@
       ],
       "usage_limit_per_category": 0
     },
+    "Lat Pulldown (band)": {
+      "categories": [
+        "UPPER_HOME"
+      ],
+      "activations": {
+        "LATS": 0.744,
+        "TERES_MAJOR": 0.2,
+        "RHOMBOIDS": 0.16,
+        "BICEPS_LONG": 0.224,
+        "TRAP_LOWER": 0.2,
+        "BRACHIALIS": 0.24
+      },
+      "equipments": [
+        "BAND_HIGH"
+      ],
+      "usage_limit_per_category": 3
+    },
+    "Lat Pulldown reverse grip (band)": {
+      "categories": [
+        "UPPER_HOME"
+      ],
+      "activations": {
+        "LATS": 0.712,
+        "TERES_MAJOR": 0.192,
+        "RHOMBOIDS": 0.152,
+        "BICEPS_LONG": 0.28,
+        "BICEPS_SHORT": 0.2,
+        "BRACHIALIS": 0.144,
+        "TRAP_LOWER": 0.192
+      },
+      "equipments": [
+        "BAND_HIGH"
+      ],
+      "usage_limit_per_category": 0
+    },
     "Cable Y-Raise": {
       "categories": [
         "UPPER_GYM"
