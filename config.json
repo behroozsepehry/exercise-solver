@@ -2,8 +2,8 @@
   "sets_per_instance": {
     "UPPER_GYM": 2.5,
     "LOWER_GYM": 2.5,
-    "UPPER_HOME": 2.7,
-    "LOWER_HOME": 2.7
+    "UPPER_HOME": 3.0,
+    "LOWER_HOME": 3.0
   },
   "threshold": 0.1,
   "deviation_sum_weight": 0.1,
@@ -686,6 +686,20 @@
         "LEG_PRESS"
       ],
       "usage_limit_per_category": 3
+    },
+    "Calf Raise (band)": {
+      "categories": [
+        "LOWER_HOME"
+      ],
+      "activations": {
+        "GASTROC_MED": 0.81,
+        "GASTROC_LAT": 0.81,
+        "SOLEUS": 0.36
+      },
+      "equipments": [
+        "BAND_HIGH"
+      ],
+      "usage_limit_per_category": 5
     },
     "Good Morning (cable)": {
       "categories": [
