@@ -2,7 +2,7 @@
   "sets_per_instance": {
     "UPPER_GYM": 2.5,
     "LOWER_GYM": 2.5,
-    "UPPER_HOME": 3.0,
+    "UPPER_HOME": 2.0,
     "LOWER_HOME": 3.0
   },
   "threshold": 0.1,
@@ -11,7 +11,7 @@
   "supersets_per_day": {
     "UPPER_GYM": 0,
     "LOWER_GYM": 0,
-    "UPPER_HOME": 3,
+    "UPPER_HOME": 4,
     "LOWER_HOME": 3
   },
   "days_per_category": {
