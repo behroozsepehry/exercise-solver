@@ -756,30 +756,126 @@
       ],
       "usage_limit_per_category": 1
     },
-    "Pallof Press (cable)": {
+    "Standing Isometric Pallof Press": {
+      "categories": [
+        "LOWER_GYM",
+        "LOWER_HOME"
+      ],
+      "activations": {
+        "EXTERNAL_OBLIQUE": 0.85,
+        "INTERNAL_OBLIQUE": 0.85,
+        "TRANSVERSUS_ABDOMINIS": 0.70,
+        "RECTUS_ABDOMINIS": 0.30,
+        "ANT_DELTOID": 0.25,
+        "GLUTE_MAX": 0.20,
+        "GLUTE_MED": 0.20,
+        "ERECTOR_SPINAE": 0.20,
+        "INFRASPINATUS": 0.10,
+        "TERES_MINOR": 0.10,
+        "SUBSCAPULARIS": 0.10
+      },
+      "equipments": [
+        "CABLE",
+        "BAND_HIGH"
+      ],
+      "usage_limit_per_category": 1
+    },
+    "Split-Stance Pallof Press": {
+      "categories": [
+        "LOWER_GYM",
+        "LOWER_HOME"
+      ],
+      "activations": {
+        "EXTERNAL_OBLIQUE": 0.90,
+        "INTERNAL_OBLIQUE": 0.90,
+        "TRANSVERSUS_ABDOMINIS": 0.75,
+        "GLUTE_MED": 0.60,
+        "RECTUS_ABDOMINIS": 0.30,
+        "GLUTE_MAX": 0.30,
+        "ERECTOR_SPINAE": 0.25,
+        "ANT_DELTOID": 0.25,
+        "VASTUS_LATERALIS": 0.15,
+        "VASTUS_MEDIALIS": 0.15,
+        "INFRASPINATUS": 0.10,
+        "TERES_MINOR": 0.10,
+        "SUBSCAPULARIS": 0.10
+      },
+      "equipments": [
+        "CABLE",
+        "BAND_HIGH"
+      ],
+      "usage_limit_per_category": 1
+    },
+    "Overhead Pallof Press": {
+      "categories": [
+        "LOWER_GYM",
+        "LOWER_HOME"
+      ],
+      "activations": {
+        "EXTERNAL_OBLIQUE": 0.95,
+        "INTERNAL_OBLIQUE": 0.95,
+        "TRANSVERSUS_ABDOMINIS": 0.85,
+        "SERRATUS_ANTERIOR": 0.70,
+        "RECTUS_ABDOMINIS": 0.50,
+        "GLUTE_MAX": 0.40,
+        "ANT_DELTOID": 0.40,
+        "ERECTOR_SPINAE": 0.30,
+        "TRAP_LOWER": 0.30,
+        "INFRASPINATUS": 0.25,
+        "TERES_MINOR": 0.25,
+        "SUBSCAPULARIS": 0.25,
+        "SUPRASPINATUS": 0.25,
+        "LAT_DELTOID": 0.20,
+        "LATS": 0.20
+      },
+      "equipments": [
+        "CABLE",
+        "BAND_HIGH"
+      ],
+      "usage_limit_per_category": 1
+    },
+    "Rotational Pallof Press (Cable)": {
       "categories": [
         "LOWER_GYM"
       ],
       "activations": {
-        "EXTERNAL_OBLIQUE": 0.8,
-        "INTERNAL_OBLIQUE": 0.8,
-        "RECTUS_ABDOMINIS": 0.2,
-        "TRANSVERSUS_ABDOMINIS": 0.4
+        "EXTERNAL_OBLIQUE": 0.95,
+        "INTERNAL_OBLIQUE": 0.95,
+        "TRANSVERSUS_ABDOMINIS": 0.80,
+        "GLUTE_MED": 0.50,
+        "GLUTE_MAX": 0.50,
+        "ERECTOR_SPINAE": 0.40,
+        "RECTUS_ABDOMINIS": 0.40,
+        "ANT_DELTOID": 0.30,
+        "INFRASPINATUS": 0.15,
+        "TERES_MINOR": 0.15,
+        "SUBSCAPULARIS": 0.15,
+        "ADDUCTOR_MAGNUS": 0.15,
+        "HAM_BICEPS_FEMORIS": 0.15
       },
       "equipments": [
         "CABLE"
       ],
       "usage_limit_per_category": 1
     },
-    "Pallof Press (band)": {
+    "Rotational Pallof Press (Band)": {
       "categories": [
         "LOWER_HOME"
       ],
       "activations": {
-        "EXTERNAL_OBLIQUE": 0.7,
-        "INTERNAL_OBLIQUE": 0.7,
-        "RECTUS_ABDOMINIS": 0.15,
-        "TRANSVERSUS_ABDOMINIS": 0.3
+        "EXTERNAL_OBLIQUE": 0.81,
+        "INTERNAL_OBLIQUE": 0.81,
+        "TRANSVERSUS_ABDOMINIS": 0.68,
+        "GLUTE_MED": 0.43,
+        "GLUTE_MAX": 0.43,
+        "ERECTOR_SPINAE": 0.34,
+        "RECTUS_ABDOMINIS": 0.34,
+        "ANT_DELTOID": 0.26,
+        "INFRASPINATUS": 0.13,
+        "TERES_MINOR": 0.13,
+        "SUBSCAPULARIS": 0.13,
+        "ADDUCTOR_MAGNUS": 0.13,
+        "HAM_BICEPS_FEMORIS": 0.13
       },
       "equipments": [
         "BAND_MED"
