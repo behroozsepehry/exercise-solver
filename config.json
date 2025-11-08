@@ -2,23 +2,23 @@
   "sets_per_instance": {
     "UPPER_GYM": 2.5,
     "LOWER_GYM": 2.5,
-    "UPPER_HOME": 2.0,
-    "LOWER_HOME": 3.0
+    "UPPER_HOME": 2.7,
+    "LOWER_HOME": 2.7
   },
-  "threshold": 0.2,
+  "threshold": 0.1,
   "deviation_sum_weight": 0.1,
   "undershoot_weight_multiplier": 3.0,
   "supersets_per_day": {
-    "UPPER_GYM": 2,
-    "LOWER_GYM": 2,
-    "UPPER_HOME": 5,
-    "LOWER_HOME": 4
+    "UPPER_GYM": 0,
+    "LOWER_GYM": 0,
+    "UPPER_HOME": 3,
+    "LOWER_HOME": 3
   },
   "days_per_category": {
-    "UPPER_GYM": 3,
-    "LOWER_GYM": 3,
-    "UPPER_HOME": 1,
-    "LOWER_HOME": 1
+    "UPPER_GYM": 0,
+    "LOWER_GYM": 0,
+    "UPPER_HOME": 3,
+    "LOWER_HOME": 3
   },
   "muscle_targets": {
     "PEC_CLAVICULAR": 5.0,
@@ -104,7 +104,7 @@
         "TRICEPS_MEDIAL": 0.2
       },
       "equipments": [],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Close-Grip Push-ups": {
       "categories": [
@@ -119,7 +119,7 @@
         "TRICEPS_LATERAL": 0.6
       },
       "equipments": [],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Diamond Push-ups": {
       "categories": [
@@ -133,7 +133,7 @@
         "ANT_DELTOID": 0.25
       },
       "equipments": [],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Scapular Push-ups": {
       "categories": [
@@ -159,7 +159,7 @@
       "equipments": [
         "CABLE"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Overhead Press (cable)": {
       "categories": [
@@ -179,7 +179,7 @@
       "equipments": [
         "CABLE"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Overhead Press (band)": {
       "categories": [
@@ -199,7 +199,7 @@
       "equipments": [
         "BAND_LOW"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Pike Push-ups (vertical press)": {
       "categories": [
@@ -217,7 +217,7 @@
         "SERRATUS_ANTERIOR": 0.3
       },
       "equipments": [],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Lateral Raise (band)": {
       "categories": [
@@ -231,7 +231,7 @@
       "equipments": [
         "BAND_LOW"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Triceps Pushdown (cable)": {
       "categories": [
@@ -245,7 +245,7 @@
       "equipments": [
         "CABLE"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Tricep Kickback (cable)": {
       "categories": [
@@ -259,7 +259,7 @@
       "equipments": [
         "CABLE"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Tricep Kickback (band)": {
       "categories": [
@@ -273,7 +273,7 @@
       "equipments": [
         "BAND_MED"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Overhead Triceps Extensions (cable)": {
       "categories": [
@@ -286,7 +286,7 @@
       "equipments": [
         "CABLE"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Overhead Triceps Extensions (band)": {
       "categories": [
@@ -299,7 +299,7 @@
       "equipments": [
         "BAND_LOW"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Biceps Curl (band)": {
       "categories": [
@@ -314,7 +314,7 @@
       "equipments": [
         "BAND_MED"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Hammer Curl (band)": {
       "categories": [
@@ -328,7 +328,7 @@
       "equipments": [
         "BAND_MED"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Lat Pulldown (machine)": {
       "categories": [
@@ -380,7 +380,7 @@
       "equipments": [
         "BAND_HIGH"
       ],
-      "usage_limit_per_category": 3
+      "usage_limit_per_category": 5
     },
     "Lat Pulldown reverse grip (band)": {
       "categories": [
@@ -413,7 +413,7 @@
       "equipments": [
         "CABLE"
       ],
-      "usage_limit_per_category": 3
+      "usage_limit_per_category": 5
     },
     "Band Y-Raise": {
       "categories": [
@@ -428,7 +428,7 @@
       "equipments": [
         "BAND_LOW"
       ],
-      "usage_limit_per_category": 0
+      "usage_limit_per_category": 5
     },
     "Biceps Curl (cable)": {
       "categories": [
@@ -443,7 +443,7 @@
       "equipments": [
         "CABLE"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Biceps Curl (band)": {
       "categories": [
@@ -458,7 +458,7 @@
       "equipments": [
         "BAND_MED"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Hammer Curl (cable)": {
       "categories": [
@@ -472,7 +472,7 @@
       "equipments": [
         "CABLE"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Hammer Curl (band)": {
       "categories": [
@@ -486,7 +486,7 @@
       "equipments": [
         "BAND_MED"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Reverse Curl (cable)": {
       "categories": [
@@ -500,7 +500,7 @@
       "equipments": [
         "CABLE"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Reverse Curl (band)": {
       "categories": [
@@ -514,7 +514,7 @@
       "equipments": [
         "BAND_MED"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Straight-Arm Pulldown (cable)": {
       "categories": [
@@ -547,7 +547,7 @@
       "equipments": [
         "BAND_HIGH"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Glute Bridge (bodyweight)": {
       "categories": [
@@ -561,7 +561,7 @@
         "HAM_SEMIMEMBRANOSUS": 0.16
       },
       "equipments": [],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Glute Bridge (dumbbell)": {
       "categories": [
@@ -577,7 +577,7 @@
       "equipments": [
         "DUMBBELL"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Leg Press": {
       "categories": [
@@ -671,7 +671,7 @@
         "GLUTE_MAX": 0.5
       },
       "equipments": [],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Calf Raise": {
       "categories": [
@@ -701,7 +701,7 @@
       "equipments": [
         "CABLE"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Banded Monster Walk": {
       "categories": [
@@ -713,7 +713,7 @@
         "TENSOR_FASCIAE_LATAE": 0.25
       },
       "equipments": [],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Band Supine Hip Abduction": {
       "categories": [
@@ -726,7 +726,7 @@
         "RECTUS_ABDOMINIS": 0.12
       },
       "equipments": [],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Banded front squat": {
       "categories": [
@@ -743,7 +743,7 @@
       "equipments": [
         "BAND_HIGH"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Banded front squat (sumo/wide)": {
       "categories": [
@@ -759,7 +759,7 @@
       "equipments": [
         "BAND_HIGH"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Lying Band Leg Curl": {
       "categories": [
@@ -771,7 +771,7 @@
         "HAM_SEMIMEMBRANOSUS": 0.45
       },
       "equipments": [],
-      "usage_limit_per_category": 0
+      "usage_limit_per_category": 5
     },
     "Banded Wall Sit + Pull-Apart": {
       "categories": [
@@ -789,7 +789,7 @@
       "equipments": [
         "BAND_MED"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Standing Isometric Pallof Press": {
       "categories": [
@@ -813,7 +813,7 @@
         "CABLE",
         "BAND_HIGH"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Split-Stance Pallof Press": {
       "categories": [
@@ -839,7 +839,7 @@
         "CABLE",
         "BAND_HIGH"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Overhead Pallof Press": {
       "categories": [
@@ -867,7 +867,7 @@
         "CABLE",
         "BAND_HIGH"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Rotational Pallof Press (Cable)": {
       "categories": [
@@ -891,7 +891,7 @@
       "equipments": [
         "CABLE"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Rotational Pallof Press (Band)": {
       "categories": [
@@ -915,7 +915,7 @@
       "equipments": [
         "BAND_MED"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Standing High-to-Low Cable Woodchopper": {
       "categories": [
@@ -936,7 +936,7 @@
       "equipments": [
         "CABLE"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Standing High-to-Low Banded Woodchopper": {
       "categories": [
@@ -957,7 +957,7 @@
       "equipments": [
         "BAND_HIGH"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Standing Low-to-High Cable Woodchopper": {
       "categories": [
@@ -979,7 +979,7 @@
       "equipments": [
         "CABLE"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Standing Low-to-High Banded Woodchopper": {
       "categories": [
@@ -1001,7 +1001,7 @@
       "equipments": [
         "BAND_LOW"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Plank": {
       "categories": [
@@ -1014,7 +1014,7 @@
         "ERECTOR_SPINAE": 0.2
       },
       "equipments": [],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Shrug (band)": {
       "categories": [
@@ -1029,7 +1029,7 @@
       "equipments": [
         "BAND_HIGH"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Banded Neck Extension": {
       "categories": [
@@ -1042,7 +1042,7 @@
       "equipments": [
         "BAND_LOW"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Banded Neck Flexion": {
       "categories": [
@@ -1054,7 +1054,7 @@
       "equipments": [
         "BAND_LOW"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Side Plank High Pull (cable)": {
       "categories": [
@@ -1069,7 +1069,7 @@
       "equipments": [
         "CABLE"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     },
     "Side Plank High Pull (band)": {
       "categories": [
@@ -1084,7 +1084,7 @@
       "equipments": [
         "BAND_LOW"
       ],
-      "usage_limit_per_category": 1
+      "usage_limit_per_category": 5
     }
   }
 }
