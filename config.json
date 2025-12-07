@@ -2,23 +2,23 @@
   "sets_per_instance": {
     "UPPER_GYM": 2.5,
     "LOWER_GYM": 2.5,
-    "UPPER_HOME": 2.0,
+    "UPPER_HOME": 3.0,
     "LOWER_HOME": 3.0
   },
   "threshold": 0.1,
   "deviation_sum_weight": 0.1,
   "undershoot_weight_multiplier": 3.0,
   "supersets_per_day": {
-    "UPPER_GYM": 0,
-    "LOWER_GYM": 0,
-    "UPPER_HOME": 4,
+    "UPPER_GYM": 2,
+    "LOWER_GYM": 2,
+    "UPPER_HOME": 3,
     "LOWER_HOME": 3
   },
   "days_per_category": {
-    "UPPER_GYM": 0,
-    "LOWER_GYM": 0,
-    "UPPER_HOME": 3,
-    "LOWER_HOME": 3
+    "UPPER_GYM": 3,
+    "LOWER_GYM": 3,
+    "UPPER_HOME": 1,
+    "LOWER_HOME": 1
   },
   "muscle_targets": {
     "PEC_CLAVICULAR": 5.0,
@@ -159,7 +159,7 @@
       "equipments": [
         "CABLE"
       ],
-      "usage_limit_per_category": 5
+      "usage_limit_per_category": 0
     },
     "Overhead Press (cable)": {
       "categories": [
@@ -413,7 +413,7 @@
       "equipments": [
         "CABLE"
       ],
-      "usage_limit_per_category": 5
+      "usage_limit_per_category": 0
     },
     "Band Y-Raise": {
       "categories": [
@@ -428,7 +428,7 @@
       "equipments": [
         "BAND_LOW"
       ],
-      "usage_limit_per_category": 5
+      "usage_limit_per_category": 0
     },
     "Biceps Curl (cable)": {
       "categories": [
@@ -699,7 +699,7 @@
       "equipments": [
         "BAND_HIGH"
       ],
-      "usage_limit_per_category": 5
+      "usage_limit_per_category": 0
     },
     "Good Morning (cable)": {
       "categories": [
