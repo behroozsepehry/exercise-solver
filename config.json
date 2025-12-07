@@ -30,7 +30,7 @@
     "TRAP_LOWER": 2.0,
     "RHOMBOIDS": 3.0,
     "LEVATOR_SCAPULAE": 0.0,
-    "SUPRASPINATUS": 0.1,
+    "SUPRASPINATUS": 2.0,
     "LATS": 12.0,
     "TERES_MAJOR": 1.5,
     "ANT_DELTOID": 8.0,
@@ -226,7 +226,8 @@
       "activations": {
         "LAT_DELTOID": 0.76,
         "ANT_DELTOID": 0.1,
-        "TRAP_UPPER": 0.25
+        "TRAP_UPPER": 0.25,
+        "SUPRASPINATUS": 0.45
       },
       "equipments": [
         "BAND_LOW"
@@ -266,9 +267,9 @@
         "UPPER_HOME"
       ],
       "activations": {
-        "TRICEPS_LATERAL": 0.48,
-        "TRICEPS_LONG": 0.4,
-        "TRICEPS_MEDIAL": 0.35
+        "TRICEPS_LATERAL": 0.44,
+        "TRICEPS_LONG": 0.37,
+        "TRICEPS_MEDIAL": 0.32
       },
       "equipments": [
         "BAND_MED"
@@ -336,9 +337,10 @@
       ],
       "activations": {
         "LATS": 0.93,
-        "TERES_MAJOR": 0.25,
+        "TERES_MAJOR": 0.38,
         "RHOMBOIDS": 0.2,
         "BICEPS_LONG": 0.28,
+        "BICEPS_SHORT": 0.22,
         "TRAP_LOWER": 0.25,
         "BRACHIALIS": 0.3
       },
@@ -371,9 +373,10 @@
       ],
       "activations": {
         "LATS": 0.744,
-        "TERES_MAJOR": 0.2,
+        "TERES_MAJOR": 0.30,
         "RHOMBOIDS": 0.16,
         "BICEPS_LONG": 0.224,
+        "BICEPS_SHORT": 0.18,
         "TRAP_LOWER": 0.2,
         "BRACHIALIS": 0.24
       },
@@ -467,7 +470,7 @@
       "activations": {
         "BICEPS_LONG": 0.42,
         "BRACHIORADIALIS": 0.8,
-        "BRACHIALIS": 0.28
+        "BRACHIALIS": 0.55
       },
       "equipments": [
         "CABLE"
@@ -481,7 +484,7 @@
       "activations": {
         "BICEPS_LONG": 0.34,
         "BRACHIORADIALIS": 0.66,
-        "BRACHIALIS": 0.23
+        "BRACHIALIS": 0.45
       },
       "equipments": [
         "BAND_MED"
@@ -638,7 +641,9 @@
       "activations": {
         "HAM_BICEPS_FEMORIS": 0.95,
         "HAM_SEMITENDINOSUS": 0.6,
-        "HAM_SEMIMEMBRANOSUS": 0.6
+        "HAM_SEMIMEMBRANOSUS": 0.6,
+        "GASTROC_MED": 0.15,
+        "GASTROC_LAT": 0.15
       },
       "equipments": [
         "LEG_CURL"
@@ -673,7 +678,7 @@
       "equipments": [],
       "usage_limit_per_category": 5
     },
-    "Calf Raise": {
+    "Calf Raise (straight leg)": {
       "categories": [
         "LOWER_GYM"
       ],
@@ -747,12 +752,12 @@
         "LOWER_HOME"
       ],
       "activations": {
-        "VASTUS_LATERALIS": 0.7,
-        "RECTUS_FEMORIS": 0.6,
-        "GLUTE_MAX": 0.45,
-        "HAM_BICEPS_FEMORIS": 0.2,
-        "ERECTOR_SPINAE": 0.2,
-        "VASTUS_MEDIALIS": 0.65
+        "VASTUS_LATERALIS": 0.62,
+        "RECTUS_FEMORIS": 0.53,
+        "GLUTE_MAX": 0.40,
+        "HAM_BICEPS_FEMORIS": 0.18,
+        "ERECTOR_SPINAE": 0.18,
+        "VASTUS_MEDIALIS": 0.57
       },
       "equipments": [
         "BAND_HIGH"
@@ -764,11 +769,11 @@
         "LOWER_HOME"
       ],
       "activations": {
-        "ADDUCTOR_LONGUS": 0.5,
-        "GLUTE_MAX": 0.5,
-        "VASTUS_LATERALIS": 0.35,
-        "HAM_BICEPS_FEMORIS": 0.2,
-        "ERECTOR_SPINAE": 0.2
+        "ADDUCTOR_LONGUS": 0.44,
+        "GLUTE_MAX": 0.44,
+        "VASTUS_LATERALIS": 0.31,
+        "HAM_BICEPS_FEMORIS": 0.18,
+        "ERECTOR_SPINAE": 0.18
       },
       "equipments": [
         "BAND_HIGH"
@@ -780,9 +785,9 @@
         "LOWER_HOME"
       ],
       "activations": {
-        "HAM_BICEPS_FEMORIS": 0.78,
-        "HAM_SEMITENDINOSUS": 0.45,
-        "HAM_SEMIMEMBRANOSUS": 0.45
+        "HAM_BICEPS_FEMORIS": 0.65,
+        "HAM_SEMITENDINOSUS": 0.38,
+        "HAM_SEMIMEMBRANOSUS": 0.38
       },
       "equipments": [],
       "usage_limit_per_category": 5
@@ -943,7 +948,7 @@
         "GLUTE_MAX": 0.50,
         "GLUTE_MED": 0.50,
         "ERECTOR_SPINAE": 0.30,
-        "LATS": 0.95,
+        "LATS": 0.65,
         "PEC_STERNAL": 0.50,
         "ANT_DELTOID": 0.25
       },
@@ -964,7 +969,7 @@
         "GLUTE_MAX": 0.43,
         "GLUTE_MED": 0.43,
         "ERECTOR_SPINAE": 0.26,
-        "LATS": 0.81,
+        "LATS": 0.55,
         "PEC_STERNAL": 0.43,
         "ANT_DELTOID": 0.21
       },

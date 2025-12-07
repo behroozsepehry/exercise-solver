@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Exercise Pair Optimizer - A Python application that builds time-efficient 7-day resistance-training workout plans using Integer Linear Programming (ILP). It selects exercise supersets (pairs) and assigns them to days while minimizing muscular overlaps and meeting weekly set targets.
 
+**Goal**: Longevity and healthspan optimization - muscle targets prioritize functional strength, joint health, and injury prevention.
+
 ## Commands
 
 ```bash
@@ -53,6 +55,8 @@ Key parameters:
 - `undershoot_weight_multiplier`: Prioritizes avoiding muscle shortfalls
 - `muscle_targets`: Weekly set targets per muscle
 - `exercises`: Database with categories, muscle activations (0.1-0.95), equipment, usage limits
+
+**Band exercise activations**: Reduced ~10-20% vs cable/machine due to variable resistance (lowest tension at stretched position, which is often the hardest part). Larger reductions (12-17%) for exercises with poor band alignment (squats, leg curls).
 
 ## File Structure
 

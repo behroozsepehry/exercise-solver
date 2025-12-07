@@ -41,6 +41,31 @@ The solver models exercises and muscles, enforces a maximum overlap between supe
 
 ---
 
+## Design Philosophy
+
+### Goal: Longevity and Healthspan
+
+This solver is designed with **longevity and healthspan optimization** as the primary goal. Muscle targets are set based on maintaining functional strength, joint health, and injury prevention rather than purely aesthetic or performance goals. This includes:
+
+- Balanced rotator cuff development (supraspinatus, infraspinatus, teres minor, subscapularis)
+- Attention to stabilizer muscles that prevent age-related dysfunction
+- Emphasis on movements that support daily activities and independence
+
+### Band Exercise Activations
+
+Resistance band exercises have **reduced activation values** (typically 80-90% of cable/machine equivalents) due to the variable resistance profile of bands:
+
+- **The problem**: Band tension is lowest when the band is unstretched, which often corresponds to the hardest part of the movement (where muscles are in their lengthened/stretched position)
+- **Strength curve mismatch**: For exercises like squats, band tension is lowest at the bottom (the hardest point), reducing effective muscle stimulus
+- **Adjustment approach**:
+  - Exercises with poor band alignment (squats, leg curls): 12-17% reduction
+  - Exercises with moderate alignment (most upper body): ~20% reduction
+  - Exercises with good band alignment (tricep kickbacks where peak tension matches peak contraction): ~8% reduction
+
+This ensures the solver accurately accounts for the reduced hypertrophic stimulus from band-based exercises compared to constant-tension modalities like cables or machines.
+
+---
+
 ## Technical Details
 
 * Pairing constraint: each category forms pairs (supersets) based on supersets_per_day × days_per_category values (from config.json). A pair is allowed only if the *overlap* (dot product of activation vectors) ≤ `THRESHOLD` AND they don't share equipment.
