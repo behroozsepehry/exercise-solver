@@ -403,6 +403,48 @@
       ],
       "usage_limit_per_category": 0
     },
+    "Seated Row (machine)": {
+      "categories": [
+        "UPPER_GYM"
+      ],
+      "activations": {
+        "LATS": 0.78,
+        "RHOMBOIDS": 0.72,
+        "TRAP_MIDDLE": 0.60,
+        "POST_DELTOID": 0.48,
+        "TRAP_LOWER": 0.35,
+        "TERES_MAJOR": 0.32,
+        "BICEPS_LONG": 0.32,
+        "BRACHIALIS": 0.30,
+        "BICEPS_SHORT": 0.26,
+        "ERECTOR_SPINAE": 0.22
+      },
+      "equipments": [
+        "SEATED_ROW"
+      ],
+      "usage_limit_per_category": 3
+    },
+    "Face Pull (cable)": {
+      "categories": [
+        "UPPER_GYM"
+      ],
+      "activations": {
+        "POST_DELTOID": 0.85,
+        "INFRASPINATUS": 0.58,
+        "TERES_MINOR": 0.50,
+        "RHOMBOIDS": 0.50,
+        "TRAP_MIDDLE": 0.45,
+        "TRAP_LOWER": 0.30,
+        "LAT_DELTOID": 0.28,
+        "SUPRASPINATUS": 0.22,
+        "BICEPS_LONG": 0.20,
+        "BRACHIALIS": 0.15
+      },
+      "equipments": [
+        "CABLE"
+      ],
+      "usage_limit_per_category": 3
+    },
     "Cable Y-Raise": {
       "categories": [
         "UPPER_GYM"
@@ -1114,27 +1156,6 @@
       },
       "equipments": [],
       "usage_limit_per_category": 5
-    },
-    "Seated Row (machine)": {
-      "categories": [
-        "UPPER_GYM"
-      ],
-      "activations": {
-        "LATS": 0.78,
-        "RHOMBOIDS": 0.72,
-        "TRAP_MIDDLE": 0.60,
-        "POST_DELTOID": 0.48,
-        "TRAP_LOWER": 0.35,
-        "TERES_MAJOR": 0.32,
-        "BICEPS_LONG": 0.32,
-        "BRACHIALIS": 0.30,
-        "BICEPS_SHORT": 0.26,
-        "ERECTOR_SPINAE": 0.22
-      },
-      "equipments": [
-        "SEATED_ROW"
-      ],
-      "usage_limit_per_category": 3
     }
   }
 }
