@@ -43,7 +43,7 @@
     "BICEPS_SHORT": 3.5,
     "BRACHIALIS": 1.0,
     "BRACHIORADIALIS": 1.5,
-    "FOREARM_FLEXORS": 1.5,
+    "FOREARM_FLEXORS": 2.5,
     "FOREARM_EXTENSORS": 1.0,
     "TRICEPS_LONG": 3.5,
     "TRICEPS_LATERAL": 2.5,
@@ -56,8 +56,8 @@
     "HAM_SEMITENDINOSUS": 3.0,
     "HAM_SEMIMEMBRANOSUS": 3.0,
     "GLUTE_MAX": 8.0,
-    "GLUTE_MED": 2.5,
-    "GLUTE_MIN": 1.5,
+    "GLUTE_MED": 4.5,
+    "GLUTE_MIN": 2.5,
     "TENSOR_FASCIAE_LATAE": 1.0,
     "ADDUCTOR_MAGNUS": 2.5,
     "ADDUCTOR_LONGUS": 2.5,
@@ -65,7 +65,7 @@
     "GASTROC_MED": 3.5,
     "GASTROC_LAT": 3.5,
     "SOLEUS": 2.0,
-    "TIBIALIS_ANTERIOR": 0.5,
+    "TIBIALIS_ANTERIOR": 2.0,
     "RECTUS_ABDOMINIS": 4.0,
     "EXTERNAL_OBLIQUE": 2.0,
     "INTERNAL_OBLIQUE": 2.0,
@@ -1103,6 +1103,16 @@
       "equipments": [
         "BAND_LOW"
       ],
+      "usage_limit_per_category": 5
+    },
+    "Tibialis Wall Raise": {
+      "categories": [
+        "LOWER_HOME"
+      ],
+      "activations": {
+        "TIBIALIS_ANTERIOR": 0.95
+      },
+      "equipments": [],
       "usage_limit_per_category": 5
     }
   }
