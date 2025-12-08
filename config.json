@@ -1114,6 +1114,27 @@
       },
       "equipments": [],
       "usage_limit_per_category": 5
+    },
+    "Seated Row (machine)": {
+      "categories": [
+        "UPPER_GYM"
+      ],
+      "activations": {
+        "LATS": 0.78,
+        "RHOMBOIDS": 0.72,
+        "TRAP_MIDDLE": 0.60,
+        "POST_DELTOID": 0.48,
+        "TRAP_LOWER": 0.35,
+        "TERES_MAJOR": 0.32,
+        "BICEPS_LONG": 0.32,
+        "BRACHIALIS": 0.30,
+        "BICEPS_SHORT": 0.26,
+        "ERECTOR_SPINAE": 0.22
+      },
+      "equipments": [
+        "SEATED_ROW"
+      ],
+      "usage_limit_per_category": 3
     }
   }
 }
