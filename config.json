@@ -1077,6 +1077,27 @@
       "equipments": [],
       "usage_limit_per_category": 5
     },
+    "Copenhagen Plank": {
+      "categories": [
+        "LOWER_HOME"
+      ],
+      "activations": {
+        "ADDUCTOR_LONGUS": 0.92,
+        "ADDUCTOR_MAGNUS": 0.78,
+        "EXTERNAL_OBLIQUE": 0.68,
+        "INTERNAL_OBLIQUE": 0.65,
+        "GRACILIS": 0.48,
+        "TRANSVERSUS_ABDOMINIS": 0.48,
+        "GLUTE_MED": 0.38,
+        "GLUTE_MIN": 0.28,
+        "ERECTOR_SPINAE": 0.28,
+        "RECTUS_ABDOMINIS": 0.25,
+        "TENSOR_FASCIAE_LATAE": 0.20,
+        "GLUTE_MAX": 0.18
+      },
+      "equipments": [],
+      "usage_limit_per_category": 5
+    },
     "Shrug (band)": {
       "categories": [
         "UPPER_HOME"
