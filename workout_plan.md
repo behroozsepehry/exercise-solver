@@ -1,15 +1,26 @@
 ## Workout Plan
 
+### UPPER GYM Days:
+| Workout Type | Superset 1 | Superset 2 |
+|---|---|---|
+| UPPER GYM 1 | Chest Press<br>Face Pull (cable) | Overhead Press (cable)<br>Lat Pulldown (machine) |
+| UPPER GYM 2 | Chest Press<br>Face Pull (cable) | Overhead Triceps Extensions (cable)<br>Lat Pulldown (machine) |
+| UPPER GYM 3 | Chest Press<br>Face Pull (cable) | Overhead Press (cable)<br>Lat Pulldown (machine) |
+
+### LOWER GYM Days:
+| Workout Type | Superset 1 | Superset 2 |
+|---|---|---|
+| LOWER GYM 1 | Glute Bridge (dumbbell)<br>Calf Raise (straight leg) | Leg Press<br>Side Plank High Pull (cable) |
+| LOWER GYM 2 | Leg Press<br>Side Plank High Pull (cable) | Calf Raise (straight leg)<br>Good Morning (cable) |
+| LOWER GYM 3 | Leg Press (sumo/wide)<br>Seated Leg Curl | Calf Raise (straight leg)<br>Good Morning (cable) |
+
 ### UPPER HOME Days:
-| Workout Type | Superset 1 | Superset 2 | Superset 3 | Superset 4 |
-|---|---|---|---|---|
-| UPPER HOME 1 | Push-ups<br>Band Y-Raise | Overhead Press (band)<br>Biceps Curl (band) | Lateral Raise (band)<br>Lat Pulldown (band) | Banded Row<br>Banded Neck Extension |
-| UPPER HOME 2 | Push-ups<br>Band Y-Raise | Overhead Press (band)<br>Biceps Curl (band) | Lateral Raise (band)<br>Lat Pulldown (band) | Reverse Curl (band)<br>Banded Row |
-| UPPER HOME 3 | Push-ups<br>Band Y-Raise | Close-Grip Push-ups<br>Banded Row | Overhead Press (band)<br>Hammer Curl (band) | Lateral Raise (band)<br>Lat Pulldown (band) |
+| Workout Type | Superset 1 | Superset 2 | Superset 3 |
+|---|---|---|---|
+| UPPER HOME 1 | Push-ups<br>Reverse Curl (band) | Lateral Raise (band)<br>Biceps Curl (band) | Lat Pulldown (band)<br>Banded Neck Extension |
 
 ### LOWER HOME Days:
 | Workout Type | Superset 1 | Superset 2 | Superset 3 |
 |---|---|---|---|
-| LOWER HOME 1 | Calf Raise (band)<br>Banded Wall Sit + Pull-Apart | Banded Monster Walk<br>Lying Band Leg Curl | Banded front squat (sumo/wide)<br>Plank |
-| LOWER HOME 2 | Calf Raise (band)<br>Banded Wall Sit + Pull-Apart | Band Supine Hip Abduction<br>Lying Band Leg Curl | Banded front squat<br>Side Plank High Pull (band) |
-| LOWER HOME 3 | Calf Raise (band)<br>Banded Wall Sit + Pull-Apart | Banded Monster Walk<br>Plank | Lying Band Leg Curl<br>Standing High-to-Low Banded Woodchopper |
+| LOWER HOME 1 | Mini-Band Lateral Walk<br>Lying Band Leg Curl | Band Supine Hip Abduction<br>Tibialis Wall Raise | Banded front squat (sumo/wide)<br>Plank |
+
